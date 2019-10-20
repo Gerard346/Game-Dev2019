@@ -1,0 +1,23 @@
+<!-- Config file for the game (Comments)-->
+<config>
+ 
+  <window>
+    <title>My super awesome game with XML</title>
+    <bools fullscreen = "false" borderless ="false" resizable ="true" fullscreen_window ="false"/>
+    <size width="1024" height="768" scale = "1"/>
+  </window>
+  <scene>
+    <music>audio/music/music_sadpiano.ogg</music>
+   
+  </scene>
+  <audio>
+    <volume_max>128</volume_max>
+    <volume_min>128</volume_min>
+    <music music_volume ="128" fx_volume="128" />
+    
+  </audio>
+  <map>
+    <folder>maps/</folder>
+  </map>
+  
+</config>
