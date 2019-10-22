@@ -176,6 +176,24 @@ Collider* j1Colliders::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module *
 	return ret;
 }
 
+COLLIDER_TYPE j1Colliders::TileIDToColliderTile(int tile_id) const
+{
+	switch (tile_id) {
+
+	case 1:
+		return COLLIDER_START;
+	case 2:
+		return COLLIDER_FINISH;
+	case 3:
+		return COLLIDER_WALL;
+	case 4:
+		return COLLIDER_DEAD;
+	case 5:
+		return COLLIDER_PLAYER;
+	}
+
+}
+
 void j1Colliders::Desactivate()
 {
 	CleanUp();
@@ -191,14 +209,14 @@ void j1Colliders::Activate()
 void j1Colliders::DebugMode()
 {
 	//Change Key for delivery
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) {
 		debug = !debug;
 	}
 
 	if (debug == false)
 		return;
 
-	Uint8 alpha = 80;
+	Uint8 alpha = 255;
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] == nullptr)
@@ -206,6 +224,9 @@ void j1Colliders::DebugMode()
 
 		switch (colliders[i]->type)
 		{
+		case COLLIDER_START: // red
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			break;
 		case COLLIDER_DEAD: // red
 			App->render->DrawQuad(colliders[i]->rect, 0, 0, 0, alpha);
 			break;

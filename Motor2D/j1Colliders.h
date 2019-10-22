@@ -16,6 +16,7 @@ enum COLLIDER_TYPE
 	COLLIDER_PLAYER,
 	COLLIDER_DEAD,
 	COLLIDER_FINISH,
+	COLLIDER_START,
 	
 	COLLIDER_MAX
 };
@@ -67,6 +68,8 @@ public:
 	bool EraseAllColliders();
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	
+	COLLIDER_TYPE TileIDToColliderTile(int tile_id) const;
+
 	void Desactivate();
 	void Activate();
 

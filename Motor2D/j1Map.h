@@ -17,10 +17,10 @@ struct Attribute {
 struct Attributes
 {
 	p2DynArray<Attribute*> attributes_info;
-
+	void CleanUpAttributes();
 	int Get_Int(const char*);
 
-	void LoadLayerAttributes(const pugi::xml_node&);
+	
 };
 
 enum map_orientation {
@@ -62,17 +62,39 @@ struct info_tileset {
 };
 
 struct info_layer {
+	info_layer(){};
+	info_layer(const info_layer* copy);
+
 	p2SString name = "";
 	int width = 0;
 	int height = 0;
+	int pos_x = 0;
+	int pos_y = 0;
 	int* tiles = nullptr;
-	// TODO 6: Short function to get the value of x,y
+	
+	Attributes* attributes;
+
 	inline uint Get(int x, int y) const {
-		return tiles[x + y*width];
+		return tiles[x + y * width];
 	}
-	Attributes attributes;
+	virtual void Update(float dt) {};
 };
+
+struct mutable_layer:info_layer {
+	mutable_layer(const info_layer* copy);
+
+	int range_x = 0;
+	int range_y = 0;
+	int velocity_x = 0;
+	int velocity_y = 0;
+
+	p2DynArray<Collider*> collider;
+
+	void Update(float dt) override;
+};
+
 struct info_map {
+
 	float version = 0.0f;
 	map_orientation orientation = no_orientation;
 	render_orderer order_renderer = no_order;
@@ -82,7 +104,10 @@ struct info_map {
 	int tileheight = 0;
 	int nextobjectid = 0;
 	p2DynArray<info_tileset>tilesets_info;
-	p2DynArray<info_layer> layers_info;
+	p2DynArray<info_layer*> layers_info;
+	
+
+	
 };
 // ----------------------------------------------------
 class j1Map : public j1Module
@@ -96,7 +121,8 @@ public:
 
 	// Called before render is available
 	bool Awake(const pugi::xml_node&) override;
-
+	bool PreUpdate() override;
+	
 	// Called each loop iteration
 	void Draw();
 
@@ -110,8 +136,9 @@ public:
 private:
 	bool LoadMapInfo(const pugi::xml_node&);
 	bool LoadTilesetInfo(const pugi::xml_node&);
-	bool LoadLayerInfo(const pugi::xml_node&, info_layer* layer);
-	
+	info_layer* LoadLayerInfo(const pugi::xml_node&, info_layer* layer);
+	info_layer* LoadLayerAttributes(const pugi::xml_node&, info_layer*);
+
 	map_orientation StringToOrientationEnum(const char*) const;
 	render_orderer StringToRenderOrdererEnum(const char*) const;
 
