@@ -19,8 +19,6 @@ struct Attributes
 	p2DynArray<Attribute*> attributes_info;
 	void CleanUpAttributes();
 	int Get_Int(const char*);
-
-	
 };
 
 enum map_orientation {
@@ -32,7 +30,6 @@ enum map_orientation {
 enum render_orderer {
 	no_order,
 	right_down
-	
 };
 
 struct info_tileset {

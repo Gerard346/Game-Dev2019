@@ -70,6 +70,11 @@ void j1App::WantToLoad()
 	want_to_load = true;
 }
 
+float j1App::Getdt() const
+{
+	return dt;
+}
+
 // Called before render is available
 bool j1App::Awake()
 {

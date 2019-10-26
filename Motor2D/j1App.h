@@ -41,6 +41,7 @@ public:
 	void AddModule(j1Module* module);
 	void WantToSave();
 	void WantToLoad();
+	float Getdt() const;
 	// Exposing some properties for reading
 	int GetArgc() const;
 	const char* GetArgv(int index) const;

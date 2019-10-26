@@ -9,6 +9,8 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1Colliders.h"
+#include "j1Player.h"
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -34,8 +36,10 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
-	App->audio->PlayMusic(music_path.GetString());
 
+	App->player->SpawnPlayer();
+
+	App->audio->PlayMusic(music_path.GetString());
 
 	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		App->map->map_info.width, App->map->map_info.height,

@@ -4,7 +4,7 @@
   <window>
     <title>My super awesome game with XML</title>
     <bools fullscreen = "false" borderless ="false" resizable ="true" fullscreen_window ="false"/>
-    <size width="1024" height="768" scale = "1"/>
+    <size width="1024" height="768" scale = "2"/>
   </window>
   <scene>
     <music>audio/music/music_sadpiano.ogg</music>

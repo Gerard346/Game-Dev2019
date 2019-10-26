@@ -6,6 +6,7 @@
 #include "j1Map.h"
 #include "j1Colliders.h"
 #include <math.h>
+#include "j1Window.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -47,12 +48,13 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 	
+
 	// TODO 5: Prepare the loop to iterate all the tiles in a layer
 	for (int i = 0; i < map_info.layers_info.Count(); i++) {
 		info_layer* layer_data = map_info.layers_info[i];
 		//LOG("--------- %s", layer_data->name.GetString());
-		if (layer_data->attributes->Get_Int("Draw") == 0) {
 
+		if (layer_data->attributes->Get_Int("Draw") == 0) {
 			continue;
 		}
 
@@ -67,7 +69,12 @@ void j1Map::Draw()
 				const info_tileset* tileset_info = GetTilesetInfoFromTileID((int)layer_data->Get(x, y));
 				
 				SDL_Rect tile_rect = tileset_info->TileFromID(tile);
-				if (!App->render->Blit(tileset_info->img, layer_data->pos_x+x * tileset_info->tilewidth, layer_data->pos_y+ y * tileset_info->tileheight, &tile_rect)) {
+				
+				int draw_x = layer_data->pos_x + x * tileset_info->tilewidth;
+				int draw_y = layer_data->pos_y + y * tileset_info->tileheight;
+
+				if (!App->render->Blit(tileset_info->img, draw_x, draw_y, &tile_rect))
+				{
 					continue;
 				}
 				
@@ -185,7 +192,7 @@ bool j1Map::Load(const char* file_name)
 				SDL_Rect collider_rect = { x*tileset_info->tilewidth, y*tileset_info->tileheight, tileset_info->tilewidth,tileset_info->tileheight};
 				if (!fixed_collider_id) {
 					App->colliders->AddCollider(collider_rect, collider_type);
-					if (collider_type == COLLIDER_PLAYER) {
+					if (collider_type == COLLIDER_START) {
 						map_info.p_spaw_point = iPoint (x*tileset_info->tilewidth,y*tileset_info->tileheight);
 					}
 				}

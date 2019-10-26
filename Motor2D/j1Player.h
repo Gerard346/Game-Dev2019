@@ -58,6 +58,8 @@ public:
 
 	bool Load(pugi::xml_node&);
 
+	void OnCollision(Collider*, Collider*) override;
+
 	void ChangeLvl();
 
 	void StartFromLvl1();
@@ -76,20 +78,20 @@ public:
 
 	void PlayerInput();
 
-	void PlayerPosition(fPoint);
-
 	void SpawnPlayer();
+
+
 public:
 
 	playerState p_current_state = IDLE;
 	playerDirection p_current_direction = STAND;
 
 	Levels p_current_lvl;
-	fPoint p_vel = { 0.0f,0.0f };
+	fPoint p_vel = { 3.0f,5.0f };
 	fPoint p_current_vel = { 0.0f, 0.0f };
 	fPoint p_pos = { 0.0f,0.0f };
 
-	float gravity = 0.0f;
+	float gravity = -0.1f;
 
 	Collider* p_collider = nullptr;
 	iPoint p_size_collider = { 16, 32};
