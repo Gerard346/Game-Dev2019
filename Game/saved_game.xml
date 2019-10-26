@@ -11,6 +11,6 @@
 	<colliders />
 	<player />
 	<renderer>
-		<camera x="240" y="0" />
+		<camera x="-446" y="441" />
 	</renderer>
 </save>

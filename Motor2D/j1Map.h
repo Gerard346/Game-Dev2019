@@ -90,6 +90,16 @@ struct mutable_layer:info_layer {
 	void Update(float dt) override;
 };
 
+struct parallax_layer : info_layer
+{
+	parallax_layer(const info_layer* copy);
+
+	float x_delta_relation = 0.2f;
+	int current_pos_x = 0;
+
+	void Update(float dt) override;
+};
+
 struct info_map {
 
 	float version = 0.0f;

@@ -48,13 +48,18 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 	
+	uint window_w, window_h;
+	App->win->GetWindowSize(window_w, window_h);
+
+	SDL_Rect camera = { App->render->camera.x, App->render->camera.y, window_w,window_h };
+	SDL_Rect limits = { -camera.x / App->win->GetScale() ,0,-camera.x / App->win->GetScale() + camera.w / App->win->GetScale(),0 };
 
 	// TODO 5: Prepare the loop to iterate all the tiles in a layer
 	for (int i = 0; i < map_info.layers_info.Count(); i++) {
 		info_layer* layer_data = map_info.layers_info[i];
 		//LOG("--------- %s", layer_data->name.GetString());
-
 		if (layer_data->attributes->Get_Int("Draw") == 0) {
+
 			continue;
 		}
 
@@ -69,9 +74,13 @@ void j1Map::Draw()
 				const info_tileset* tileset_info = GetTilesetInfoFromTileID((int)layer_data->Get(x, y));
 				
 				SDL_Rect tile_rect = tileset_info->TileFromID(tile);
-				
 				int draw_x = layer_data->pos_x + x * tileset_info->tilewidth;
 				int draw_y = layer_data->pos_y + y * tileset_info->tileheight;
+
+				if (draw_x + tileset_info->tilewidth <  limits .x|| draw_x > limits.w)
+				{
+					continue;
+				}
 
 				if (!App->render->Blit(tileset_info->img, draw_x, draw_y, &tile_rect))
 				{
@@ -402,4 +411,14 @@ info_layer::info_layer(const info_layer* copy):name(copy->name), width(copy->wid
 mutable_layer::mutable_layer(const info_layer* copy):info_layer(copy)
 {
 
+}
+
+parallax_layer::parallax_layer(const info_layer* copy) : info_layer(copy)
+{
+
+}
+
+void parallax_layer::Update(float dt)
+{
+	current_pos_x = pos_x + App->render->camera.x * x_delta_relation;
 }

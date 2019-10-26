@@ -5,7 +5,6 @@
 
 #include "SDL/include/SDL.h"
 
-
 j1Window::j1Window() : j1Module()
 {
 	window = NULL;
@@ -106,8 +105,14 @@ void j1Window::SetTitle(const char* new_title)
 
 void j1Window::GetWindowSize(uint& width, uint& height) const
 {
-	width = this->width;
-	height = this->height;
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+	
+	width = w;
+	height = h;
+
+	/*width = this->width;
+	height = this->height;*/
 }
 
 uint j1Window::GetScale() const

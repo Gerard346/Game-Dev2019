@@ -306,6 +306,21 @@ void j1Player::PlayerDies()
 
 void j1Player::CamFollowPlayer()
 {
+	uint window_w, window_h;
+	App->win->GetWindowSize(window_w, window_h);
 
+	int max_width = App->map->map_info.width * App->map->map_info.tilewidth;
+	int max_height = App->map->map_info.height * App->map->map_info.tileheight;
+	
+	int min_camera_x = 0;
+	int max_camera_x = -max_width * App->win->GetScale() + window_w;
+	int target_cam_x = (-p_pos.x * App->win->GetScale()) + (window_w * 0.5f);
+
+
+	App->render->camera.x = target_cam_x > min_camera_x ? min_camera_x : target_cam_x < max_camera_x ? max_camera_x : target_cam_x;
+	
+	App->render->camera.y = window_h - max_height * App->win->GetScale();
+
+	//App->render->camera
 }
 
