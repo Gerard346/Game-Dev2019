@@ -105,9 +105,7 @@ struct info_map {
 	int nextobjectid = 0;
 	p2DynArray<info_tileset>tilesets_info;
 	p2DynArray<info_layer*> layers_info;
-	
-
-	
+	iPoint	p_spaw_point = { 0,0 };
 };
 // ----------------------------------------------------
 class j1Map : public j1Module
@@ -131,8 +129,8 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
-	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
 
+	void ChangeMap(const char*);
 private:
 	bool LoadMapInfo(const pugi::xml_node&);
 	bool LoadTilesetInfo(const pugi::xml_node&);
@@ -146,7 +144,6 @@ private:
 	
 public:
 
-	
 	info_map map_info;
 
 

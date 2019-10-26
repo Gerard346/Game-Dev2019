@@ -181,15 +181,17 @@ COLLIDER_TYPE j1Colliders::TileIDToColliderTile(int tile_id) const
 	switch (tile_id) {
 
 	case 1:
-		return COLLIDER_START;
-	case 2:
-		return COLLIDER_FINISH;
-	case 3:
 		return COLLIDER_WALL;
-	case 4:
+
+	case 2:
 		return COLLIDER_DEAD;
-	case 5:
-		return COLLIDER_PLAYER;
+
+	case 3:
+		return COLLIDER_START;
+
+	case 4:
+		return COLLIDER_FINISH;
+
 	}
 
 }
@@ -225,10 +227,10 @@ void j1Colliders::DebugMode()
 		switch (colliders[i]->type)
 		{
 		case COLLIDER_START: // red
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
 			break;
 		case COLLIDER_DEAD: // red
-			App->render->DrawQuad(colliders[i]->rect, 0, 0, 0, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
 		case COLLIDER_WALL: // Green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);

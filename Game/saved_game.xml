@@ -7,6 +7,9 @@
 		<audio volume_music="128" />
 	</audio>
 	<scene />
+	<map />
+	<colliders />
+	<player />
 	<renderer>
 		<camera x="0" y="0" />
 	</renderer>

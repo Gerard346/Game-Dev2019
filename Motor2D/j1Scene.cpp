@@ -33,10 +33,9 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	//img = App->tex->Load("textures/test.png");
 	App->map->Load("Level1.tmx");
-
 	App->audio->PlayMusic(music_path.GetString());
+
 
 	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		App->map->map_info.width, App->map->map_info.height,

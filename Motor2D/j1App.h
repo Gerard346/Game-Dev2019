@@ -14,7 +14,7 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Colliders;
-
+class j1Player;
 class j1App
 {
 public:
@@ -76,6 +76,7 @@ public:
 	j1Scene*			scene = nullptr;
 	j1Map*				map = nullptr;
 	j1Colliders*		colliders = nullptr;
+	j1Player*			player = nullptr;
 
 private:
 	bool want_to_save = false;

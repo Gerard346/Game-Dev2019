@@ -164,11 +164,11 @@ bool j1Map::Load(const char* file_name)
 		COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
 		bool fixed_collider_id = false;
 
+
 		if (layer_data->attributes->Get_Int("Slider") == 1) {
 			collider_type = App->colliders->TileIDToColliderTile(layer_data->attributes->Get_Int("Collider_Type"));
 			fixed_collider_id = true;
 		}
-
 		for (int y = 0; y < map_info.height; y++) {
 			for (int x = 0; x < map_info.width; x++) {
 				uint tile = layer_data->Get(x, y);
@@ -185,6 +185,9 @@ bool j1Map::Load(const char* file_name)
 				SDL_Rect collider_rect = { x*tileset_info->tilewidth, y*tileset_info->tileheight, tileset_info->tilewidth,tileset_info->tileheight};
 				if (!fixed_collider_id) {
 					App->colliders->AddCollider(collider_rect, collider_type);
+					if (collider_type == COLLIDER_PLAYER) {
+						map_info.p_spaw_point = iPoint (x*tileset_info->tilewidth,y*tileset_info->tileheight);
+					}
 				}
 				else {
 					((mutable_layer*)layer_data)->collider.PushBack(App->colliders->AddCollider(collider_rect, collider_type));
@@ -197,6 +200,12 @@ bool j1Map::Load(const char* file_name)
 	return ret;
 }
 
+void j1Map::ChangeMap(const char* path)
+{
+	App->map->CleanUp();
+	App->map->Load(path);
+}
+
 bool j1Map::LoadMapInfo(const pugi::xml_node& node)
 {
 	map_info.version = node.attribute("version").as_float();
@@ -207,7 +216,6 @@ bool j1Map::LoadMapInfo(const pugi::xml_node& node)
 	map_info.nextobjectid = node.attribute("nextobjectid").as_int();
 	map_info.tileheight = node.attribute("tileheight").as_int();
 	map_info.tilewidth = node.attribute("tilewidth").as_int();
-
 	return true;
 }
 
