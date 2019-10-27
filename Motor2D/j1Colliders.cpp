@@ -214,11 +214,6 @@ void j1Colliders::Activate()
 
 void j1Colliders::DebugMode()
 {
-	//Change Key for delivery
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) {
-		debug = !debug;
-	}
-
 	if (debug == false)
 		return;
 

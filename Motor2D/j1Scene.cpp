@@ -62,31 +62,33 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->SetVolume(1);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
 		App->audio->SetVolume(-1);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN){
-		App->WantToLoad();
+	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN){
+		App->player->StartFromLvl1();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		App->player->StartFromLvl2();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		App->player->StatFromCurrentLvl();
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->WantToSave();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 40;
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 40;
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+		App->WantToLoad();
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -=40;
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->colliders->debug = !App->colliders->debug;
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 40;
-
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		App->player->GodMode();
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
 	return true;

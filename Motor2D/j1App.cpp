@@ -10,6 +10,7 @@
 #include "j1App.h"
 #include "j1Map.h"
 #include "j1Player.h"
+#include "j1FadeToBlack.h"
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -24,6 +25,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	colliders = new j1Colliders();
 	player = new j1Player();
+	fade = new j1FadeToBlack();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -34,6 +36,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(colliders);
 	AddModule(player);
+	AddModule(fade);
 	// render last to swap buffer
 	AddModule(render);
 

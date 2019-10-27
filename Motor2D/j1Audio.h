@@ -32,9 +32,9 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
-	bool Load(const pugi::xml_node& node);
+	bool Load(const pugi::xml_node&);
 
-	bool Save(pugi::xml_node& node);
+	bool Save(pugi::xml_node&);
 
 private:
 	int volume_music = 0;

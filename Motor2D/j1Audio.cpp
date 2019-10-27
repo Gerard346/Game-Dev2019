@@ -191,7 +191,6 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 bool j1Audio::Load(const pugi::xml_node& node)
 {
-
 	volume_music = node.child("audio").attribute("volume_music").as_int();
 	return true;
 }

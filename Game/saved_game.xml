@@ -9,8 +9,11 @@
 	<scene />
 	<map />
 	<colliders />
-	<player />
+	<player>
+		<player position_x="247" position_y="47.7999496" current_level="0" />
+	</player>
+	<fadetoblack />
 	<renderer>
-		<camera x="-446" y="441" />
+		<camera x="0" y="32" />
 	</renderer>
 </save>
