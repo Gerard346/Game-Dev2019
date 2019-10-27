@@ -43,10 +43,7 @@ bool j1Scene::Start()
 
 	App->audio->PlayMusic(music_path.GetString());
 
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
-		App->map->map_info.width, App->map->map_info.height,
-		App->map->map_info.tilewidth, App->map->map_info.tileheight,
-		App->map->map_info.tilesets_info.Count());
+	p2SString title("Last Soldier");
 
 	App->win->SetTitle(title.GetString());
 

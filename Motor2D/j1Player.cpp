@@ -33,6 +33,8 @@ bool j1Player::Awake(const pugi::xml_node& node)
 		p_size_collider.x = node.child("collider_size").attribute("x").as_int();
 		p_size_collider.y = node.child("collider_size").attribute("y").as_int();
 
+		g_is_over_fx_path = (char*)node.child("fx_dead").child_value();
+		jump_fx_path = (char*)node.child("fx_jump").child_value();
 	}
 
 	else {
@@ -47,6 +49,13 @@ bool j1Player::Start()
 {
 	StatFromCurrentLvl();
 
+	if (g_is_over_fx == -1) {
+		g_is_over_fx = App->audio->LoadFx(g_is_over_fx_path);
+	}
+	if (jump_fx == -1) {
+		jump_fx = App->audio->LoadFx(jump_fx_path);
+	}
+
 	return true;
 }
 
@@ -55,13 +64,13 @@ bool j1Player::PreUpdate()
 	if (p_dead)
 		return true;
 
-	PlayerInput();
+	PlayerInput(App->Getdt());
 
-	p_pos.x += p_current_vel.x;
-	p_pos.y += p_current_vel.y;
+	p_pos.x += p_current_vel.x*App->Getdt();
+	p_pos.y += p_current_vel.y*App->Getdt();
 
 	if (IsGod() == false) {
-		p_current_vel.y -= gravity;
+		p_current_vel.y -= gravity*App->Getdt();
 	}
 	
 	p_collider->SetPos(p_pos.x, p_pos.y);
@@ -93,7 +102,7 @@ bool j1Player::CleanUp()
 
 bool j1Player::Load(const pugi::xml_node& node)
 {
-	int loaded_lvl = node.child("Player").attribute("Current level").as_int();
+	int loaded_lvl = node.child("player").attribute("current_level").as_int();
 
 	if (p_current_lvl != loaded_lvl) {
 		if (loaded_lvl == 1) {
@@ -131,15 +140,19 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		if (c2->rect.y - (c1->rect.y + c1->rect.h) < 0 && c2->rect.y - (c1->rect.y + c1->rect.h) > -16) {
 			c1->rect.y = c2->rect.y - c1->rect.h;
 			p_pos.y = c2->rect.y - c1->rect.h;
-			if (p_current_vel.x > 0.0f) {
-				p_current_state = IDLE_RIGHT;
-			}             
 			if (p_current_vel.y > 0.0f) {
 				p_current_vel.y = 0.0f;
-				p_current_state = IDLE_RIGHT;
 			}
 			p_floor = true;
 			double_jump = false;
+			if (p_current_state == JUMP_LEFT)
+			{
+				SetPlayerState(IDLE_LEFT);
+			}
+			else if (p_current_state == JUMP_RIGHT)
+			{
+				SetPlayerState(IDLE_RIGHT);
+			}
 		}
 		//LEFT
 		else if (c2->rect.x - (c1->rect.x + c1->rect.w) < 0 && c2->rect.x - (c1->rect.x + c1->rect.w) > -16) {
@@ -153,28 +166,27 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 			p_pos.x = c2->rect.x + c2->rect.w;
 			p_current_vel.x = 0.0f;
 		}
-		//BOTTOM
-		/*if (c1->rect.y - (c2->rect.y + c2->rect.h) < 0 && c1->rect.y - (c2->rect.y + c2->rect.h) > -16)
-		{
-			c1->rect.y = c2->rect.y + c2->rect.h;
-			p_pos.y = c2->rect.y + c2->rect.h;
-			p_current_vel.y = 0;
-			return;
-		}*/
 	}
 
 
 	if (c2->type == COLLIDER_DEAD && p_dead == false && IsGod() == false) {
 		p_current_vel.y = 0.0f;
 		p_current_vel.x = 0.0f;
-
 		PlayerDies();
 	}
 }
 
 void j1Player::DrawPlayer(float dt)
 {
-//App->render->Blit(current_animation->GetTexture(),,,current_animation->GetCurrentSprite()->GetFrame(),)
+	//animation_index += 0.01f;// dt * current_animation->GetSpeed();
+
+	//current_animation->SetCurrentFrame((uint)animation_index);
+	App->render->Blit(current_animation->GetTexture(), p_pos.x, p_pos.y, current_animation->GetCurrentSprite()->GetFrame());
+
+	/*if (((uint)animation_index) > current_animation->GetFrameNum() && current_animation->GetLoop())
+	{
+		animation_index = 0.0f;
+	}*/
 }
 
 
@@ -190,49 +202,101 @@ void j1Player::ChangeLvl()
 	}
 }
 
-void j1Player::PlayerInput()
+void j1Player::PlayerInput(float dt)
 {
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-			p_current_vel.x = p_vel.x * -1;
-			
+			p_current_vel.x = p_vel.x * -1*dt;
+			if (p_floor)
+			{
+				SetPlayerState(WALK_RIGHT);
+			}
+			else
+			{
+				SetPlayerState(JUMP_RIGHT);
+
+			}
 		}
 
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
 			p_current_vel.x = 0.0f;
+			if (p_floor)
+			{
+				SetPlayerState(IDLE_RIGHT);
+			}
+			else
+			{
+				SetPlayerState(JUMP_RIGHT);
+			}
 		}
 
 		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-			p_current_vel.x = p_vel.x;
-
+			p_current_vel.x = p_vel.x*dt;
+			if (p_floor)
+			{
+				SetPlayerState(WALK_LEFT);
+			}
+			else
+			{
+				SetPlayerState(JUMP_LEFT);
+			}
 		}
 
 		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {
 			p_current_vel.x = 0.0f;
+			if (p_floor)
+			{
+				SetPlayerState(IDLE_LEFT);
+			}
+			else
+			{
+				SetPlayerState(JUMP_LEFT);
+			}
+
 		}
 		if (p_floor == true) {
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 				App->audio->PlayFx(jump_fx);
 				p_floor = false;
-				p_current_vel.y = -p_vel.y;
+				p_current_vel.y = -p_vel.y*dt;
+
+				if (p_current_state == IDLE_RIGHT || p_current_state == WALK_RIGHT)
+				{
+					SetPlayerState(JUMP_RIGHT);
+				}
+				else if(p_current_state == IDLE_LEFT || p_current_state == WALK_LEFT)
+				{
+					SetPlayerState(JUMP_LEFT);
+				}
 			}
 		}
 		else if (double_jump == false && p_floor == false && IsGod() == false) {
+			
 			if (p_current_vel.y > -1) {
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+					App->audio->PlayFx(jump_fx);
 					double_jump = true;
-					p_current_vel.y = -p_vel.y;
+					p_current_vel.y = -p_vel.y*dt;
+
+					if (p_current_state == IDLE_RIGHT || p_current_state == WALK_RIGHT)
+					{
+						SetPlayerState(JUMP_RIGHT);
+					}
+					else if (p_current_state == IDLE_LEFT || p_current_state == WALK_LEFT)
+					{
+						SetPlayerState(JUMP_LEFT);
+					}
 				}
 			}
 		}
 		if (IsGod()) {
 			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-				p_current_vel.y = -p_vel.x;
+				p_current_vel.y = -p_vel.x*dt;
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP) {
 				p_current_vel.y = 0.0f;
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-				p_current_vel.y = p_vel.x;
+				p_current_vel.y = p_vel.x*dt;
 			}
 			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP) {
 				p_current_vel.y = 0.0f;
@@ -255,6 +319,23 @@ void j1Player::SpawnPlayer()
 	}
 
 	p_collider->callback = this;
+
+	current_animation = App->animation->GetAnimation(PLAYER, (ANIMATION_TYPE)p_current_state);
+}
+
+void j1Player::SetPlayerState(playerState new_state)
+{
+	if (p_current_state == new_state)return;
+
+	p_current_state = new_state;
+	current_animation = App->animation->GetAnimation(PLAYER, (ANIMATION_TYPE)p_current_state);
+
+	if (p_current_state == JUMP_LEFT || p_current_state == JUMP_RIGHT)
+	{
+		current_animation->SetLoop(false);
+	}
+
+	current_animation->Reset();
 }
 
 void j1Player::StartFromLvl1()

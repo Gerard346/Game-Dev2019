@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 class Animation;
@@ -13,7 +14,9 @@ enum Levels {
 	Lvl_2
 };
 
-enum playerState {
+enum playerState 
+{
+	P_NONE,
 	IDLE_LEFT,
 	WALK_LEFT,
 	JUMP_LEFT,
@@ -39,6 +42,8 @@ public:
 
 	virtual ~j1Player();
 
+private:
+
 	bool Awake(const pugi::xml_node& node) override;
 
 	bool Start();
@@ -50,6 +55,8 @@ public:
 	bool PostUpdate();
 
 	bool CleanUp();
+
+public:
 
 	bool Load(const pugi::xml_node&);
 
@@ -75,7 +82,7 @@ public:
 
 	void CamFollowPlayer();
 
-	void PlayerInput();
+	void PlayerInput(float dt);
 
 	void SpawnPlayer();
 
@@ -83,7 +90,6 @@ public:
 public:
 
 	playerState p_current_state = IDLE_RIGHT;
-	playerDirection p_current_direction = STAND;
 	Animation* current_animation = nullptr;
 
 	Levels p_current_lvl = Lvl_1;
@@ -96,6 +102,7 @@ public:
 
 	Collider* p_collider = nullptr;
 	iPoint p_size_collider = { 0, 0};
+
 private:
 
 	SDL_Texture* p_tex = nullptr;
@@ -105,8 +112,15 @@ private:
 	bool p_floor = false;
 	bool double_jump = false;
 
-	unsigned int g_is_over_fx = NULL;
-	unsigned int jump_fx = NULL;
+	int g_is_over_fx = -1;
+	int jump_fx = -1;
+
+	char* g_is_over_fx_path = nullptr;
+	char* jump_fx_path = nullptr;
+
+	float animation_index = 0;
+
+	void SetPlayerState(playerState new_state);
 
 };
 #endif

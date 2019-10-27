@@ -11,6 +11,8 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
+#include "j1Animation.h"
+
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -26,12 +28,15 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	colliders = new j1Colliders();
 	player = new j1Player();
 	fade = new j1FadeToBlack();
+	animation = new j1Animation();
+
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(animation);
 	AddModule(scene);
 	AddModule(map);
 	AddModule(colliders);
@@ -82,7 +87,7 @@ float j1App::Getdt() const
 bool j1App::Awake()
 {
 	
-	pugi::xml_parse_result result = config_file.load_file("../Motor2D/Config.xml");
+	pugi::xml_parse_result result = config_file.load_file("Config.xml");
 	if (result == false ) {
 		LOG(result.description());
 	}
@@ -148,6 +153,11 @@ bool j1App::Update()
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	dt = frame_time.ReadSec();
+	frame_time.Start();
+	if (dt > 0.2f) {
+		dt = 0.0f;
+	}
 }
 
 // ---------------------------------------------

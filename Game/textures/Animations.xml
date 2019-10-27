@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<entity_animation type="player" imagePath="pj_spritesheet.png"/>
-<TextureAtlas imagePath="pj_spritesheet.png" width="127" height="227">
-<jump_right>
+<animations>
+<entity_animation>
+<info type="player" image_path="textures/pj_spritesheet.png"/>
+<jump_left>
     <sprite n="jump_01.png" x="1" y="1" w="20" h="24"/>
     <sprite n="jump_02.png" x="23" y="1" w="20" h="31"/>
     <sprite n="jump_03.png" x="45" y="1" w="15" h="30"/>
     <sprite n="jump_04.png" x="62" y="1" w="20" h="31"/>
     <sprite n="jump_05.png" x="84" y="1" w="20" h="24"/>
-</jump_right>
-<run_right>
+</jump_left>
+<run_left>
     <sprite n="run_01.png" x="1" y="34" w="24" h="30"/>
     <sprite n="run_02.png" x="27" y="34" w="22" h="29"/>
     <sprite n="run_03.png" x="51" y="34" w="20" h="30"/>
@@ -16,23 +16,23 @@
     <sprite n="run_05.png" x="95" y="34" w="20" h="29"/>
     <sprite n="run_06.png" x="1" y="66" w="19" h="29"/>
     <sprite n="run_07.png" x="22" y="66" w="20" h="30"/>
-</run_right>
-<stand_right>
+</run_left>
+<stand_left>
     <sprite n="stand_01.png" x="44" y="66" w="20" h="30"/>
     <sprite n="stand_02.png" x="66" y="66" w="20" h="29"/>
     <sprite n="stand_03.png" x="88" y="66" w="20" h="29"/>
     <sprite n="stand_04.png" x="1" y="98" w="20" h="29"/>
     <sprite n="stand_05.png" x="23" y="98" w="20" h="30"/>
     <sprite n="stand_06.png" x="45" y="98" w="20" h="30"/>
-</stand_right>
-<jump_left>
+</stand_left>
+<jump_right>
     <sprite n="zjump_01_l.png" x="67" y="98" w="20" h="24"/>
     <sprite n="zjump_02_l.png" x="89" y="98" w="20" h="31"/>
     <sprite n="zjump_03_l.png" x="111" y="98" w="15" h="30"/>
     <sprite n="zjump_04_l.png" x="1" y="131" w="20" h="31"/>
     <sprite n="zjump_05_l.png" x="23" y="131" w="20" h="24"/>
-</jump_left>
-<run_left>
+</jump_right>
+<run_right>
     <sprite n="zrun_01_l.png" x="45" y="131" w="24" h="30"/>
     <sprite n="zrun_02_l.png" x="71" y="131" w="22" h="29"/>
     <sprite n="zrun_03_l.png" x="95" y="131" w="20" h="30"/>
@@ -40,13 +40,14 @@
     <sprite n="zrun_05_l.png" x="23" y="164" w="20" h="29"/>
     <sprite n="zrun_06_l.png" x="45" y="164" w="19" h="29"/>
     <sprite n="zrun_07_l.png" x="66" y="164" w="20" h="30"/>
-<run_left>
-<stand_left>
+</run_right>
+<stand_right>
     <sprite n="zstand_01_l.png" x="88" y="164" w="20" h="30"/>
     <sprite n="zstand_02_l.png" x="1" y="196" w="20" h="29"/>
     <sprite n="zstand_03_l.png" x="23" y="196" w="20" h="29"/>
     <sprite n="zstand_04_l.png" x="45" y="196" w="20" h="29"/>
     <sprite n="zstand_05_l.png" x="67" y="196" w="20" h="30"/>
     <sprite n="zstand_06_l.png" x="89" y="196" w="20" h="30"/>
-</stand_left>
+</stand_right>
 </entity_animation>
+</animations>

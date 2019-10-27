@@ -1,9 +1,14 @@
 #include "j1Animation.h"
 #include "j1App.h"
-#include "j1Textures.h"
-/*
+#include "p2Log.h"
+
+Sprite::Sprite()
+{
+}
+
 Sprite::Sprite(const SDL_Rect& frame, const iPoint& pivot) : frame(frame), pivot(pivot)
 {
+	
 }
 
 Sprite::~Sprite()
@@ -36,7 +41,12 @@ Animation::~Animation()
 
 void Animation::ReleaseTexture()
 {
-	App->tex->UnLoad(texture);
+	//App->tex->UnLoad(texture);
+}
+
+void Animation::SetTexture(const SDL_Texture* tex)
+{
+	texture = (SDL_Texture*)tex;
 }
 
 void Animation::SetLoop(bool loop_state)
@@ -82,7 +92,7 @@ uint Animation::GetSpeed() const
 
 const Sprite* Animation::GetCurrentSprite()
 {
-	if (current_frame == -1)return &sprites[sprites.Count() - 1];
+	if (current_frame == -1)return sprites[sprites.Count() - 1];
 
 	//if (App->paused)return &sprites[(int)current_frame];
 
@@ -99,15 +109,20 @@ const Sprite* Animation::GetCurrentSprite()
 		{
 			loops = 0;
 			current_frame = -1;
-			return &sprites[sprites.Count() - 1];
+			return sprites[sprites.Count() - 1];
 		}
 	}
-	return &sprites[(int)current_frame];
+	return sprites[(int)current_frame];
 }
 
 ANIMATION_TYPE Animation::GetId() const
 {
 	return animation_type;
+}
+
+uint Animation::GetFrameNum() const
+{
+	return sprites.Count();
 }
 
 bool Animation::IsEnd()
@@ -123,7 +138,7 @@ void Animation::Reset()
 
 void Animation::AddSprite(const SDL_Rect & rect, const iPoint & point)
 {
-	sprites.PushBack(Sprite(rect, point));
+	sprites.PushBack(new Sprite(rect, point));
 }
 
 j1Animation::j1Animation()
@@ -133,9 +148,104 @@ j1Animation::j1Animation()
 
 bool j1Animation::Awake(const pugi::xml_node& node)
 {
+	if (node != nullptr) {
+		animation_path = node.child("xml_source").child_value();
 
+		pugi::xml_parse_result result = animation_doc.load_file(animation_path.GetString());
 
-	return false;
+		if (result == false) {
+			LOG(result.description());
+		}
+	}
+
+	else {
+		LOG("Error in Awake %s", name);
+	}
+	LOG("Loading Animations");
+
+	return true;
+}
+
+bool j1Animation::Start()
+{
+	pugi::xml_node main_node = animation_doc.first_child();
+	if (main_node == NULL) {
+		LOG("main node from animation not found");
+	}
+
+	pugi::xml_node animation_block_node = main_node.first_child();
+
+	while (animation_block_node != NULL)
+	{
+		pugi::xml_node block_info = animation_block_node.first_child();
+		ENTITY_TYPE entity_type = StringToEntityType(block_info.attribute("type").as_string());
+		SDL_Texture* animation_tex = App->tex->Load((const char*)block_info.attribute("image_path").as_string());
+
+		EntityAnimations* new_entity_animation = new EntityAnimations();
+		new_entity_animation->entity_type = entity_type;
+
+		pugi::xml_node animation = block_info.next_sibling();
+
+		while (animation != NULL)
+		{
+			ANIMATION_TYPE animation_type = StringToAnimationType(animation.name());
+			Animation* new_animation = new Animation();
+			new_animation->SetTexture(animation_tex);
+			new_animation->SetCurrentFrame(0);
+			new_animation->SetSpeed(150);
+			new_animation->SetLoop(true);
+			new_animation->SetId(animation_type);
+
+			pugi::xml_node sprite = animation.first_child();
+
+			while (sprite != NULL)
+			{
+				SDL_Rect sprite_rect;
+				sprite_rect.x = sprite.attribute("x").as_int();
+				sprite_rect.y = sprite.attribute("y").as_int();
+				sprite_rect.w = sprite.attribute("w").as_int();
+				sprite_rect.h = sprite.attribute("h").as_int();
+
+				new_animation->AddSprite(sprite_rect, { 0,0 });
+
+				sprite = sprite.next_sibling();
+			}
+
+			new_entity_animation->animations.PushBack(new_animation);
+
+			animation = animation.next_sibling();
+		}
+
+		animations.PushBack(new_entity_animation);
+
+		animation_block_node = animation_block_node.next_sibling();
+	}
+	return true;
+}
+
+bool j1Animation::CleanUp()
+{
+	return true;
+}
+
+ENTITY_TYPE j1Animation::StringToEntityType(const char* str) const
+{
+	if (strcmp(str, "player") == 0) return ENTITY_TYPE::PLAYER;
+	return ENTITY_TYPE::NONE;
+}
+
+ANIMATION_TYPE j1Animation::StringToAnimationType(const char* str) const
+{
+	if (strcmp(str, "jump_right") == 0) return ANIMATION_TYPE::A_JUMP_RIGHT;
+	if (strcmp(str, "run_right") == 0) return ANIMATION_TYPE::A_WALK_RIGHT;
+	if (strcmp(str, "stand_right") == 0) return ANIMATION_TYPE::A_IDLE_RIGHT;
+	
+	if (strcmp(str, "jump_left") == 0) return ANIMATION_TYPE::A_JUMP_LEFT;
+	if (strcmp(str, "run_left") == 0) return ANIMATION_TYPE::A_WALK_LEFT;
+	if (strcmp(str, "stand_left") == 0) return ANIMATION_TYPE::A_IDLE_LEFT;
+
+	return ANIMATION_TYPE::A_NONE;
+
 }
 
 Animation* j1Animation::GetAnimation(ENTITY_TYPE entity_type, ANIMATION_TYPE animation_type)
@@ -144,15 +254,14 @@ Animation* j1Animation::GetAnimation(ENTITY_TYPE entity_type, ANIMATION_TYPE ani
 
 	for (int i = 0; i < animations.Count(); i++)
 	{
-		if (animations[i].entity_type == entity_type)
+		if (animations[i]->entity_type == entity_type)
 		{
-			for (int k = 0; k < animations[i].animations.Count(); k++)
+			for (int k = 0; k < animations[i]->animations.Count(); k++)
 			{
-				if (animations[i].animations[k].GetId() == animation_type)
+				if (animations[i]->animations[k]->GetId() == animation_type)
 				{
-					target_animation = &animations[i].animations[k];
+					target_animation = animations[i]->animations[k];
 					break;
-
 				}
 			}
 			break;
@@ -161,4 +270,3 @@ Animation* j1Animation::GetAnimation(ENTITY_TYPE entity_type, ANIMATION_TYPE ani
 
 	return target_animation;
 }
-*/

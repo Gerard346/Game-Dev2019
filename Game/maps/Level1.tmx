@@ -11,10 +11,10 @@
   <image source="tiles_map.png" width="608" height="400"/>
  </tileset>
  <tileset firstgid="955" name="subway_BG" tilewidth="16" tileheight="16" tilecount="527" columns="31">
-  <image source="../../../../vacaroxa--generic-run-n-gun-pack--v.1.0/Assets_area_1/Background/subway_BG.png" width="496" height="272"/>
+  <image source="subway_BG.png" width="496" height="272"/>
  </tileset>
  <tileset firstgid="1482" name="wall_subway" tilewidth="16" tileheight="16" tilecount="1505" columns="35">
-  <image source="../../../../vacaroxa--generic-run-n-gun-pack--v.1.0/Assets_area_1/Background/wall_subway.png" width="560" height="696"/>
+  <image source="wall_subway.png" width="560" height="696"/>
  </tileset>
  <layer name="Background" width="170" height="23">
   <properties>
@@ -3936,7 +3936,7 @@
    <tile gid="1465"/>
   </data>
  </layer>
- <layer name="Capa de patrones 9" width="170" height="23">
+ <layer name="bck2" width="170" height="23">
   <properties>
    <property name="Colliders" type="int" value="0"/>
    <property name="Draw" type="int" value="1"/>
@@ -7854,7 +7854,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Capa de patrones 10" width="170" height="23">
+ <layer name="bck3" width="170" height="23">
   <properties>
    <property name="Colliders" type="int" value="0"/>
    <property name="Draw" type="int" value="1"/>
@@ -19623,7 +19623,7 @@
    <property name="Range.y" type="int" value="75"/>
    <property name="Slider" type="int" value="1"/>
    <property name="Velocity.x" type="int" value="0"/>
-   <property name="Velocity.y" type="int" value="2"/>
+   <property name="Velocity.y" type="int" value="150"/>
   </properties>
   <data>
    <tile gid="0"/>
@@ -23547,7 +23547,7 @@
    <property name="Range.y" type="int" value="75"/>
    <property name="Slider" type="int" value="1"/>
    <property name="Velocity.x" type="int" value="0"/>
-   <property name="Velocity.y" type="int" value="-2"/>
+   <property name="Velocity.y" type="int" value="-150"/>
   </properties>
   <data>
    <tile gid="0"/>
@@ -27470,7 +27470,7 @@
    <property name="Range.x" type="int" value="75"/>
    <property name="Range.y" type="int" value="0"/>
    <property name="Slider" type="int" value="1"/>
-   <property name="Velocity.x" type="int" value="2"/>
+   <property name="Velocity.x" type="int" value="150"/>
    <property name="Velocity.y" type="int" value="0"/>
   </properties>
   <data>

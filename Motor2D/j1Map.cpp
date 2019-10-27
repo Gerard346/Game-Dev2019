@@ -58,7 +58,7 @@ bool j1Map::PreUpdate()
 	for (int i = 0; i < map_info.layers_info.Count(); i++) {
 		info_layer* layer_data = map_info.layers_info[i];
 		if (layer_data->type != default_layer) {
-			layer_data->Update(0.0f);
+			layer_data->Update(App->Getdt());
 		}
 	}
 	return true;
@@ -423,7 +423,7 @@ void mutable_layer::Update(float dt)
 	if (velocity_x != 0)
 	{
 		delta_x = pos_x;
-		pos_x += velocity_x;
+		pos_x += velocity_x*dt;
 
 		if (abs(pos_x) > range_x)
 		{
@@ -435,7 +435,7 @@ void mutable_layer::Update(float dt)
 	if (velocity_y != 0)
 	{
 		delta_y = pos_y;
-		pos_y += velocity_y;
+		pos_y += velocity_y*dt;
 		
 		if (abs(pos_y) > range_y)
 		{

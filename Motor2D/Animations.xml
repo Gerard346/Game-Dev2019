@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<entity_animation type="player"/>
+<entity_animation type="player" imagePath="pj_spritesheet.png"/>
 <TextureAtlas imagePath="pj_spritesheet.png" width="127" height="227">
 <jump_right>
     <sprite n="jump_01.png" x="1" y="1" w="20" h="24"/>

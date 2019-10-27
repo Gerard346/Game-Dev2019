@@ -7,9 +7,9 @@
 #include "SDL/include/SDL_rect.h"
 #include "p2DynArray.h"
 #include "j1Timer.h"
-/*
+#include "j1Textures.h"
+
 class j1App;
-class SDL_Texture;
 
 enum ENTITY_TYPE
 {
@@ -19,6 +19,7 @@ enum ENTITY_TYPE
 
 enum ANIMATION_TYPE
 {
+	A_NONE = 0,
 	A_IDLE_LEFT,
 	A_WALK_LEFT,
 	A_JUMP_LEFT,
@@ -30,7 +31,7 @@ enum ANIMATION_TYPE
 class Sprite
 {
 public:
-
+	Sprite();
 	Sprite(const SDL_Rect& frame, const iPoint& pivot);
 	~Sprite();
 
@@ -59,13 +60,13 @@ public:
 protected:
 
 	//Vector that storage the frames rect & pivot
-	p2DynArray<Sprite>		sprites;
+	p2DynArray<Sprite*>		sprites;
 	//Pointer to the animation texture
 	SDL_Texture* texture = nullptr;
 	//Id of the animation enum type
 	ANIMATION_TYPE			animation_type = A_IDLE_RIGHT;
 	//Current frame calculated by the timer
-	float					current_frame = 0;
+	float					current_frame = 0.0f;
 	bool					loop = true;
 	int						loops = 0;
 	//Animation update rate
@@ -92,6 +93,7 @@ public:
 	uint							GetSpeed()const;
 	const Sprite*					GetCurrentSprite();
 	ANIMATION_TYPE					GetId()const;
+	uint							GetFrameNum()const;
 
 	//Check if the animation is end
 	bool IsEnd();
@@ -106,7 +108,7 @@ public:
 struct EntityAnimations
 {
 	ENTITY_TYPE entity_type = NONE;
-	p2DynArray<Animation> animations;
+	p2DynArray<Animation*> animations;
 };
 
 class j1Animation:public j1Module
@@ -131,13 +133,19 @@ public:
 	
 private:
 
+	p2SString animation_path = "";
+
 	ENTITY_TYPE StringToEntityType(const char* str)const;
 	ANIMATION_TYPE StringToAnimationType(const char* str)const;
 
-	p2DynArray<EntityAnimations> animations;
+	p2DynArray<EntityAnimations*> animations;
+
+	pugi::xml_document animation_doc;
+
+public:
 
 	Animation* GetAnimation(ENTITY_TYPE, ANIMATION_TYPE);
 
 };
-*/
+
 #endif // __j1ANIMATION_H__

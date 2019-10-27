@@ -4,6 +4,7 @@
 #include "p2List.h"
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "j1Timer.h"
 
 // Modules
 class j1Window;
@@ -16,6 +17,8 @@ class j1Map;
 class j1Colliders;
 class j1Player;
 class j1FadeToBlack;
+class j1Animation;
+
 class j1App
 {
 public:
@@ -75,6 +78,7 @@ public:
 	j1Render*			render = nullptr;
 	j1Textures*			tex = nullptr;
 	j1Audio*			audio = nullptr;
+	j1Animation*		animation = nullptr;
 	j1Scene*			scene = nullptr;
 	j1Map*				map = nullptr;
 	j1Colliders*		colliders = nullptr;
@@ -82,6 +86,7 @@ public:
 	j1FadeToBlack*		fade = nullptr;
 
 private:
+
 	bool want_to_save = false;
 	bool want_to_load = false;
 
@@ -94,7 +99,7 @@ private:
 	int					argc;
 	char**				args;
 
-
+	j1Timer				frame_time;
 };
 
 extern j1App* App; 
