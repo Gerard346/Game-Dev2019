@@ -86,12 +86,13 @@ public:
 	playerState p_current_state = IDLE;
 	playerDirection p_current_direction = STAND;
 
-	Levels p_current_lvl;
+	Levels p_current_lvl = Lvl_1;
 	fPoint p_vel = { 3.0f,5.0f };
 	fPoint p_current_vel = { 0.0f, 0.0f };
 	fPoint p_pos = { 0.0f,0.0f };
 
 	float gravity = -0.1f;
+	bool p_dead = false;
 
 	Collider* p_collider = nullptr;
 	iPoint p_size_collider = { 16, 32};
@@ -100,7 +101,6 @@ private:
 	SDL_Texture* p_tex = nullptr;
 	SDL_Rect p_spawn = { 0,0,0,0 };
 
-	bool p_dead = false;
 	bool p_god = false;
 	bool p_floor = false;
 	bool double_jump = false;

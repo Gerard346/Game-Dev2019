@@ -9,6 +9,7 @@
 #include "j1Scene.h"
 #include "j1Audio.h"
 #include "j1Colliders.h"
+#include "j1FadeToBlack.h"
 
 j1Player::j1Player()
 {
@@ -32,8 +33,11 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
-
-
+	if (App->fade->isFading() == true) {
+		if (App->fade->current_step != 2) {
+			return true;
+		}
+	}
 	PlayerInput();
 
 	p_pos.x += p_current_vel.x;
@@ -147,10 +151,16 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 
 	if (c2->type == COLLIDER_FINISH) {
 		ChangeLvl();
+		App->scene->ChangeScene(1.0f);
 	}
 
 	if (c2->type == COLLIDER_DEAD) {
-		PlayerDies();
+		p_current_vel.y = 0.0f;
+		p_current_vel.x = 0.0f;
+		App->scene->ChangeScene(2.0f);
+		if (App->fade->current_step == 2) {
+			PlayerDies();
+		}
 	}
 }
 
@@ -207,18 +217,19 @@ void j1Player::PlayerInput()
 
 void j1Player::SpawnPlayer()
 {
-		p_spawn = { App->map->map_info.p_spaw_point.x, App->map->map_info.p_spaw_point.y, p_size_collider.x, p_size_collider.y };
-		p_pos = fPoint(p_spawn.x, p_spawn.y - p_size_collider.y * 0.5f);
-		p_current_vel = { 0.0f,0.0f };
-		p_floor = false;
-		if (p_collider == nullptr) {
+	p_spawn = { App->map->map_info.p_spaw_point.x, App->map->map_info.p_spaw_point.y, p_size_collider.x, p_size_collider.y };
+	p_pos = fPoint(p_spawn.x, p_spawn.y - p_size_collider.y * 0.5f);
+	p_current_vel = { 0.0f,0.0f };
+	p_floor = false;
+	if (p_collider == nullptr) {
 		p_collider = App->colliders->AddCollider(p_spawn, COLLIDER_PLAYER);
 	}
-		p_collider->callback = this;
+	p_collider->callback = this;
 }
 
 void j1Player::StartFromLvl1()
 {
+	App->scene->ChangeScene(1.0f);
 	if (p_current_lvl != Lvl_1) {
 		App->map->ChangeMap("Level1.tmx");
 		p_current_lvl = Lvl_2;
@@ -228,6 +239,7 @@ void j1Player::StartFromLvl1()
 
 void j1Player::StartFromLvl2()
 {
+	App->scene->ChangeScene(1.0f);
 	if (p_current_lvl != Lvl_2) {
 		App->map->ChangeMap("Level2.tmx");
 		p_current_lvl = Lvl_1;
@@ -238,6 +250,10 @@ void j1Player::StartFromLvl2()
 
 void j1Player::StatFromCurrentLvl()
 {
+	if (App->fade->isFading() == false) {
+		App->scene->ChangeScene(1.0f);
+	}
+
 	SpawnPlayer();
 }
 
@@ -256,6 +272,7 @@ void j1Player::PlayerDies()
 	p_dead = true;
 	App->audio->PlayFx(g_is_over_fx);
 	StatFromCurrentLvl();
+
 }
 
 void j1Player::CamFollowPlayer()

@@ -29,6 +29,7 @@ public:
 	// Called before all Updates
 	bool PostUpdate();
 
+	void ChangeScene(const float) const;
 	// Called before quitting
 	bool CleanUp();
 

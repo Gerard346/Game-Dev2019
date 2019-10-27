@@ -10,6 +10,7 @@
 #include "j1Map.h"
 #include "j1Colliders.h"
 #include "j1Player.h"
+#include "j1FadeToBlack.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -35,6 +36,7 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
+	App->fade->FadeToColor(NULL,NULL, 1.5f);
 	App->map->Load("Level1.tmx");
 
 	App->player->SpawnPlayer();
@@ -61,7 +63,7 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
+	
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->SetVolume(1);
 	}
@@ -103,6 +105,11 @@ bool j1Scene::PostUpdate()
 		ret = false;
 
 	return ret;
+}
+
+void j1Scene::ChangeScene(const float value) const
+{
+	App->fade->FadeToBlack(App->player, App->player,value);
 }
 
 // Called before quitting
