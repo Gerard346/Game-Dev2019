@@ -10,7 +10,7 @@
 #include "j1Audio.h"
 #include "j1Colliders.h"
 #include "j1FadeToBlack.h"
-//#include "j1Animation.h"
+#include "j1Animation.h"
 
 j1Player::j1Player()
 {
@@ -52,14 +52,17 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
-	if (p_dead)return true;
+	if (p_dead)
+		return true;
 
 	PlayerInput();
 
 	p_pos.x += p_current_vel.x;
 	p_pos.y += p_current_vel.y;
 
-	p_current_vel.y -= gravity;
+	if (IsGod() == false) {
+		p_current_vel.y -= gravity;
+	}
 	
 	p_collider->SetPos(p_pos.x, p_pos.y);
 
@@ -69,7 +72,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 
-	//DrawPlayer(dt);
+	DrawPlayer(dt);
 
 	CamFollowPlayer();
 
@@ -161,7 +164,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	}
 
 
-	if (c2->type == COLLIDER_DEAD && p_dead == false) {
+	if (c2->type == COLLIDER_DEAD && p_dead == false && IsGod() == false) {
 		p_current_vel.y = 0.0f;
 		p_current_vel.x = 0.0f;
 
@@ -169,6 +172,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	}
 }
 
+void j1Player::DrawPlayer(float dt)
+{
+//App->render->Blit(current_animation->GetTexture(),,,current_animation->GetCurrentSprite()->GetFrame(),)
+}
 
 
 
@@ -209,7 +216,7 @@ void j1Player::PlayerInput()
 				p_current_vel.y = -p_vel.y;
 			}
 		}
-		else if (double_jump == false && p_floor == false) {
+		else if (double_jump == false && p_floor == false && IsGod() == false) {
 			if (p_current_vel.y > -1) {
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 					double_jump = true;
@@ -217,7 +224,20 @@ void j1Player::PlayerInput()
 				}
 			}
 		}
-
+		if (IsGod()) {
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+				p_current_vel.y = -p_vel.x;
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP) {
+				p_current_vel.y = 0.0f;
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+				p_current_vel.y = p_vel.x;
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP) {
+				p_current_vel.y = 0.0f;
+			}
+		}
 }
 
 

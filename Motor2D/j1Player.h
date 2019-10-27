@@ -4,8 +4,9 @@
 #include "j1Module.h"
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
-//#include "j1Animation.h"
+
 struct SDL_Texture;
+class Animation;
 
 enum Levels {
 	Lvl_1,
@@ -56,6 +57,8 @@ public:
 
 	void OnCollision(Collider*, Collider*) override;
 
+	void DrawPlayer(float dt);
+
 	void ChangeLvl();
 
 	void StartFromLvl1();
@@ -81,6 +84,7 @@ public:
 
 	playerState p_current_state = IDLE_RIGHT;
 	playerDirection p_current_direction = STAND;
+	Animation* current_animation = nullptr;
 
 	Levels p_current_lvl = Lvl_1;
 	fPoint p_vel = { 0.0f,0.0f };
