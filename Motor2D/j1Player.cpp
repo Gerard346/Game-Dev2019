@@ -10,6 +10,7 @@
 #include "j1Audio.h"
 #include "j1Colliders.h"
 #include "j1FadeToBlack.h"
+#include "j1Animation.h"
 
 j1Player::j1Player()
 {
@@ -22,43 +23,37 @@ j1Player::~j1Player()
 
 bool j1Player::Awake()
 {
+	LOG("Loading Player");
 	return true;
 }
 
 bool j1Player::Start()
 {
-	
+	StatFromCurrentLvl();
+
 	return true;
 }
 
 bool j1Player::PreUpdate()
 {
-	if (App->fade->isFading() == true) {
-		if (App->fade->current_step != 2) {
-			return true;
-		}
-	}
+	if (p_dead)return true;
+
 	PlayerInput();
 
 	p_pos.x += p_current_vel.x;
-
 	p_pos.y += p_current_vel.y;
 
-	//if (p_floor == false) {
 	p_current_vel.y -= gravity;
-	//}
-	//else
-	{
-		//p_current_vel.y = 0.0f;
-	}
+	
 	p_collider->SetPos(p_pos.x, p_pos.y);
+
 	return true;
 }
 
 bool j1Player::Update(float dt)
 {
 
-
+	DrawPlayer(dt);
 
 	CamFollowPlayer();
 
@@ -149,18 +144,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		}*/
 	}
 
-	if (c2->type == COLLIDER_FINISH) {
-		ChangeLvl();
-		App->scene->ChangeScene(1.0f);
-	}
 
-	if (c2->type == COLLIDER_DEAD) {
+	if (c2->type == COLLIDER_DEAD && p_dead == false) {
 		p_current_vel.y = 0.0f;
 		p_current_vel.x = 0.0f;
-		App->scene->ChangeScene(2.0f);
-		if (App->fade->current_step == 2) {
-			PlayerDies();
-		}
+
+		PlayerDies();
 	}
 }
 
@@ -181,6 +170,7 @@ void j1Player::PlayerInput()
 {
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 			p_current_vel.x = p_vel.x * -1;
+			
 		}
 
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
@@ -217,43 +207,33 @@ void j1Player::PlayerInput()
 
 void j1Player::SpawnPlayer()
 {
+	p_dead = false;
 	p_spawn = { App->map->map_info.p_spaw_point.x, App->map->map_info.p_spaw_point.y, p_size_collider.x, p_size_collider.y };
 	p_pos = fPoint(p_spawn.x, p_spawn.y - p_size_collider.y * 0.5f);
 	p_current_vel = { 0.0f,0.0f };
 	p_floor = false;
+	
 	if (p_collider == nullptr) {
 		p_collider = App->colliders->AddCollider(p_spawn, COLLIDER_PLAYER);
 	}
+
 	p_collider->callback = this;
 }
 
 void j1Player::StartFromLvl1()
 {
+	p_current_lvl = Lvl_1;
 	App->scene->ChangeScene(1.0f);
-	if (p_current_lvl != Lvl_1) {
-		App->map->ChangeMap("Level1.tmx");
-		p_current_lvl = Lvl_2;
-	}
-	StatFromCurrentLvl();
 }
 
 void j1Player::StartFromLvl2()
 {
+	p_current_lvl = Lvl_2;
 	App->scene->ChangeScene(1.0f);
-	if (p_current_lvl != Lvl_2) {
-		App->map->ChangeMap("Level2.tmx");
-		p_current_lvl = Lvl_1;
-	}
-
-	StatFromCurrentLvl();
 }
 
 void j1Player::StatFromCurrentLvl()
 {
-	if (App->fade->isFading() == false) {
-		App->scene->ChangeScene(1.0f);
-	}
-
 	SpawnPlayer();
 }
 
@@ -271,8 +251,7 @@ void j1Player::PlayerDies()
 {
 	p_dead = true;
 	App->audio->PlayFx(g_is_over_fx);
-	StatFromCurrentLvl();
-
+	App->fade->FadeToBlack(App->player, App->player);
 }
 
 void j1Player::CamFollowPlayer()
