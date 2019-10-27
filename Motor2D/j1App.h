@@ -84,15 +84,17 @@ public:
 private:
 	bool want_to_save = false;
 	bool want_to_load = false;
+
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;
 
-	
 	pugi::xml_document config_file;
 	pugi::xml_node main_node;
 	int					argc;
 	char**				args;
+
+
 };
 
 extern j1App* App; 

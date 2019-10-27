@@ -35,7 +35,8 @@ enum render_orderer {
 
 enum layer_type {
 	default_layer = 0,
-	slider_layer
+	slider_layer,
+	parallax
 };
 
 struct info_tileset {

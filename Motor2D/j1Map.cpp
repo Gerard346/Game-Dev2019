@@ -406,6 +406,12 @@ info_layer* j1Map::LoadLayerAttributes(const pugi::xml_node &node, info_layer* l
 		layer = new_layer;
 	}
 
+	if (layer->attributes->Get_Int("Parallax") == 1) {
+		parallax_layer* new_layer = new parallax_layer(layer);
+		new_layer->x_delta_relation = new_layer->attributes->Get_Float("Velocity_x");
+
+		layer = new_layer;
+	}
 	return layer;
 }
 
@@ -455,3 +461,12 @@ mutable_layer::mutable_layer(const info_layer* copy):info_layer(copy)
 	type = layer_type::slider_layer;
 }
 
+parallax_layer::parallax_layer(const info_layer* copy) : info_layer(copy)
+{
+	type = layer_type::parallax;
+}
+
+void parallax_layer::Update(float dt)
+{
+	pos_x = initial_pos_x - App->render->camera.x * x_delta_relation;
+}

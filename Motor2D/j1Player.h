@@ -4,10 +4,7 @@
 #include "j1Module.h"
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
-#include "Animation.h"
-
-#
-
+//#include "j1Animation.h"
 struct SDL_Texture;
 
 enum Levels {
@@ -16,12 +13,11 @@ enum Levels {
 };
 
 enum playerState {
-	IDLE,
+	IDLE_LEFT,
 	WALK_LEFT,
-	WALK_RIGHT,
-	RUN_LEFT,
-	RUN_RIGHT,
 	JUMP_LEFT,
+	IDLE_RIGHT,
+	WALK_RIGHT,
 	JUMP_RIGHT,
 	DEAD
 };
@@ -42,7 +38,7 @@ public:
 
 	virtual ~j1Player();
 
-	bool Awake();
+	bool Awake(const pugi::xml_node& node) override;
 
 	bool Start();
 
@@ -83,19 +79,19 @@ public:
 
 public:
 
-	playerState p_current_state = IDLE;
+	playerState p_current_state = IDLE_RIGHT;
 	playerDirection p_current_direction = STAND;
 
 	Levels p_current_lvl = Lvl_1;
-	fPoint p_vel = { 3.0f,5.0f };
+	fPoint p_vel = { 0.0f,0.0f };
 	fPoint p_current_vel = { 0.0f, 0.0f };
 	fPoint p_pos = { 0.0f,0.0f };
 
-	float gravity = -0.1f;
+	float gravity = 0.0f;
 	bool p_dead = false;
 
 	Collider* p_collider = nullptr;
-	iPoint p_size_collider = { 16, 32};
+	iPoint p_size_collider = { 0, 0};
 private:
 
 	SDL_Texture* p_tex = nullptr;

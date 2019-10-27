@@ -10,7 +10,7 @@
 #include "j1Audio.h"
 #include "j1Colliders.h"
 #include "j1FadeToBlack.h"
-#include "j1Animation.h"
+//#include "j1Animation.h"
 
 j1Player::j1Player()
 {
@@ -129,11 +129,11 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 			c1->rect.y = c2->rect.y - c1->rect.h;
 			p_pos.y = c2->rect.y - c1->rect.h;
 			if (p_current_vel.x > 0.0f) {
-				p_current_state = IDLE;
+				p_current_state = IDLE_RIGHT;
 			}             
 			if (p_current_vel.y > 0.0f) {
 				p_current_vel.y = 0.0f;
-				p_current_state = IDLE;
+				p_current_state = IDLE_RIGHT;
 			}
 			p_floor = true;
 			double_jump = false;
