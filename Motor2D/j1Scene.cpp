@@ -109,7 +109,8 @@ bool j1Scene::PostUpdate()
 
 void j1Scene::ChangeScene(const float value) const
 {
-	App->fade->FadeToBlack(App->player, App->player,value);
+	App->map->WantToLoadMap();
+	App->fade->FadeToBlack(App->map, App->map,value);
 }
 
 // Called before quitting

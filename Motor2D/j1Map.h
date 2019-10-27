@@ -11,7 +11,7 @@
 
 struct Attribute {
 	p2SString name;
-	int value = 0;
+	float value = 0.0f;
 };
 
 struct Attributes
@@ -19,6 +19,7 @@ struct Attributes
 	p2DynArray<Attribute*> attributes_info;
 	void CleanUpAttributes();
 	int Get_Int(const char*);
+	float Get_Float(const char*);
 };
 
 enum map_orientation {
@@ -30,6 +31,11 @@ enum map_orientation {
 enum render_orderer {
 	no_order,
 	right_down
+};
+
+enum layer_type {
+	default_layer = 0,
+	slider_layer
 };
 
 struct info_tileset {
@@ -59,6 +65,7 @@ struct info_tileset {
 };
 
 struct info_layer {
+
 	info_layer(){};
 	info_layer(const info_layer* copy);
 
@@ -69,6 +76,7 @@ struct info_layer {
 	int pos_y = 0;
 	int* tiles = nullptr;
 	
+	layer_type type = default_layer;
 	Attributes* attributes;
 
 	inline uint Get(int x, int y) const {
@@ -94,8 +102,8 @@ struct parallax_layer : info_layer
 {
 	parallax_layer(const info_layer* copy);
 
-	float x_delta_relation = 0.2f;
-	int current_pos_x = 0;
+	float x_delta_relation = 0.0f;
+	int initial_pos_x = 0;
 
 	void Update(float dt) override;
 };
@@ -126,6 +134,9 @@ public:
 
 	// Called before render is available
 	bool Awake(const pugi::xml_node&) override;
+
+	bool Start() override;
+	
 	bool PreUpdate() override;
 	
 	// Called each loop iteration
@@ -136,6 +147,8 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
+
+	void OnCollision(Collider*, Collider*) override;
 
 	void ChangeMap(const char*);
 private:
@@ -152,14 +165,14 @@ private:
 public:
 
 	info_map map_info;
-
+	void WantToLoadMap() { want_to_load_map = true; }
 
 private:
 	
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
-
+	bool				want_to_load_map = false;
 };
 
 #endif // __j1MAP_H__
