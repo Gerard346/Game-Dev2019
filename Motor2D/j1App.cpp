@@ -87,7 +87,7 @@ float j1App::Getdt() const
 bool j1App::Awake()
 {
 	
-	pugi::xml_parse_result result = config_file.load_file("Config.xml");
+	pugi::xml_parse_result result = config_file.load_file("../Motor2D/Config.xml");
 	if (result == false ) {
 		LOG(result.description());
 	}
