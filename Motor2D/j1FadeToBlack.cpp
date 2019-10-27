@@ -8,7 +8,6 @@
 #include <math.h>
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
-#include "j1Input.h"
 
 j1FadeToBlack::j1FadeToBlack() : j1Module()
 {
@@ -58,7 +57,6 @@ bool j1FadeToBlack::Update(float dt)
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = fade_from_black;
-			App->input->active = true;
 		}
 	}break;
 
@@ -88,7 +86,6 @@ bool j1FadeToBlack::FadeToBlack(j1Module* module_off, j1Module* module_on, float
 
 	if (current_step == none)
 	{
-		App->input->active = false;
 		current_step = fade_to_black;
 		this->module_off = module_off;
 		this->module_on = module_on;

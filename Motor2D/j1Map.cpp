@@ -7,9 +7,6 @@
 #include "j1Colliders.h"
 #include <math.h>
 #include "j1Window.h"
-#include "j1Player.h"
-#include "j1Scene.h"
-#include "j1FadeToBlack.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -31,25 +28,6 @@ bool j1Map::Awake(const pugi::xml_node& config)
 	return ret;
 }
 
-bool j1Map::Start()
-{
-	if (want_to_load_map)
-	{
-		if (App->player->p_current_lvl == Lvl_2)
-		{
-			App->map->ChangeMap("Level2.tmx");
-		}
-		else
-		{
-			App->map->ChangeMap("Level1.tmx");
-		}
-
-		App->player->SpawnPlayer();
-	}
-
-	return true;
-}
-
 bool j1Map::PreUpdate()
 {
 	if (map_loaded == false)
@@ -57,7 +35,7 @@ bool j1Map::PreUpdate()
 	
 	for (int i = 0; i < map_info.layers_info.Count(); i++) {
 		info_layer* layer_data = map_info.layers_info[i];
-		if (layer_data->type != default_layer) {
+		if (layer_data->attributes->Get_Int("Slider") == 1) {
 			layer_data->Update(0.0f);
 		}
 	}
@@ -138,10 +116,10 @@ bool j1Map::CleanUp()
 	// TODO 2: clean up all layer data
 	// Remove all layers
 
+
 	// Clean up the pugui tree
 	map_file.reset();
-	App->colliders->EraseAllColliders();
-
+	
 	return true;
 }
 
@@ -200,13 +178,13 @@ bool j1Map::Load(const char* file_name)
 		}
 
 		COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
-		layer_type cur_layer_type = default_layer;
+		bool fixed_collider_id = false;
+
 
 		if (layer_data->attributes->Get_Int("Slider") == 1) {
 			collider_type = App->colliders->TileIDToColliderTile(layer_data->attributes->Get_Int("Collider_Type"));
-			cur_layer_type = slider_layer;
+			fixed_collider_id = true;
 		}
-
 		for (int y = 0; y < map_info.height; y++) {
 			for (int x = 0; x < map_info.width; x++) {
 				uint tile = layer_data->Get(x, y);
@@ -216,21 +194,19 @@ bool j1Map::Load(const char* file_name)
 				
 				const info_tileset* tileset_info = GetTilesetInfoFromTileID((int)layer_data->Get(x, y));
 				
-				if (cur_layer_type == default_layer) {
+				if (!fixed_collider_id) {
 					collider_type = App->colliders->TileIDToColliderTile(tile);
 				}
 
 				SDL_Rect collider_rect = { x*tileset_info->tilewidth, y*tileset_info->tileheight, tileset_info->tilewidth,tileset_info->tileheight};
-
-				if (cur_layer_type == default_layer) {
-					App->colliders->AddCollider(collider_rect, collider_type, this);
-
+				if (!fixed_collider_id) {
+					App->colliders->AddCollider(collider_rect, collider_type);
 					if (collider_type == COLLIDER_START) {
 						map_info.p_spaw_point = iPoint (x*tileset_info->tilewidth,y*tileset_info->tileheight);
 					}
 				}
-				else if(cur_layer_type == slider_layer) {
-					((mutable_layer*)layer_data)->collider.PushBack(App->colliders->AddCollider(collider_rect, collider_type, this));
+				else {
+					((mutable_layer*)layer_data)->collider.PushBack(App->colliders->AddCollider(collider_rect, collider_type));
 				}
 
 			}
@@ -238,13 +214,6 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	return ret;
-}
-
-void j1Map::OnCollision(Collider* c1, Collider* c2)
-{
-	if (c1->type == COLLIDER_FINISH && c2->type == COLLIDER_PLAYER && App->fade->isFading() == false) {
-		App->player->ChangeLvl();
-	}
 }
 
 void j1Map::ChangeMap(const char* path)
@@ -369,16 +338,6 @@ int Attributes::Get_Int(const char* name)
 	return 0;
 }
 
-float Attributes::Get_Float(const char* name)
-{
-	for (int i = 0; i < attributes_info.Count(); i++) {
-		if (strcmp(name, attributes_info[i]->name.GetString()) == 0) {
-			return attributes_info[i]->value;
-		}
-	}
-	return 0;
-}
-
 info_layer* j1Map::LoadLayerAttributes(const pugi::xml_node &node, info_layer* layer)
 {
 	pugi::xml_node property_node = node.first_child();
@@ -388,7 +347,7 @@ info_layer* j1Map::LoadLayerAttributes(const pugi::xml_node &node, info_layer* l
 		Attribute* new_attribute = new Attribute();
 
 		new_attribute->name = property_node.attribute("name").as_string();
-		new_attribute->value = property_node.attribute("value").as_float();
+		new_attribute->value = property_node.attribute("value").as_int();
 		layer->attributes->attributes_info.PushBack(new_attribute);
 		//LOG("%s / %i", new_attribute->name.GetString(), new_attribute->value);
 		property_node = property_node.next_sibling();
@@ -405,7 +364,6 @@ info_layer* j1Map::LoadLayerAttributes(const pugi::xml_node &node, info_layer* l
 
 		layer = new_layer;
 	}
-
 	return layer;
 }
 
@@ -452,6 +410,15 @@ info_layer::info_layer(const info_layer* copy):name(copy->name), width(copy->wid
 
 mutable_layer::mutable_layer(const info_layer* copy):info_layer(copy)
 {
-	type = layer_type::slider_layer;
+
 }
 
+parallax_layer::parallax_layer(const info_layer* copy) : info_layer(copy)
+{
+
+}
+
+void parallax_layer::Update(float dt)
+{
+	current_pos_x = pos_x + App->render->camera.x * x_delta_relation;
+}
