@@ -21,8 +21,24 @@ j1Player::~j1Player()
 {
 }
 
-bool j1Player::Awake()
+bool j1Player::Awake(const pugi::xml_node& node)
 {
+	if (node != nullptr) {
+		gravity = node.child("gravity").attribute("g").as_float();
+
+		p_vel.x = node.child("max_speed").attribute("x").as_float();
+		p_vel.y = node.child("max_speed").attribute("y").as_float();
+
+
+		p_size_collider.x = node.child("collider_size").attribute("x").as_int();
+		p_size_collider.y = node.child("collider_size").attribute("y").as_int();
+
+	}
+
+	else {
+		LOG("Error in Awake %s", name);
+	}
+
 	LOG("Loading Player");
 	return true;
 }
@@ -53,7 +69,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 
-	DrawPlayer(dt);
+	//DrawPlayer(dt);
 
 	CamFollowPlayer();
 
@@ -152,6 +168,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		PlayerDies();
 	}
 }
+
 
 
 
