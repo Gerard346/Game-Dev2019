@@ -5,7 +5,7 @@
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "j1Timer.h"
-
+#include "j1PerfTimer.h"
 // Modules
 class j1Window;
 class j1Input;
@@ -99,7 +99,16 @@ private:
 	int					argc;
 	char**				args;
 
+	j1Timer				time_since_startup;
 	j1Timer				frame_time;
+	j1Timer				fps_timer;
+	j1Timer				timer_psec;
+	uint32_t			curr_frames = NULL;
+	float				avg_fps = 0.0f;
+	float				seconds_since_startup = 0.0f;
+	uint64_t			frame_count = 0.0f;
+	uint32_t			last_frame_ms = 0.0f;
+	uint32_t			frames_on_last_update = 0.0f;
 };
 
 extern j1App* App; 

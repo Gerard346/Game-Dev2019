@@ -45,6 +45,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
+	LOG("Constructor time: %d ms", frame_time.Read());
 }
 
 // Destructor
@@ -125,6 +126,8 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
+	frame_time.Start();
+	time_since_startup.Start();
 	return ret;
 }
 
@@ -154,9 +157,19 @@ bool j1App::Update()
 void j1App::PrepareUpdate()
 {
 	dt = frame_time.ReadSec();
-	frame_time.Start();
 	if (dt > 0.2f) {
 		dt = 0.0f;
+	}
+	last_frame_ms = dt * 1000;
+	frame_time.Start();
+
+	frame_count += 1;
+	curr_frames += 1;
+
+	if (timer_psec.Read() >= 1000) {
+		frames_on_last_update = curr_frames;
+		curr_frames = 0;
+		timer_psec.Start();
 	}
 }
 
@@ -171,6 +184,16 @@ void j1App::FinishUpdate()
 		Save();
 		want_to_save = false;
 	}
+
+	avg_fps = (float)frame_count / fps_timer.ReadSec();
+	seconds_since_startup = time_since_startup.ReadSec();
+
+	
+	static char title[256];
+	sprintf_s(title, 256, "Avg.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
+
+	App->win->SetTitle(title);
 
 }
 
