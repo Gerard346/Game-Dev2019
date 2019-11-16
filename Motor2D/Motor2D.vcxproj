@@ -95,6 +95,7 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Brofiler\Brofiler.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="j1Colliders.h" />
     <ClInclude Include="j1FadeToBlack.h" />

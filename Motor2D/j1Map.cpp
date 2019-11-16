@@ -23,6 +23,8 @@ j1Map::~j1Map()
 // Called before render is available
 bool j1Map::Awake(const pugi::xml_node& config)
 {
+	BROFILER_CATEGORY("AwakeMap", Profiler::Color::ForestGreen);
+
 	LOG("Loading Map Parser");
 	bool ret = true;
 
@@ -66,6 +68,7 @@ bool j1Map::PreUpdate()
 
 void j1Map::Draw()
 {
+	BROFILER_CATEGORY("DrawMap", Profiler::Color::ForestGreen);
 
 	if (map_loaded == false)
 		return;

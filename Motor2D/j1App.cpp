@@ -12,6 +12,7 @@
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "j1Animation.h"
+#include "Brofiler\Brofiler.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -87,7 +88,8 @@ float j1App::Getdt() const
 // Called before render is available
 bool j1App::Awake()
 {
-	
+	BROFILER_CATEGORY("Awake", Profiler::Color::Blue);
+
 	pugi::xml_parse_result result = config_file.load_file("../Motor2D/Config.xml");
 	if (result == false ) {
 		LOG(result.description());
@@ -121,6 +123,8 @@ bool j1App::Awake()
 // Called before the first frame
 bool j1App::Start()
 {
+	BROFILER_CATEGORY("Start", Profiler::Color::Blue);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -137,6 +141,8 @@ bool j1App::Start()
 // Called each loop iteration
 bool j1App::Update()
 {
+	BROFILER_CATEGORY("Update", Profiler::Color::Blue);
+
 	bool ret = true;
 	PrepareUpdate();
 
@@ -159,6 +165,7 @@ bool j1App::Update()
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+
 	dt = frame_time.ReadSec();
 	if (dt > 0.2f) {
 		dt = 0.0f;
@@ -221,6 +228,8 @@ void j1App::FinishUpdate()
 // Call modules before each loop iteration
 bool j1App::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate", Profiler::Color::Blue);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;

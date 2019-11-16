@@ -6,6 +6,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include "j1Timer.h"
 #include "j1PerfTimer.h"
+#include "Brofiler/Brofiler.h"
 // Modules
 class j1Window;
 class j1Input;

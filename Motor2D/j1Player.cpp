@@ -23,6 +23,8 @@ j1Player::~j1Player()
 
 bool j1Player::Awake(const pugi::xml_node& node)
 {
+	BROFILER_CATEGORY("Awake Player", Profiler::Color::Yellow);
+
 	if (node != nullptr) {
 		gravity = node.child("gravity").attribute("g").as_float();
 
@@ -61,6 +63,8 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate Player", Profiler::Color::Yellow);
+
 	if (p_dead)
 		return true;
 
@@ -80,6 +84,7 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Player", Profiler::Color::Yellow);
 
 	DrawPlayer(dt);
 
@@ -90,6 +95,7 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate Player", Profiler::Color::Yellow);
 
 	return true;
 }
