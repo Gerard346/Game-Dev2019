@@ -1,10 +1,11 @@
 <!-- Config file for the game (Comments)-->
-<config>
- 
+<config>		
   <window>
+    <capped_frames frames = "30" />
     <title>My super awesome game with XML</title>
     <bools fullscreen = "false" borderless ="false" resizable ="true" fullscreen_window ="false"/>
     <size width="1024" height="768" scale = "2"/>
+
   </window>
   <scene>
     <music>audio/music/music.ogg</music>  

@@ -104,6 +104,10 @@ bool j1App::Awake()
 	while(item != NULL && ret == true)
 	{
 		pugi::xml_node module_node = main_node.child(item->data->name.GetString());
+		if (strcmp(module_node.name(), "window") == 0){
+			capped_frames = module_node.child("capped_frames").attribute("frames").as_int();
+		}
+
 		if (item->data->Awake(module_node) == false) {//if the module is not null and has a node in config file we call awake with the node data.
 			LOG("Error on %s Awake", item->data->name.GetString());
 			break;
@@ -127,7 +131,6 @@ bool j1App::Start()
 		item = item->next;
 	}
 	frame_time.Start();
-	time_since_startup.Start();
 	return ret;
 }
 
@@ -186,12 +189,30 @@ void j1App::FinishUpdate()
 	}
 
 	avg_fps = (float)frame_count / fps_timer.ReadSec();
-	seconds_since_startup = time_since_startup.ReadSec();
-
 	
+	if (is_fps_capped) {
+		float delay = (1000 / capped_frames) - frame_time.Read();
+		
+		if (delay > 0 && delay < 9000) {
+			SDL_Delay(delay);
+		}
+	}
+	
+	if (is_fps_capped) {
+		cap_string = "On";
+	}
+	else {
+		cap_string = "Off";
+	}
+	if (App->render->vsync) {
+		vsync_string = "On";
+	}
+	else {
+		vsync_string = "Off";
+	}
 	static char title[256];
-	sprintf_s(title, 256, "Avg.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ",
-		avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
+	sprintf_s(title, 256, "Avg.FPS: %.2f MS of the last frame: %02u FPS: %i Frames Capped: %s Vsync: %s ",
+		avg_fps, last_frame_ms, frames_on_last_update,cap_string.GetString(), vsync_string.GetString());
 
 	App->win->SetTitle(title);
 

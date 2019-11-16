@@ -4,7 +4,7 @@
 #include "j1Window.h"
 #include "j1Render.h"
 
-#define VSYNC true
+#define VSYNC false
 
 j1Render::j1Render() : j1Module()
 {
@@ -13,6 +13,7 @@ j1Render::j1Render() : j1Module()
 	background.g = 0;
 	background.b = 0;
 	background.a = 0;
+	
 }
 
 // Destructor
@@ -55,6 +56,7 @@ bool j1Render::Awake(const pugi::xml_node& node)
 bool j1Render::Start()
 {
 	LOG("render start");
+	vsync = VSYNC;
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
 	return true;

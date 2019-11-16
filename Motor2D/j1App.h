@@ -89,6 +89,10 @@ private:
 
 	bool want_to_save = false;
 	bool want_to_load = false;
+	bool is_fps_capped = true;
+	
+	p2SString cap_string = "";
+	p2SString vsync_string = "";
 
 	p2List<j1Module*>	modules;
 	uint				frames;
@@ -98,7 +102,7 @@ private:
 	pugi::xml_node main_node;
 	int					argc;
 	char**				args;
-
+	uint					capped_frames = 0;
 	j1Timer				time_since_startup;
 	j1Timer				frame_time;
 	j1Timer				fps_timer;
