@@ -77,7 +77,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="j1Animation.cpp" />
+    <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="j1Colliders.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="j1FadeToBlack.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
@@ -97,7 +99,9 @@
   <ItemGroup>
     <ClInclude Include="Brofiler\Brofiler.h" />
     <ClInclude Include="j1Animation.h" />
+    <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="j1Colliders.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="j1FadeToBlack.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1PerfTimer.h" />

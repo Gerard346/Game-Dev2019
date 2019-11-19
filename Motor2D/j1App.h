@@ -7,6 +7,7 @@
 #include "j1Timer.h"
 #include "j1PerfTimer.h"
 #include "Brofiler/Brofiler.h"
+
 // Modules
 class j1Window;
 class j1Input;
@@ -19,6 +20,7 @@ class j1Colliders;
 class j1Player;
 class j1FadeToBlack;
 class j1Animation;
+class EntityManager;
 
 class j1App
 {
@@ -85,7 +87,7 @@ public:
 	j1Colliders*		colliders = nullptr;
 	j1Player*			player = nullptr;
 	j1FadeToBlack*		fade = nullptr;
-
+	EntityManager*		entity = nullptr;
 private:
 
 	bool want_to_save = false;

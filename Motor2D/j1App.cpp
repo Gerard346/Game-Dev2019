@@ -12,7 +12,7 @@
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "j1Animation.h"
-#include "Brofiler\Brofiler.h"
+#include "EntityManager.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -28,6 +28,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	colliders = new j1Colliders();
 	player = new j1Player();
+	entity = new EntityManager();
 	fade = new j1FadeToBlack();
 	animation = new j1Animation();
 
@@ -42,7 +43,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(colliders);
 	AddModule(player);
+	AddModule(entity);
 	AddModule(fade);
+	
 	// render last to swap buffer
 	AddModule(render);
 

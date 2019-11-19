@@ -26,8 +26,8 @@
 
 <player>
 	<collider_size x="20" y="30"/>
-	<gravity g="-300.0"/>
-	<max_speed x="9000.0" y="11000.0"/>
+	<gravity g="-360.0"/>
+	<max_speed x="4000.0" y="5000.0"/>
 	<fx_dead>audio/fx/dead.wav</fx_dead>
 	<fx_jump>audio/fx/jump.wav</fx_jump>
 </player>
