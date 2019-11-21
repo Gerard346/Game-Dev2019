@@ -41,50 +41,46 @@ class BaseEntity {
 	
 public:
 
-	BaseEntity(entityType, char*);
+	BaseEntity();
+	BaseEntity(const BaseEntity* copy);
+
 	virtual ~BaseEntity();
 
-	virtual bool Awake(pugi::xml_node&);
+	virtual bool Awake(const pugi::xml_node&);
 
 	virtual bool Start();
 
 	virtual bool PreUpdate();
 
-	virtual bool Update();
+	virtual bool Update(float);
 
 	virtual bool PostUpdate();
 
 	virtual bool CleanUp();
 	virtual bool Draw();
 
+	virtual void HandleInput(float dt);
 	virtual void IsDead();
 
 public:
 
-	entityState state_entity = entityState::NONE_STATE;
+	entityType entity_type = entityType::UNKNOWN;
+	entityState current_state_entity = entityState::NONE_STATE;
 	Animation* current_animation = nullptr;
+	float animation_index = 0.0f;
 
 	p2SString name = "";
 
 	fPoint entity_pos = { 0.0f,0.0f };
 	fPoint entity_vel = { 0.0f,0.0f };
 	fPoint entity_current_vel = { 0.0f, 0.0f };
-
+	
 	float gravity = 0.0f;
-	bool entity_dead = false;
-
+	
 	Collider* entity_collider = nullptr;
-	iPoint entity_size_collider = { 0, 0 };
+	COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
+	iPoint collider_size = { 0,0 };
 
 	bool entity_floor = false;
-
-
-private:
-
-	SDL_Texture* entity_tex = nullptr;
-
-	void SetEntityState(entityState new_state);
-
-
 };
 #endif 

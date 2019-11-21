@@ -1,7 +1,7 @@
 #include "j1Animation.h"
 #include "j1App.h"
 #include "p2Log.h"
-
+#include "EntityManager.h"
 Sprite::Sprite()
 {
 }
@@ -65,7 +65,7 @@ void Animation::SetSpeed(uint new_speed)
 	speed = new_speed;
 }
 
-void Animation::SetId(ANIMATION_TYPE id)
+void Animation::SetId(entityState id)
 {
 	animation_type = id;
 }
@@ -115,7 +115,7 @@ const Sprite* Animation::GetCurrentSprite()
 	return sprites[(int)current_frame];
 }
 
-ANIMATION_TYPE Animation::GetId() const
+entityState Animation::GetId() const
 {
 	return animation_type;
 }
@@ -178,17 +178,17 @@ bool j1Animation::Start()
 	while (animation_block_node != NULL)
 	{
 		pugi::xml_node block_info = animation_block_node.first_child();
-		ENTITY_TYPE entity_type = StringToEntityType(block_info.attribute("type").as_string());
+		entityType entityType = App->entity->StrToEntityType(block_info.attribute("type").as_string());
 		SDL_Texture* animation_tex = App->tex->Load((const char*)block_info.attribute("image_path").as_string());
 
 		EntityAnimations* new_entity_animation = new EntityAnimations();
-		new_entity_animation->entity_type = entity_type;
+		new_entity_animation->entityType = entityType;
 
 		pugi::xml_node animation = block_info.next_sibling();
 
 		while (animation != NULL)
 		{
-			ANIMATION_TYPE animation_type = StringToAnimationType(animation.name());
+			entityState animation_type = App->entity->StringToEntityState(animation.name());
 			Animation* new_animation = new Animation();
 			new_animation->SetTexture(animation_tex);
 			new_animation->SetCurrentFrame(0);
@@ -228,33 +228,13 @@ bool j1Animation::CleanUp()
 	return true;
 }
 
-ENTITY_TYPE j1Animation::StringToEntityType(const char* str) const
-{
-	if (strcmp(str, "player") == 0) return ENTITY_TYPE::PLAYER;
-	return ENTITY_TYPE::NONE;
-}
-
-ANIMATION_TYPE j1Animation::StringToAnimationType(const char* str) const
-{
-	if (strcmp(str, "jump_right") == 0) return ANIMATION_TYPE::A_JUMP_RIGHT;
-	if (strcmp(str, "run_right") == 0) return ANIMATION_TYPE::A_WALK_RIGHT;
-	if (strcmp(str, "stand_right") == 0) return ANIMATION_TYPE::A_IDLE_RIGHT;
-	
-	if (strcmp(str, "jump_left") == 0) return ANIMATION_TYPE::A_JUMP_LEFT;
-	if (strcmp(str, "run_left") == 0) return ANIMATION_TYPE::A_WALK_LEFT;
-	if (strcmp(str, "stand_left") == 0) return ANIMATION_TYPE::A_IDLE_LEFT;
-
-	return ANIMATION_TYPE::A_NONE;
-
-}
-
-Animation* j1Animation::GetAnimation(ENTITY_TYPE entity_type, ANIMATION_TYPE animation_type)
+Animation* j1Animation::GetAnimation(entityType entityType, entityState animation_type)
 {
 	Animation* target_animation = nullptr;
 
 	for (int i = 0; i < animations.Count(); i++)
 	{
-		if (animations[i]->entity_type == entity_type)
+		if (animations[i]->entityType == entityType)
 		{
 			for (int k = 0; k < animations[i]->animations.Count(); k++)
 			{

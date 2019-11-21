@@ -3,9 +3,16 @@
 #include "j1App.h"
 #include "j1Map.h"
 #include "j1Colliders.h"
+#include "j1Animation.h"
+#include "j1Render.h"
 
-BaseEntity::BaseEntity(entityType, char*)
+BaseEntity::BaseEntity()
 {
+}
+
+BaseEntity::BaseEntity(const BaseEntity* copy): entity_type(copy->entity_type), current_state_entity(copy->current_state_entity), collider_size(copy->collider_size), gravity(copy->gravity), entity_vel(copy->entity_vel)
+{
+
 }
 
 BaseEntity::~BaseEntity()
@@ -13,9 +20,10 @@ BaseEntity::~BaseEntity()
 	App->colliders->EraseCollider(entity_collider);
 }
 
-bool BaseEntity::Awake(pugi::xml_node&)
+bool BaseEntity::Awake(const pugi::xml_node& node)
 {
 	BROFILER_CATEGORY("AwakeBaseEntity", Profiler::Color::Black);
+	
 	return true;
 }
 
@@ -31,7 +39,7 @@ bool BaseEntity::PreUpdate()
 	return true;
 }
 
-bool BaseEntity::Update()
+bool BaseEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateBaseEntity", Profiler::Color::Black);
 	return true;
@@ -40,6 +48,7 @@ bool BaseEntity::Update()
 bool BaseEntity::PostUpdate()
 {
 	BROFILER_CATEGORY("PostUpdateBaseEntity", Profiler::Color::Black);
+	Draw();
 	return true;
 }
 
@@ -50,7 +59,21 @@ bool BaseEntity::CleanUp()
 
 bool BaseEntity::Draw()
 {
+	animation_index += 0.01f;// dt * current_animation->GetSpeed();
+	current_animation->SetCurrentFrame((uint)animation_index);
+
+	App->render->Blit(current_animation->GetTexture(), entity_pos.x, entity_pos.y, current_animation->GetCurrentSprite()->GetFrame());
+
+	if (((uint)animation_index) > current_animation->GetFrameNum() && current_animation->GetLoop())
+	{
+		animation_index = 0.0f;
+	}
+
 	return true;
+}
+
+void BaseEntity::HandleInput(float dt)
+{
 }
 
 void BaseEntity::IsDead()
@@ -58,6 +81,3 @@ void BaseEntity::IsDead()
 	App->colliders->EraseCollider(entity_collider);
 }
 
-void BaseEntity::SetEntityState(entityState new_state)
-{
-}

@@ -11,6 +11,7 @@
 #include "j1Colliders.h"
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
+#include "EntityManager.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -39,7 +40,7 @@ bool j1Scene::Start()
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
 	App->map->Load("Level1.tmx");
 
-	App->player->SpawnPlayer();
+	//App->player->SpawnPlayer();
 
 	App->audio->PlayMusic(music_path.GetString());
 
@@ -88,8 +89,9 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		App->player->GodMode();
-		App->player->p_current_vel.x = 0.0f;
-		App->player->p_current_vel.y = 0.0f;
+		//PlayerEntity*  = App->entity->GetPlayer() TODO
+		//App->player->p_current_vel.x = 0.0f;
+		//App->entity->GetPlayer()->p_current_vel.y = 0.0f;
 	}
 
 	//App->render->Blit(img, 0, 0);

@@ -14,26 +14,6 @@ enum Levels {
 	Lvl_2
 };
 
-enum playerState 
-{
-	P_NONE,
-	IDLE_LEFT,
-	WALK_LEFT,
-	JUMP_LEFT,
-	IDLE_RIGHT,
-	WALK_RIGHT,
-	JUMP_RIGHT,
-	DEAD
-};
-
-enum playerDirection {
-	STAND,
-	UP,
-	LEFT,
-	DOWN,
-	RIGHT
-};
-
 class j1Player : public j1Module {
 
 public:
@@ -62,10 +42,6 @@ public:
 
 	bool Save(pugi::xml_node&);
 
-	void OnCollision(Collider*, Collider*) override;
-
-	void DrawPlayer(float dt);
-
 	void ChangeLvl();
 
 	void StartFromLvl1();
@@ -89,24 +65,10 @@ public:
 
 public:
 
-	playerState p_current_state = IDLE_RIGHT;
-	Animation* current_animation = nullptr;
-
 	Levels p_current_lvl = Lvl_1;
-	fPoint p_vel = { 0.0f,0.0f };
-	fPoint p_current_vel = { 0.0f, 0.0f };
-	fPoint p_pos = { 0.0f,0.0f };
-
-	float gravity = 0.0f;
-	bool p_dead = false;
-
-	Collider* p_collider = nullptr;
-	iPoint p_size_collider = { 0, 0};
 
 private:
 
-	SDL_Texture* p_tex = nullptr;
-	SDL_Rect p_spawn = { 0,0,0,0 };
 
 	bool p_god = false;
 	bool p_floor = false;
@@ -117,10 +79,6 @@ private:
 
 	char* g_is_over_fx_path = nullptr;
 	char* jump_fx_path = nullptr;
-
-	float animation_index = 0;
-
-	void SetPlayerState(playerState new_state);
 
 };
 #endif

@@ -7,6 +7,7 @@
 #include "j1Module.h"
 #include "p2DynArray.h"
 #include "SDL/include/SDL_rect.h"
+#include "BaseEntity.h"
 #define MAX_TILESET 10
 
 struct Attribute {
@@ -121,8 +122,10 @@ struct info_map {
 	int nextobjectid = 0;
 	p2DynArray<info_tileset>tilesets_info;
 	p2DynArray<info_layer*> layers_info;
-	iPoint	p_spaw_point = { 0,0 };
+	p2DynArray<std::pair<entityType, iPoint>> entities_info;
+	p2DynArray<iPoint> spawn_points; 
 };
+
 // ----------------------------------------------------
 class j1Map : public j1Module
 {

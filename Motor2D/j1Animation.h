@@ -8,25 +8,8 @@
 #include "p2DynArray.h"
 #include "j1Timer.h"
 #include "j1Textures.h"
-
+#include "BaseEntity.h"
 class j1App;
-
-enum ENTITY_TYPE
-{
-	NONE = 0,
-	PLAYER
-};
-
-enum ANIMATION_TYPE
-{
-	A_NONE = 0,
-	A_IDLE_LEFT,
-	A_WALK_LEFT,
-	A_JUMP_LEFT,
-	A_IDLE_RIGHT,
-	A_WALK_RIGHT,
-	A_JUMP_RIGHT
-};
 
 class Sprite
 {
@@ -64,7 +47,7 @@ protected:
 	//Pointer to the animation texture
 	SDL_Texture* texture = nullptr;
 	//Id of the animation enum type
-	ANIMATION_TYPE			animation_type = A_IDLE_RIGHT;
+	entityState			animation_type = entityState::ENTITY_IDLE_RIGHT;
 	//Current frame calculated by the timer
 	float					current_frame = 0.0f;
 	bool					loop = true;
@@ -84,7 +67,7 @@ public:
 	void	SetLoop(bool loop_state);
 	void	SetCurrentFrame(uint curr);
 	void	SetSpeed(uint new_speed);
-	void	SetId(ANIMATION_TYPE id);
+	void	SetId(entityState id);
 
 	//Get Methods -----------
 	SDL_Texture*					GetTexture()const;
@@ -92,7 +75,7 @@ public:
 	uint							GetCurrentFrame()const;
 	uint							GetSpeed()const;
 	const Sprite*					GetCurrentSprite();
-	ANIMATION_TYPE					GetId()const;
+	entityState					GetId()const;
 	uint							GetFrameNum()const;
 
 	//Check if the animation is end
@@ -107,7 +90,7 @@ public:
 
 struct EntityAnimations
 {
-	ENTITY_TYPE entity_type = NONE;
+	entityType entityType = UNKNOWN;
 	p2DynArray<Animation*> animations;
 };
 
@@ -135,16 +118,13 @@ private:
 
 	p2SString animation_path = "";
 
-	ENTITY_TYPE StringToEntityType(const char* str)const;
-	ANIMATION_TYPE StringToAnimationType(const char* str)const;
-
 	p2DynArray<EntityAnimations*> animations;
 
 	pugi::xml_document animation_doc;
 
 public:
 
-	Animation* GetAnimation(ENTITY_TYPE, ANIMATION_TYPE);
+	Animation* GetAnimation(entityType, entityState);
 
 };
 

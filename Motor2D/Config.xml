@@ -7,9 +7,7 @@
     <size width="1024" height="768" scale = "2"/>
 
   </window>
-  <scene>
-    <music>audio/music/music.ogg</music>  
-  </scene>
+
   <audio>
     <volume_max>128</volume_max>
     <volume_min>128</volume_min>
@@ -24,11 +22,24 @@
 <xml_source>../Game/textures/Animations.xml</xml_source>
 </animation>
 
+  <scene>
+    <music>audio/music/music.ogg</music>  
+  </scene>
+
 <player>
-	<collider_size x="20" y="30"/>
-	<gravity g="-360.0"/>
-	<max_speed x="4000.0" y="5000.0"/>
+	
 	<fx_dead>audio/fx/dead.wav</fx_dead>
 	<fx_jump>audio/fx/jump.wav</fx_jump>
 </player>
+
+<entityManager>
+  <entity>
+    <type>player</type>
+    <gravity g="-360.0"/>
+    <max_speed x="4000.0" y="5000.0"/>
+    <collider_type>player</collider_type>
+    <collider_size x="20" y="30"/>
+  <entity/>
+</entityManager>
+
 </config>

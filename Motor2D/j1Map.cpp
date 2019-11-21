@@ -10,7 +10,7 @@
 #include "j1Player.h"
 #include "j1Scene.h"
 #include "j1FadeToBlack.h"
-
+#include "EntityManager.h"
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -46,7 +46,7 @@ bool j1Map::Start()
 			App->map->ChangeMap("Level1.tmx");
 		}
 
-		App->player->SpawnPlayer();
+		//App->player->SpawnPlayer();
 	}
 
 	return true;
@@ -225,20 +225,39 @@ bool j1Map::Load(const char* file_name)
 
 				SDL_Rect collider_rect = { x*tileset_info->tilewidth, y*tileset_info->tileheight, tileset_info->tilewidth,tileset_info->tileheight};
 
-				if (cur_layer_type == default_layer) {
-					App->colliders->AddCollider(collider_rect, collider_type, this);
-
-					if (collider_type == COLLIDER_START) {
-						map_info.p_spaw_point = iPoint (x*tileset_info->tilewidth,y*tileset_info->tileheight);
+				if (cur_layer_type == default_layer) 
+				{
+					
+					switch (collider_type)
+					{
+					case COLLIDER_WALL:
+					case COLLIDER_FINISH:
+					case COLLIDER_DEAD:
+						App->colliders->AddCollider(collider_rect, collider_type, this);
+						break;
+					case COLLIDER_PLAYER:
+						map_info.entities_info.PushBack(std::pair<entityType, iPoint>(PLAYER_TYPE, { collider_rect.x, collider_rect.y }));
+						break;
+					case COLLIDER_START:
+						map_info.spawn_points.PushBack(iPoint(collider_rect.x, collider_rect.y));
+						break;
 					}
+					if (collider_type == COLLIDER_START) {
+						map_info.spawn_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
+					}
+
 				}
-				else if(cur_layer_type == slider_layer) {
+				else if(cur_layer_type == slider_layer) 
+				{
 					((mutable_layer*)layer_data)->collider.PushBack(App->colliders->AddCollider(collider_rect, collider_type, this));
 				}
-
 			}
 		}
 	}
+	
+	App->entity->SpawnEntities(map_info.entities_info);
+
+	App->player->SpawnPlayer();
 
 	return ret;
 }

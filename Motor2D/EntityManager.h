@@ -2,6 +2,8 @@
 #include "j1Module.h"
 #include "BaseEntity.h"
 
+class PlayerEntity;
+
 class EntityManager : public j1Module
 {
 
@@ -10,7 +12,7 @@ public:
 	EntityManager();
 	virtual ~EntityManager();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(const pugi::xml_node&);
 
 	bool Start();
 
@@ -27,11 +29,27 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
+public:
+
 	//Handle Entities
 	BaseEntity* FindEntity(const Collider* col) const;
 	BaseEntity* CreateEntity(entityType);
 	bool KillEntity(BaseEntity*);
 
+	void SetEntityState(entityState new_state, Collider* c1);
+	
+	entityType StrToEntityType(const char* input)const;
+	entityState StringToEntityState(const char* str)const;
+
+	bool SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list);
+
+	PlayerEntity* GetPlayer()const;
+
 private:
 
+	p2DynArray <BaseEntity*> values_entities;
+
+	p2List <BaseEntity*> entities_list;
+	p2List <BaseEntity*> new_entities;
+	p2List <BaseEntity*> dead_entities;
 };
