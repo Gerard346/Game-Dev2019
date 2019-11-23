@@ -9,11 +9,11 @@
 #include "j1Scene.h"
 #include "j1App.h"
 #include "j1Map.h"
+#include "j1Pathfinding.h"
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "j1Animation.h"
 #include "EntityManager.h"
-
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -26,6 +26,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
+	path = new j1Pathfinding();
 	colliders = new j1Colliders();
 	player = new j1Player();
 	entity = new EntityManager();
@@ -41,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(animation);
 	AddModule(scene);
 	AddModule(map);
+	AddModule(path);
 	AddModule(colliders);
 	AddModule(player);
 	AddModule(entity);

@@ -7,6 +7,7 @@
 #include "j1Timer.h"
 
 struct SDL_Texture;
+
 class Animation;
 
 enum Levels {
@@ -66,6 +67,7 @@ public:
 public:
 
 	Levels p_current_lvl = Lvl_1;
+	
 
 private:
 

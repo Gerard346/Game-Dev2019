@@ -21,7 +21,7 @@ class j1Player;
 class j1FadeToBlack;
 class j1Animation;
 class EntityManager;
-
+class j1Pathfinding;
 class j1App
 {
 public:
@@ -88,6 +88,7 @@ public:
 	j1Player*			player = nullptr;
 	j1FadeToBlack*		fade = nullptr;
 	EntityManager*		entity = nullptr;
+	j1Pathfinding*		path = nullptr;
 private:
 
 	bool want_to_save = false;

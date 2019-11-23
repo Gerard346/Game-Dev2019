@@ -17,7 +17,10 @@
   <map>
     <folder>maps/</folder>
   </map>
-
+	
+  <pathfinding>
+	<debug_texture>maps/path_debug.png</debug_texture>
+  </pathfinding>
 <animation>
 <xml_source>../Game/textures/Animations.xml</xml_source>
 </animation>
@@ -41,5 +44,6 @@
     <collider_size x="20" y="30"/>
   <entity/>
 </entityManager>
+
 
 </config>

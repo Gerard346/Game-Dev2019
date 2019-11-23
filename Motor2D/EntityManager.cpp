@@ -218,7 +218,9 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 	{
 	case PLAYER_TYPE:
 		PlayerEntity* new_player = new PlayerEntity((const PlayerEntity*)new_entity);
+		new_player->collider_type = COLLIDER_PLAYER;
 		new_entity = new_player;
+
 		break;
 	}
 

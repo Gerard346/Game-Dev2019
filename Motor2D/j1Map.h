@@ -41,7 +41,6 @@ enum layer_type {
 };
 
 struct info_tileset {
-	// TODO 7: Create a method that receives a tile id and returns it's Rect
 	int firstgid = 1;
 	p2SString name = "";
 	int tilewidth = 0;
@@ -155,7 +154,12 @@ public:
 	void OnCollision(Collider*, Collider*) override;
 
 	void ChangeMap(const char*);
+
+	iPoint MapToWorld(int x, int y) const;
+	iPoint WorldToMap(int x, int y) const;
+
 private:
+
 	bool LoadMapInfo(const pugi::xml_node&);
 	bool LoadTilesetInfo(const pugi::xml_node&);
 	info_layer* LoadLayerInfo(const pugi::xml_node&, info_layer* layer);
@@ -164,11 +168,14 @@ private:
 	map_orientation StringToOrientationEnum(const char*) const;
 	render_orderer StringToRenderOrdererEnum(const char*) const;
 
-	const info_tileset* GetTilesetInfoFromTileID(int)const;
 	
 public:
 
 	info_map map_info;
+
+	info_layer* GetLayer(char* name)const;
+	const info_tileset* GetTilesetInfoFromTileID(int)const;
+
 	void WantToLoadMap() { want_to_load_map = true; }
 
 private:

@@ -196,7 +196,11 @@ COLLIDER_TYPE j1Colliders::TileIDToColliderTile(int tile_id) const
 
 		return COLLIDER_FINISH;
 
+	case 5:
+		return COLLIDER_PLAYER;
+
 	}
+	
 
 }
 

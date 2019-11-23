@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "j1FadeToBlack.h"
 #include "EntityManager.h"
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -257,7 +258,7 @@ bool j1Map::Load(const char* file_name)
 	
 	App->entity->SpawnEntities(map_info.entities_info);
 
-	App->player->SpawnPlayer();
+	//App->player->SpawnPlayer();
 
 	return ret;
 }
@@ -273,6 +274,26 @@ void j1Map::ChangeMap(const char* path)
 {
 	App->map->CleanUp();
 	App->map->Load(path);
+}
+
+iPoint j1Map::MapToWorld(int x, int y) const
+{
+	iPoint ret;
+
+	ret.x = x * map_info.tilewidth;
+	ret.y = y * map_info.tileheight;
+
+	return ret;
+}
+
+iPoint j1Map::WorldToMap(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = (x / map_info.tilewidth);
+	ret.y = y / map_info.tileheight;
+
+	return ret;
 }
 
 bool j1Map::LoadMapInfo(const pugi::xml_node& node)
@@ -374,6 +395,18 @@ const info_tileset* j1Map::GetTilesetInfoFromTileID(int tile_ID) const
 	return nullptr;
 }
 
+info_layer* j1Map::GetLayer(char* name)const
+{
+	for (int i = 0; i < map_info.layers_info.Count(); i++)
+	{
+		if (strcmp(name, map_info.layers_info[i]->name.GetString()) == 0)
+		{
+			return map_info.layers_info[i];
+		}
+	}
+	return nullptr;
+}
+
 void Attributes::CleanUpAttributes()
 {
 	for (int i = 0; i < attributes_info.Count(); i++) {
@@ -472,6 +505,7 @@ void mutable_layer::Update(float dt)
 		collider[i]->SetPos(collider[i]->rect.x + delta_x, collider[i]->rect.y + delta_y);
 	}
 }
+
 
 info_layer::info_layer(const info_layer* copy):name(copy->name), width(copy->width), height(copy->height), pos_x(copy->pos_x), pos_y(copy->pos_y), tiles(copy->tiles), attributes(copy->attributes)
 {

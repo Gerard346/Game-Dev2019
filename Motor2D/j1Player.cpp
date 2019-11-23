@@ -12,6 +12,7 @@
 #include "j1FadeToBlack.h"
 #include "j1Animation.h"
 #include "EntityManager.h"
+#include "PlayerEntity.h"
 j1Player::j1Player()
 {
 	name = ("player");
@@ -270,7 +271,7 @@ void j1Player::StartFromLvl2()
 
 void j1Player::StatFromCurrentLvl()
 {
-	SpawnPlayer();
+	//SpawnPlayer();
 }
 
 void j1Player::GodMode()
@@ -299,10 +300,13 @@ void j1Player::CamFollowPlayer()
 	
 	int min_camera_x = 0;
 	int max_camera_x = -max_width * App->win->GetScale() + window_w;
-	//int target_cam_x = (-p_pos.x * App->win->GetScale()) + (window_w * 0.5f);
+
+	PlayerEntity* entity_player = nullptr;
+	entity_player = App->entity->GetPlayer();
+	int target_cam_x = (-entity_player->entity_pos.x * App->win->GetScale()) + (window_w * 0.5f);
 
 
-	//App->render->camera.x = target_cam_x > min_camera_x ? min_camera_x : target_cam_x < max_camera_x ? max_camera_x : target_cam_x;
+	App->render->camera.x = target_cam_x > min_camera_x ? min_camera_x : target_cam_x < max_camera_x ? max_camera_x : target_cam_x;
 	
 	App->render->camera.y = window_h - max_height * App->win->GetScale();
 
