@@ -302,9 +302,11 @@ void j1Player::CamFollowPlayer()
 	int max_camera_x = -max_width * App->win->GetScale() + window_w;
 
 	PlayerEntity* entity_player = nullptr;
+	int target_cam_x = 0;
 	entity_player = App->entity->GetPlayer();
-	int target_cam_x = (-entity_player->entity_pos.x * App->win->GetScale()) + (window_w * 0.5f);
-
+	if (entity_player != nullptr) {
+		target_cam_x = (-entity_player->entity_pos.x * App->win->GetScale()) + (window_w * 0.5f);
+	}
 
 	App->render->camera.x = target_cam_x > min_camera_x ? min_camera_x : target_cam_x < max_camera_x ? max_camera_x : target_cam_x;
 	

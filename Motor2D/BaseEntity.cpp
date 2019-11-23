@@ -17,7 +17,9 @@ BaseEntity::BaseEntity(const BaseEntity* copy): entity_type(copy->entity_type), 
 
 BaseEntity::~BaseEntity()
 {
-	App->colliders->EraseCollider(entity_collider);
+	if (entity_collider != nullptr) {
+		App->colliders->EraseCollider(entity_collider);
+	}
 }
 
 bool BaseEntity::Awake(const pugi::xml_node& node)
@@ -78,6 +80,8 @@ void BaseEntity::HandleInput(float dt)
 
 void BaseEntity::IsDead()
 {
-	App->colliders->EraseCollider(entity_collider);
+	if (entity_collider != nullptr) {
+		App->colliders->EraseCollider(entity_collider);
+	}
 }
 

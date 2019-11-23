@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyGroundEntity.cpp" />
     <ClCompile Include="j1Animation.cpp" />
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="j1Colliders.cpp" />
@@ -100,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brofiler\Brofiler.h" />
+    <ClInclude Include="EnemyGroundEntity.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="j1Colliders.h" />

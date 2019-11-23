@@ -5,7 +5,7 @@
 #include "p2SString.h"
 #include "SDL\include\SDL_rect.h"
 
-#define MAX_COLLIDERS 1000
+#define MAX_COLLIDERS 1500
 
 struct SDL_Rect;
 
@@ -14,6 +14,7 @@ enum COLLIDER_TYPE
 	COLLIDER_NONE = -1,
 	COLLIDER_WALL,
 	COLLIDER_PLAYER,
+	COLLIDER_ENEMY,
 	COLLIDER_DEAD,
 	COLLIDER_FINISH,
 	COLLIDER_START,

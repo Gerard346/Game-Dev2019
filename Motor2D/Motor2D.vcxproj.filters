@@ -64,6 +64,9 @@
     <ClCompile Include="j1Pathfinding.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyGroundEntity.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -152,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="p2PQueue.h">
       <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGroundEntity.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

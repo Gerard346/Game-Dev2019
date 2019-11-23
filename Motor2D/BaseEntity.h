@@ -15,7 +15,8 @@ class Animation;
 
 enum entityType {
 	UNKNOWN,
-	PLAYER_TYPE
+	PLAYER_TYPE,
+	ENEMY_GROUND_TYPE
 };
 
 enum entityState {

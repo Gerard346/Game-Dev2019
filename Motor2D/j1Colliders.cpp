@@ -17,22 +17,31 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_FINISH] = false;
 	matrix[COLLIDER_WALL][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_DEAD] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_FINISH] = true;
-
+	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
 
 	matrix[COLLIDER_DEAD][COLLIDER_WALL] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_DEAD][COLLIDER_FINISH] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_DEAD][COLLIDER_ENEMY] = true;
 
 	matrix[COLLIDER_FINISH][COLLIDER_WALL] = false;
 	matrix[COLLIDER_FINISH][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_FINISH][COLLIDER_FINISH] = false;
 	matrix[COLLIDER_FINISH][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_FINISH][COLLIDER_ENEMY] = false;
+
+	matrix[COLLIDER_ENEMY][COLLIDER_WALL] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_FINISH] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_DEAD] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
 }
 
 j1Colliders::~j1Colliders()
@@ -197,7 +206,12 @@ COLLIDER_TYPE j1Colliders::TileIDToColliderTile(int tile_id) const
 		return COLLIDER_FINISH;
 
 	case 5:
+
 		return COLLIDER_PLAYER;
+
+	case 7:
+
+		return COLLIDER_ENEMY;
 
 	}
 	
@@ -241,7 +255,10 @@ void j1Colliders::DebugMode()
 		case COLLIDER_PLAYER: // blue
 			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
 			break;
+		case COLLIDER_ENEMY:
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 
+			break;
 		case COLLIDER_FINISH: // magenta
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
 			break;

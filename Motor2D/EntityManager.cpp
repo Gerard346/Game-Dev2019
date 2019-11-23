@@ -2,6 +2,7 @@
 #include "Brofiler/Brofiler.h"
 #include "j1App.h"
 #include "PlayerEntity.h"
+#include "EnemyGroundEntity.h"
 #include "j1Module.h"
 #include "j1Player.h"
 #include "j1Animation.h"
@@ -33,17 +34,34 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 			switch (type)
 			{
 			case PLAYER_TYPE:
+			{
 				entity = new PlayerEntity();
-				
+
 				entity->entity_type = type;
-				
+
 				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
-				
+
 				entity->entity_vel = fPoint(entity_node.child("max_speed").attribute("x").as_float(), entity_node.child("max_speed").attribute("y").as_float());
 
 				entity->collider_size = iPoint(entity_node.child("collider_size").attribute("x").as_int(), entity_node.child("collider_size").attribute("y").as_int());
-
+			}
 				break;
+
+			case ENEMY_GROUND_TYPE:
+			{
+				entity = new EnemyGroundEntity();
+
+				entity->entity_type = type;
+
+				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
+
+				entity->entity_vel = fPoint(entity_node.child("max_speed").attribute("x").as_float(), entity_node.child("max_speed").attribute("y").as_float());
+
+				entity->collider_size = iPoint(entity_node.child("collider_size").attribute("x").as_int(), entity_node.child("collider_size").attribute("y").as_int());
+			}
+
+			break;
+
 			}
 			
 			values_entities.PushBack(entity);
@@ -172,6 +190,57 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			App->player->PlayerDies();
 		}
 	}
+	//ENEMIES COLLISION
+
+	if (coll->type == COLLIDER_ENEMY && coll2->type == COLLIDER_WALL) {
+		EnemyGroundEntity* enemy_entity = (EnemyGroundEntity*)FindEntity(coll);
+		//TOP
+		if (coll2->rect.y - (coll->rect.y + coll->rect.h) < 0 && coll2->rect.y - (coll->rect.y + coll->rect.h) > -16) {
+
+			coll->rect.y = coll2->rect.y - coll->rect.h;
+			enemy_entity->entity_pos.y = coll2->rect.y - coll->rect.h;
+
+			if (enemy_entity->entity_current_vel.y > 0.0f) {
+				enemy_entity->entity_current_vel.y = 0.0f;
+			}
+
+			enemy_entity->entity_floor = true;
+
+			if (enemy_entity->current_state_entity == ENTITY_JUMP_LEFT)
+			{
+				SetEntityState(ENTITY_IDLE_LEFT, enemy_entity->entity_collider);
+			}
+
+			else if (enemy_entity->current_state_entity == ENTITY_JUMP_RIGHT)
+			{
+				SetEntityState(ENTITY_IDLE_RIGHT, enemy_entity->entity_collider);
+			}
+		}
+		//LEFT
+		else if (coll2->rect.x - (coll->rect.x + coll->rect.w) < 0 && coll2->rect.x - (coll->rect.x + coll->rect.w) > -16) {
+			coll->rect.x = coll2->rect.x - coll->rect.w;
+			enemy_entity->entity_pos.x = coll2->rect.x - coll->rect.w;
+			enemy_entity->entity_current_vel.x = 0.0f;
+		}
+		//RIGHT
+		else if (coll->rect.x - (coll2->rect.x + coll2->rect.w) < 0 && coll->rect.x - (coll2->rect.x + coll2->rect.w) > -16) {
+			coll->rect.x = coll2->rect.x + coll2->rect.w;
+			enemy_entity->entity_pos.x = coll2->rect.x + coll2->rect.w;
+			enemy_entity->entity_current_vel.x = 0.0f;
+		}
+	}
+
+	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
+
+		EnemyGroundEntity* enemy_entity = (EnemyGroundEntity*)FindEntity(coll);
+
+		if (enemy_entity->current_state_entity != entityState::ENTITY_DEAD)
+		{
+			enemy_entity->entity_current_vel.x = 0.0f;
+			enemy_entity->entity_current_vel.y = 0.0f;
+			App->entity->KillEntity(enemy_entity);
+		}
+	}
 }
 
 bool EntityManager::Load(pugi::xml_node&)
@@ -217,18 +286,34 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 	switch (entity_type)
 	{
 	case PLAYER_TYPE:
+	{
 		PlayerEntity* new_player = new PlayerEntity((const PlayerEntity*)new_entity);
 		new_player->collider_type = COLLIDER_PLAYER;
 		new_entity = new_player;
+	}
+		break;
 
+	case ENEMY_GROUND_TYPE:
+	{
+		EnemyGroundEntity* new_enemy_ground = new EnemyGroundEntity((const EnemyGroundEntity*)new_entity);
+		new_enemy_ground->collider_type = COLLIDER_ENEMY;
+		new_entity = new_enemy_ground;
+	}
+	
 		break;
 	}
 
-	new_entity->entity_collider = App->colliders->AddCollider({ 0,0,new_entity->collider_size.x, new_entity->collider_size.y }, new_entity->collider_type, this);
-
 	entities_list.add(new_entity);
 
-	SetEntityState(ENTITY_IDLE_RIGHT, new_entity->entity_collider);
+	new_entity->entity_collider = App->colliders->AddCollider({ 0,0,new_entity->collider_size.x, new_entity->collider_size.y }, new_entity->collider_type, this);
+	
+	if (new_entity->collider_type == COLLIDER_PLAYER) {
+		SetEntityState(ENTITY_IDLE_LEFT, new_entity->entity_collider);
+	}
+
+	else{
+		SetEntityState(ENTITY_IDLE_RIGHT, new_entity->entity_collider);
+	}
 
 	return new_entity;
 }
@@ -258,6 +343,8 @@ void EntityManager::SetEntityState(entityState new_state, Collider* coll)
 entityType EntityManager::StrToEntityType(const char* str) const
 {
 	if (strcmp(str, "player") == 0) return entityType::PLAYER_TYPE;
+	if (strcmp(str, "enemy") == 0) return entityType::ENEMY_GROUND_TYPE;
+
 	return entityType();
 }
 
@@ -276,6 +363,7 @@ entityState EntityManager::StringToEntityState(const char* str) const
 
 bool EntityManager::SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list)
 {
+	int x = list.Count();
 	for (int i = 0; i < list.Count(); i++)
 	{
 		BaseEntity* new_entity = CreateEntity(list[i].first);

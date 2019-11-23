@@ -239,6 +239,9 @@ bool j1Map::Load(const char* file_name)
 					case COLLIDER_PLAYER:
 						map_info.entities_info.PushBack(std::pair<entityType, iPoint>(PLAYER_TYPE, { collider_rect.x, collider_rect.y }));
 						break;
+					case COLLIDER_ENEMY:
+						map_info.entities_info.PushBack(std::pair<entityType, iPoint>(ENEMY_GROUND_TYPE, { collider_rect.x, collider_rect.y }));
+						break;
 					case COLLIDER_START:
 						map_info.spawn_points.PushBack(iPoint(collider_rect.x, collider_rect.y));
 						break;
