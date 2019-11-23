@@ -18,8 +18,6 @@ public:
 
 	bool PreUpdate();
 
-	bool Update(float dt);
-
 	bool PostUpdate();
 
 	bool CleanUp();
@@ -40,8 +38,9 @@ public:
 	
 	entityType StrToEntityType(const char* input)const;
 	entityState StringToEntityState(const char* str)const;
-
+	entityType TileIdToEntityType(int) const;
 	bool SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list);
+
 
 	PlayerEntity* GetPlayer()const;
 

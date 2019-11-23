@@ -1,11 +1,11 @@
 #include "BaseEntity.h"
 
-class EnemyGroundEntity : public BaseEntity {
+class Bullet : public BaseEntity {
 public:
-	EnemyGroundEntity();
-	EnemyGroundEntity(const EnemyGroundEntity* copy);
-	
-	~EnemyGroundEntity();
+	Bullet();
+	Bullet(const Bullet* copy);
+
+	~Bullet();
 
 	bool Update(float dt);
 

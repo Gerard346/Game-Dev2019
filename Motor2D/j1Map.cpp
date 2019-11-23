@@ -195,73 +195,82 @@ bool j1Map::Load(const char* file_name)
 		//LOG("tile width: %d tile height: %d", current_layer->width, current_layer->height);
 	}
 
-	for (int i = 0; i < map_info.layers_info.Count(); i++) {
+	for (int i = 0; i < map_info.layers_info.Count(); i++) 
+	{
 		info_layer* layer_data = map_info.layers_info[i];
-		//LOG("--------- %s", layer_data->name.GetString());
 
-		if (layer_data->attributes->Get_Int("Colliders") == 0) {
-			continue;
-		}
+		if (layer_data->attributes->Get_Int("Colliders") == 1) 
+		{
+			COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
+			layer_type cur_layer_type = default_layer;
 
-		COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
-		layer_type cur_layer_type = default_layer;
+			if (layer_data->attributes->Get_Int("Slider") == 1) 
+			{
+				collider_type = App->colliders->TileIDToColliderTile(layer_data->attributes->Get_Int("Collider_Type"));
+				cur_layer_type = slider_layer;
+			}
 
-		if (layer_data->attributes->Get_Int("Slider") == 1) {
-			collider_type = App->colliders->TileIDToColliderTile(layer_data->attributes->Get_Int("Collider_Type"));
-			cur_layer_type = slider_layer;
-		}
-
-		for (int y = 0; y < map_info.height; y++) {
-			for (int x = 0; x < map_info.width; x++) {
-				uint tile = layer_data->Get(x, y);
-				if (tile == 0) {
-					continue;
-				}
-				
-				const info_tileset* tileset_info = GetTilesetInfoFromTileID((int)layer_data->Get(x, y));
-				
-				if (cur_layer_type == default_layer) {
-					collider_type = App->colliders->TileIDToColliderTile(tile);
-				}
-
-				SDL_Rect collider_rect = { x*tileset_info->tilewidth, y*tileset_info->tileheight, tileset_info->tilewidth,tileset_info->tileheight};
-
-				if (cur_layer_type == default_layer) 
+			for (int y = 0; y < map_info.height; y++) 
+			{
+				for (int x = 0; x < map_info.width; x++) 
 				{
-					
-					switch (collider_type)
+					uint tile = layer_data->Get(x, y);
+					if (tile == 0) 
 					{
-					case COLLIDER_WALL:
-					case COLLIDER_FINISH:
-					case COLLIDER_DEAD:
-						App->colliders->AddCollider(collider_rect, collider_type, this);
-						break;
-					case COLLIDER_PLAYER:
-						map_info.entities_info.PushBack(std::pair<entityType, iPoint>(PLAYER_TYPE, { collider_rect.x, collider_rect.y }));
-						break;
-					case COLLIDER_ENEMY:
-						map_info.entities_info.PushBack(std::pair<entityType, iPoint>(ENEMY_GROUND_TYPE, { collider_rect.x, collider_rect.y }));
-						break;
-					case COLLIDER_START:
-						map_info.spawn_points.PushBack(iPoint(collider_rect.x, collider_rect.y));
-						break;
-					}
-					if (collider_type == COLLIDER_START) {
-						map_info.spawn_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
+						continue;
 					}
 
+					const info_tileset* tileset_info = GetTilesetInfoFromTileID((int)layer_data->Get(x, y));
+
+					if (cur_layer_type == default_layer) 
+					{
+						collider_type = App->colliders->TileIDToColliderTile(tile);
+					}
+
+					SDL_Rect collider_rect = { x * tileset_info->tilewidth, y * tileset_info->tileheight, tileset_info->tilewidth,tileset_info->tileheight };
+
+					if (cur_layer_type == default_layer)
+					{
+						switch (collider_type)
+						{
+						case COLLIDER_WALL:
+						case COLLIDER_FINISH:
+						case COLLIDER_DEAD:
+							App->colliders->AddCollider(collider_rect, collider_type, this);
+							break;
+						case COLLIDER_START:
+							map_info.spawn_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
+							App->colliders->AddCollider(collider_rect, collider_type, this);
+							break;
+						}
+					}
+					else if (cur_layer_type == slider_layer)
+					{
+						((mutable_layer*)layer_data)->collider.PushBack(App->colliders->AddCollider(collider_rect, collider_type, this));
+					}
 				}
-				else if(cur_layer_type == slider_layer) 
+			}
+		}
+		if (layer_data->attributes->Get_Int("Entities") == 1)
+		{
+			for (int y = 0; y < map_info.height; y++)
+			{
+				for (int x = 0; x < map_info.width; x++)
 				{
-					((mutable_layer*)layer_data)->collider.PushBack(App->colliders->AddCollider(collider_rect, collider_type, this));
+					uint tile = layer_data->Get(x, y);
+					if (tile == 0)
+					{
+						continue;
+					}
+
+					entityType entity_type = App->entity->TileIdToEntityType(tile);
+					map_info.entities_info.PushBack(std::pair<entityType, iPoint>(entity_type, App->map->MapToWorld(x, y)));
 				}
 			}
 		}
 	}
 	
 	App->entity->SpawnEntities(map_info.entities_info);
-
-	//App->player->SpawnPlayer();
 
 	return ret;
 }

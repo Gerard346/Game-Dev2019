@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:5093989f0c90ea86e62f12d74a6fd075:5f8e6b157d05ea354def992c3d4acb41:d6a99cf9822bc393e2ec86f5f1548226$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="RPG_enemy.png" width="124" height="62">
+    <sprite n="rpg_1.png" x="1" y="1" w="20" h="23"/>
+    <sprite n="rpg_2.png" x="23" y="1" w="29" h="26"/>
+    <sprite n="rpg_3.png" x="54" y="1" w="35" h="27"/>
+    <sprite n="rpg_4.png" x="91" y="1" w="32" h="24"/>
+    <sprite n="rpg_5.png" x="1" y="30" w="32" h="25"/>
+    <sprite n="rpg_6.png" x="35" y="30" w="27" h="21"/>
+    <sprite n="rpg_7.png" x="64" y="30" w="26" h="16"/>
+    <sprite n="rpg_8.png" x="92" y="30" w="30" h="9"/>
+    <sprite n="rpg_9.png" x="1" y="57" w="32" h="4"/>
+</TextureAtlas>

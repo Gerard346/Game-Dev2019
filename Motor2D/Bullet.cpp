@@ -7,21 +7,21 @@
 #include "j1Map.h"
 #include "j1Module.h"
 #include "EntityManager.h"
-#include "EnemyGroundEntity.h"
+#include "Bullet.h"
 
-EnemyGroundEntity::EnemyGroundEntity()
+Bullet::Bullet()
 {
 }
 
-EnemyGroundEntity::EnemyGroundEntity(const EnemyGroundEntity* copy):BaseEntity(copy)
+Bullet::Bullet(const Bullet* copy) :BaseEntity(copy)
 {
 }
 
-EnemyGroundEntity::~EnemyGroundEntity()
+Bullet::~Bullet()
 {
 }
 
-bool EnemyGroundEntity::Update(float dt)
+bool Bullet::Update(float dt)
 {
 	if (current_state_entity == entityState::ENTITY_DEAD) {
 		return true;
@@ -30,19 +30,17 @@ bool EnemyGroundEntity::Update(float dt)
 	entity_pos.x += entity_current_vel.x * App->Getdt();
 	entity_pos.y += entity_current_vel.y * App->Getdt();
 
-	entity_current_vel.y -= gravity * App->Getdt();
-
 	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+
 
 	return true;
 }
 
-
-bool EnemyGroundEntity::CleanUp()
+bool Bullet::CleanUp()
 {
 	return true;
 }
 
-void EnemyGroundEntity::HandleInput(float dt)
+void Bullet::HandleInput(float dt)
 {
 }

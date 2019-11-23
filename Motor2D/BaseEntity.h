@@ -16,7 +16,11 @@ class Animation;
 enum entityType {
 	UNKNOWN,
 	PLAYER_TYPE,
-	ENEMY_GROUND_TYPE
+	ENEMY_GROUND_TYPE,
+	ENEMY_RPG_TYPE,
+	BULLET_TYPE,
+	ROCKET_TYPE,
+	RPG_TYPE
 };
 
 enum entityState {
@@ -27,6 +31,7 @@ enum entityState {
 	ENTITY_IDLE_RIGHT,
 	ENTITY_WALK_RIGHT,
 	ENTITY_JUMP_RIGHT,
+	ENTITY_SHOOTING,
 	ENTITY_DEAD
 };
 
@@ -47,17 +52,10 @@ public:
 
 	virtual ~BaseEntity();
 
-	virtual bool Awake(const pugi::xml_node&);
-
-	virtual bool Start();
-
-	virtual bool PreUpdate();
-
 	virtual bool Update(float);
 
-	virtual bool PostUpdate();
-
 	virtual bool CleanUp();
+
 	virtual bool Draw();
 
 	virtual void HandleInput(float dt);

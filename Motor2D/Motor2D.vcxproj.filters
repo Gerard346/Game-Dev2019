@@ -67,6 +67,15 @@
     <ClCompile Include="EnemyGroundEntity.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClCompile>
+    <ClCompile Include="Rocket.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyRPGEntity.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -157,6 +166,15 @@
       <Filter>Programacio 2 ===========</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGroundEntity.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClInclude>
+    <ClInclude Include="Rocket.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyRPGEntity.h">
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,35 +22,9 @@ BaseEntity::~BaseEntity()
 	}
 }
 
-bool BaseEntity::Awake(const pugi::xml_node& node)
-{
-	BROFILER_CATEGORY("AwakeBaseEntity", Profiler::Color::Black);
-	
-	return true;
-}
-
-bool BaseEntity::Start()
-{
-	BROFILER_CATEGORY("StartBaseEntity", Profiler::Color::Black);
-	return true;
-}
-
-bool BaseEntity::PreUpdate()
-{
-	BROFILER_CATEGORY("PreUpdateBaseEntity", Profiler::Color::Black);
-	return true;
-}
-
 bool BaseEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateBaseEntity", Profiler::Color::Black);
-	return true;
-}
-
-bool BaseEntity::PostUpdate()
-{
-	BROFILER_CATEGORY("PostUpdateBaseEntity", Profiler::Color::Black);
-	Draw();
 	return true;
 }
 

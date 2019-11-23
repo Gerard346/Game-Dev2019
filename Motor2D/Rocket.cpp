@@ -7,22 +7,24 @@
 #include "j1Map.h"
 #include "j1Module.h"
 #include "EntityManager.h"
-#include "EnemyGroundEntity.h"
+#include "Rocket.h"
 
-EnemyGroundEntity::EnemyGroundEntity()
+Rocket::Rocket()
 {
 }
 
-EnemyGroundEntity::EnemyGroundEntity(const EnemyGroundEntity* copy):BaseEntity(copy)
+Rocket::Rocket(const Rocket* copy) :BaseEntity(copy)
 {
 }
 
-EnemyGroundEntity::~EnemyGroundEntity()
+Rocket::~Rocket()
 {
 }
 
-bool EnemyGroundEntity::Update(float dt)
+bool Rocket::Update(float dt)
 {
+	BROFILER_CATEGORY("UpdateRocket", Profiler::Color::BlueViolet);
+
 	if (current_state_entity == entityState::ENTITY_DEAD) {
 		return true;
 	}
@@ -30,19 +32,17 @@ bool EnemyGroundEntity::Update(float dt)
 	entity_pos.x += entity_current_vel.x * App->Getdt();
 	entity_pos.y += entity_current_vel.y * App->Getdt();
 
-	entity_current_vel.y -= gravity * App->Getdt();
-
 	entity_collider->SetPos(entity_pos.x, entity_pos.y);
 
 	return true;
 }
 
 
-bool EnemyGroundEntity::CleanUp()
+bool Rocket::CleanUp()
 {
 	return true;
 }
 
-void EnemyGroundEntity::HandleInput(float dt)
+void Rocket::HandleInput(float dt)
 {
 }

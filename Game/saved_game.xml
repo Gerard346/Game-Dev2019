@@ -6,11 +6,12 @@
 	<audio>
 		<audio volume_music="128" />
 	</audio>
+	<animation />
 	<scene />
 	<map />
 	<colliders />
 	<player>
-		<player position_x="247" position_y="47.7999496" current_level="0" />
+		<player position_x="125.577942" position_y="226" current_level="1" />
 	</player>
 	<fadetoblack />
 	<renderer>

@@ -3,6 +3,9 @@
 #include "j1App.h"
 #include "PlayerEntity.h"
 #include "EnemyGroundEntity.h"
+#include "EnemyRPGEntity.h"
+#include "Bullet.h"
+#include "Rocket.h"
 #include "j1Module.h"
 #include "j1Player.h"
 #include "j1Animation.h"
@@ -37,13 +40,7 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 			{
 				entity = new PlayerEntity();
 
-				entity->entity_type = type;
-
 				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
-
-				entity->entity_vel = fPoint(entity_node.child("max_speed").attribute("x").as_float(), entity_node.child("max_speed").attribute("y").as_float());
-
-				entity->collider_size = iPoint(entity_node.child("collider_size").attribute("x").as_int(), entity_node.child("collider_size").attribute("y").as_int());
 			}
 				break;
 
@@ -51,20 +48,44 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 			{
 				entity = new EnemyGroundEntity();
 
-				entity->entity_type = type;
-
 				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
-
-				entity->entity_vel = fPoint(entity_node.child("max_speed").attribute("x").as_float(), entity_node.child("max_speed").attribute("y").as_float());
-
-				entity->collider_size = iPoint(entity_node.child("collider_size").attribute("x").as_int(), entity_node.child("collider_size").attribute("y").as_int());
 			}
 
 			break;
 
+			case ENEMY_RPG_TYPE:
+			{
+				entity = new EnemyRPGEntity();
+
+				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
 			}
-			
-			values_entities.PushBack(entity);
+
+			break;
+
+			case BULLET_TYPE:
+			{
+				entity = new Bullet();
+			}
+
+			break;
+
+			case ROCKET_TYPE:
+			{
+				entity = new Rocket();
+
+				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
+			}
+
+			break;
+			}
+			if (entity != nullptr)
+			{
+				entity->entity_type = type;
+				entity->entity_vel = fPoint(entity_node.child("max_speed").attribute("x").as_float(), entity_node.child("max_speed").attribute("y").as_float());
+				entity->collider_size = iPoint(entity_node.child("collider_size").attribute("x").as_int(), entity_node.child("collider_size").attribute("y").as_int());
+
+				values_entities.PushBack(entity);
+			}
 
 			entity_node = entity_node.next_sibling();
 		}
@@ -85,29 +106,16 @@ bool EntityManager::Start()
 bool EntityManager::PreUpdate()
 {
 	BROFILER_CATEGORY("PreUpdatEntityManager", Profiler::Color::LightGoldenRodYellow);
-	
-	while (new_entities.count() > 0) {
+	while (new_entities.count() > 0) 
+	{
 		for (int i = 0; i < new_entities.count(); i++) {
 			BaseEntity* new_entity = new_entities.At(i)->data;
 			entities_list.add(new_entity);
-			new_entity->Start();
 		}
 		new_entities.clear();
 	}
-
 	for (int i = 0; i < entities_list.count(); i++) {
-		entities_list.At(i)->data->PreUpdate();
-	}
-
-	return true;
-}
-
-bool EntityManager::Update(float dt)
-{
-	BROFILER_CATEGORY("UpdatEntityManager", Profiler::Color::LightGoldenRodYellow);
-	
-	for (int i = 0; i < entities_list.count(); i++) {
-		entities_list.At(i)->data->Update(dt);
+		entities_list.At(i)->data->Update(App->Getdt());
 	}
 
 	return true;
@@ -118,7 +126,7 @@ bool EntityManager::PostUpdate()
 	BROFILER_CATEGORY("PostUpdateEntityManager", Profiler::Color::LightGoldenRodYellow);
 
 	for (int i = 0; i < entities_list.count(); i++) {
-		entities_list.At(i)->data->PostUpdate();
+		entities_list.At(i)->data->Draw();
 	}
 
 	return true;
@@ -180,10 +188,10 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 
 
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
-		
+
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
-		
-		if (player_entity->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false) 
+
+		if (player_entity->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
 		{
 			player_entity->entity_current_vel.x = 0.0f;
 			player_entity->entity_current_vel.y = 0.0f;
@@ -239,6 +247,26 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			enemy_entity->entity_current_vel.x = 0.0f;
 			enemy_entity->entity_current_vel.y = 0.0f;
 			App->entity->KillEntity(enemy_entity);
+		}
+	}
+	//Rocket && Bullet
+	if (coll->type == COLLIDER_BULLET)
+	{
+		BaseEntity* bullet = FindEntity(coll);
+		App->entity->KillEntity(bullet);
+
+		if (coll2->type == COLLIDER_BULLET) {
+
+			BaseEntity* bullet2 = FindEntity(coll2);
+			App->entity->KillEntity(bullet2);
+		}
+		if (coll2->type == COLLIDER_PLAYER) {
+			BaseEntity* player = FindEntity(coll2);
+			App->entity->KillEntity(player);
+		}
+		if (coll2->type == COLLIDER_ENEMY) {
+			BaseEntity* enemy = FindEntity(coll2);
+			App->entity->KillEntity(enemy);
 		}
 	}
 }
@@ -301,17 +329,44 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 	}
 	
 		break;
+	case ENEMY_RPG_TYPE:
+	{
+		EnemyRPGEntity* new_enemy_rpg = new EnemyRPGEntity((const EnemyRPGEntity*)new_entity);
+		new_enemy_rpg->collider_type = COLLIDER_ENEMY;
+		new_entity = new_enemy_rpg;
+	}
+
+	break;
+
+	case BULLET_TYPE:
+	{
+		Bullet* bullet = new Bullet((const Bullet*)new_entity);
+		bullet->collider_type = COLLIDER_BULLET;
+		new_entity = bullet;
+	}
+
+	break;
+
+	case ROCKET_TYPE:
+	{
+		Rocket* rocket = new Rocket((const Rocket*)new_entity);
+		rocket->collider_type = COLLIDER_BULLET;
+		new_entity = rocket;
+	}
+
+	break;
 	}
 
 	entities_list.add(new_entity);
 
 	new_entity->entity_collider = App->colliders->AddCollider({ 0,0,new_entity->collider_size.x, new_entity->collider_size.y }, new_entity->collider_type, this);
 	
-	if (new_entity->collider_type == COLLIDER_PLAYER) {
+	if (new_entity->collider_type == COLLIDER_PLAYER) 
+	{
 		SetEntityState(ENTITY_IDLE_LEFT, new_entity->entity_collider);
 	}
-
-	else{
+	else
+	{
 		SetEntityState(ENTITY_IDLE_RIGHT, new_entity->entity_collider);
 	}
 
@@ -344,6 +399,10 @@ entityType EntityManager::StrToEntityType(const char* str) const
 {
 	if (strcmp(str, "player") == 0) return entityType::PLAYER_TYPE;
 	if (strcmp(str, "enemy") == 0) return entityType::ENEMY_GROUND_TYPE;
+	if (strcmp(str, "rpg") == 0) return entityType::ENEMY_RPG_TYPE;
+	if (strcmp(str, "bullet") == 0) return entityType::BULLET_TYPE;
+	if (strcmp(str, "rocket") == 0) return entityType::ROCKET_TYPE;
+
 
 	return entityType();
 }
@@ -358,12 +417,28 @@ entityState EntityManager::StringToEntityState(const char* str) const
 	if (strcmp(str, "run_left") == 0) return entityState::ENTITY_WALK_LEFT;
 	if (strcmp(str, "stand_left") == 0) return entityState::ENTITY_IDLE_LEFT;
 
+	if (strcmp(str, "dead") == 0) return entityState::ENTITY_DEAD;
+	if (strcmp(str, "shoot") == 0) return entityState::ENTITY_SHOOTING;
+
+
 	return entityState::NONE_STATE;
+}
+
+entityType EntityManager::TileIdToEntityType(int i) const
+{
+	switch (i) {
+	case 3:
+		return entityType::PLAYER_TYPE;
+	case 7:
+		return entityType::ENEMY_GROUND_TYPE;
+	case 8:
+		return entityType::ENEMY_RPG_TYPE;
+	}
+	return entityType::UNKNOWN;
 }
 
 bool EntityManager::SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list)
 {
-	int x = list.Count();
 	for (int i = 0; i < list.Count(); i++)
 	{
 		BaseEntity* new_entity = CreateEntity(list[i].first);

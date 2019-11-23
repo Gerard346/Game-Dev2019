@@ -76,7 +76,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyGroundEntity.cpp" />
+    <ClCompile Include="EnemyRPGEntity.cpp" />
     <ClCompile Include="j1Animation.cpp" />
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="j1Colliders.cpp" />
@@ -98,10 +100,13 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
+    <ClCompile Include="Rocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brofiler\Brofiler.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="EnemyGroundEntity.h" />
+    <ClInclude Include="EnemyRPGEntity.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="j1Colliders.h" />
@@ -130,6 +135,7 @@
     <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
+    <ClInclude Include="Rocket.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config.xml" />

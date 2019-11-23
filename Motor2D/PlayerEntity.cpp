@@ -23,23 +23,9 @@ PlayerEntity::~PlayerEntity()
 {
 }
 
-bool PlayerEntity::Awake(pugi::xml_node& node)
+bool PlayerEntity::Update(float dt)
 {
-	BROFILER_CATEGORY("AwakePlayerEntity", Profiler::Color::DarkOliveGreen);
-	
-	return true;
-}
-
-bool PlayerEntity::Start()
-{
-	BROFILER_CATEGORY("StartPlayerEntity", Profiler::Color::DarkOliveGreen);
-
-	return true;
-}
-
-bool PlayerEntity::PreUpdate()
-{
-	BROFILER_CATEGORY("PreUpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
+	BROFILER_CATEGORY("UpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
 	if (current_state_entity == entityState::ENTITY_DEAD)
 		return true;
 
@@ -57,26 +43,10 @@ bool PlayerEntity::PreUpdate()
 	return true;
 }
 
-bool PlayerEntity::Update(float dt)
-{
-	BROFILER_CATEGORY("UpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
-
-	return true;
-}
-
-bool PlayerEntity::PostUpdate()
-{
-	BROFILER_CATEGORY("PostUpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
-	Draw();
-	return true;
-}
-
 bool PlayerEntity::CleanUp()
 {
 	return true;
 }
-
-
 
 void PlayerEntity::HandleInput(float dt)
 {
