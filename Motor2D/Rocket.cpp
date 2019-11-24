@@ -25,6 +25,22 @@ bool Rocket::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateRocket", Profiler::Color::BlueViolet);
 
+	BaseEntity* player_entity = (BaseEntity*)App->entity->GetPlayer();
+
+	if (player_entity != nullptr)
+	{
+		fPoint dir_vector = player_entity->entity_pos - entity_pos;
+		float vec_magnitude = (abs(dir_vector.x) + abs(dir_vector.y));
+		dir_vector.x = dir_vector.x / vec_magnitude;
+		dir_vector.y = dir_vector.y / vec_magnitude;
+
+		dir_vector.x *= entity_vel.x;
+		dir_vector.y *= entity_vel.x;
+
+		entity_current_vel.x += (dir_vector.x - entity_current_vel.x) * dt * acceleration;
+		entity_current_vel.y += (dir_vector.y - entity_current_vel.y) * dt * acceleration;
+	}
+
 	UpdatePosition();
 
 	return true;

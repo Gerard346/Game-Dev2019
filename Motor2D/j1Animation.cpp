@@ -193,7 +193,7 @@ bool j1Animation::Start()
 			new_animation->SetTexture(animation_tex);
 			new_animation->SetCurrentFrame(0);
 			new_animation->SetSpeed(150);
-			new_animation->SetLoop(true);
+			new_animation->SetLoop(animation.attribute("loop").as_bool(true));
 			new_animation->SetId(animation_type);
 
 			pugi::xml_node sprite = animation.first_child();

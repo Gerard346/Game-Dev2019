@@ -16,7 +16,7 @@
  <tileset firstgid="1486" name="wall_subway" tilewidth="16" tileheight="16" tilecount="1505" columns="35">
   <image source="wall_subway.png" width="560" height="696"/>
  </tileset>
- <layer name="Background" width="170" height="23">
+ <layer name="Background" width="170" height="23" visible="0">
   <properties>
    <property name="Colliders" type="int" value="0"/>
    <property name="Draw" type="int" value="1"/>
@@ -3937,7 +3937,7 @@
    <tile gid="1469"/>
   </data>
  </layer>
- <layer name="bck2" width="170" height="23">
+ <layer name="bck2" width="170" height="23" visible="0">
   <properties>
    <property name="Colliders" type="int" value="0"/>
    <property name="Draw" type="int" value="1"/>
@@ -7856,7 +7856,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="bck3" width="170" height="23">
+ <layer name="bck3" width="170" height="23" visible="0">
   <properties>
    <property name="Colliders" type="int" value="0"/>
    <property name="Draw" type="int" value="1"/>
@@ -11775,7 +11775,7 @@
    <tile gid="164"/>
   </data>
  </layer>
- <layer name="Things" width="170" height="23">
+ <layer name="Things" width="170" height="23" visible="0">
   <properties>
    <property name="Colliders" type="int" value="0"/>
    <property name="Draw" type="int" value="1"/>
@@ -15694,7 +15694,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Slider" width="170" height="23">
+ <layer name="Slider" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="2"/>
    <property name="Colliders" type="int" value="1"/>
@@ -19619,7 +19619,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="SliderUp" width="170" height="23">
+ <layer name="SliderUp" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="1"/>
    <property name="Colliders" type="int" value="1"/>
@@ -23544,7 +23544,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="SliderDown" width="170" height="23">
+ <layer name="SliderDown" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="1"/>
    <property name="Colliders" type="int" value="1"/>
@@ -27469,7 +27469,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="SliderRight" width="170" height="23">
+ <layer name="SliderRight" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="1"/>
    <property name="Colliders" type="int" value="1"/>
@@ -31394,7 +31394,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Colliders_Walk" width="170" height="23">
+ <layer name="Colliders_Walk" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="2"/>
    <property name="Colliders" type="int" value="1"/>
@@ -35314,7 +35314,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="Colliders_Dead" width="170" height="23">
+ <layer name="Colliders_Dead" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="4"/>
    <property name="Colliders" type="int" value="1"/>
@@ -39234,7 +39234,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Colliders_Start" width="170" height="23">
+ <layer name="Colliders_Start" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="4"/>
    <property name="Colliders" type="int" value="1"/>
@@ -45589,7 +45589,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="7"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -45610,7 +45609,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="7"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -47075,7 +47075,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Collider_Player" width="170" height="23">
+ <layer name="Collider_Player" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="1"/>
    <property name="Colliders" type="int" value="1"/>
@@ -50995,7 +50995,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Colliders_Finish" width="170" height="23">
+ <layer name="Colliders_Finish" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="2"/>
    <property name="Colliders" type="int" value="1"/>

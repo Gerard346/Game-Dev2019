@@ -19,7 +19,7 @@ public:
 	bool CleanUp();
 
 private:
-
+	float acceleration = 2.0f;
 };
 
 #endif

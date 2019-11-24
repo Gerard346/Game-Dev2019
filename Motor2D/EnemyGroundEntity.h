@@ -14,9 +14,12 @@ public:
 
 	bool CleanUp();
 
+private:
+
+	j1Timer shoot_timer;
+	float shoot_rate = 2.0f;
 
 protected:
-	
 	void Shoot();
 };
 #endif

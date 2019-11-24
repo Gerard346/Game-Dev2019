@@ -135,7 +135,7 @@
     <sprite n="fire1_ 12.png" x="243" y="1" w="20" h="20"/>
     <sprite n="fire1_ 13.png" x="265" y="1" w="20" h="20"/>
 </stand_right>
-<dead>
+<dead loop="false">
     <sprite n="fire1_ 01.png" x="0" y="22" w="32" h="32"/>
     <sprite n="fire1_ 02.png" x="32" y="22" w="32" h="32"/>
     <sprite n="fire1_ 03.png" x="64" y="22" w="32" h="32"/>
@@ -166,7 +166,7 @@
     <sprite n="rpg_5.png" x="1" y="30" w="32" h="25"/>
 </shoot>
 
-<dead>
+<dead loop="false">
     <sprite n="rpg_6.png" x="35" y="30" w="27" h="21"/>
     <sprite n="rpg_7.png" x="64" y="30" w="26" h="16"/>
     <sprite n="rpg_8.png" x="92" y="30" w="30" h="9"/>
