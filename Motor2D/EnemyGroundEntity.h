@@ -1,3 +1,6 @@
+#ifndef ENEMYGROUND_ENTITY
+#define ENEMYGROUND_ENTITY
+
 #include "BaseEntity.h"
 
 class EnemyGroundEntity : public BaseEntity {
@@ -11,8 +14,9 @@ public:
 
 	bool CleanUp();
 
-	void HandleInput(float dt);
 
-private:
-	bool is_player_seen = false;
+protected:
+	
+	void Shoot();
 };
+#endif

@@ -1,3 +1,6 @@
+#ifndef PLAYER_ENTITY
+#define PLAYER_ENTITY 
+
 #include "BaseEntity.h"
 #include "j1Input.h"
 
@@ -25,5 +28,8 @@ private:
 	char* g_is_over_fx_path = nullptr;
 	char* jump_fx_path = nullptr;
 
+private:
+	void Shoot();
 
 };
+#endif

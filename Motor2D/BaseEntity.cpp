@@ -25,6 +25,9 @@ BaseEntity::~BaseEntity()
 bool BaseEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateBaseEntity", Profiler::Color::Black);
+
+	UpdatePosition();
+
 	return true;
 }
 
@@ -48,14 +51,25 @@ bool BaseEntity::Draw()
 	return true;
 }
 
-void BaseEntity::HandleInput(float dt)
-{
-}
-
 void BaseEntity::IsDead()
 {
 	if (entity_collider != nullptr) {
 		App->colliders->EraseCollider(entity_collider);
 	}
+}
+
+void BaseEntity::UpdatePosition()
+{
+	entity_pos.x += entity_current_vel.x * App->Getdt();
+	entity_pos.y += entity_current_vel.y * App->Getdt();
+
+	entity_current_vel.y -= gravity * App->Getdt();
+
+	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+}
+
+void BaseEntity::Die()
+{
+	App->colliders->EraseCollider(entity_collider);
 }
 

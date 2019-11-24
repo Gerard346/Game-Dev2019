@@ -3,6 +3,7 @@
 #include"p2Defs.h"
 #include "j1Audio.h"
 #include "PlayerEntity.h"
+#include "Bullet.h"
 #include "j1Player.h"
 #include "j1Render.h"
 #include "j1Animation.h"
@@ -26,15 +27,14 @@ PlayerEntity::~PlayerEntity()
 bool PlayerEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
-	if (current_state_entity == entityState::ENTITY_DEAD)
-		return true;
 
 	HandleInput(App->Getdt());
 
 	entity_pos.x += entity_current_vel.x * App->Getdt();
 	entity_pos.y += entity_current_vel.y * App->Getdt();
 
-	if (App->player->IsGod() == false) {
+	if (App->player->IsGod() == false) 
+	{
 		entity_current_vel.y -= gravity * App->Getdt();
 	}
 
@@ -50,6 +50,9 @@ bool PlayerEntity::CleanUp()
 
 void PlayerEntity::HandleInput(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN) {
+		Shoot();
+	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		entity_current_vel.x = entity_vel.x * -1 * dt;
 		if (entity_floor)
@@ -147,6 +150,29 @@ void PlayerEntity::HandleInput(float dt)
 		else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP) {
 			entity_current_vel.y = 0.0f;
 		}
+	}
+}
+
+void PlayerEntity::Shoot()
+{
+	Bullet* bullet = (Bullet*) App->entity->CreateEntity(BULLET_TYPE);
+	bullet->player_bullet = true;
+
+	switch (current_state_entity)
+	{
+	case ENTITY_IDLE_LEFT:
+	case ENTITY_WALK_LEFT:
+	case ENTITY_JUMP_LEFT:
+		bullet->entity_pos = { entity_pos.x + collider_size.x * 0.8f, entity_pos.y};
+		bullet->entity_current_vel = { bullet->entity_vel.x,0.0f };
+
+		break;
+	case ENTITY_IDLE_RIGHT:
+	case ENTITY_WALK_RIGHT:
+	case ENTITY_JUMP_RIGHT:
+		bullet->entity_pos = { entity_pos.x - collider_size.x * 0.8f, entity_pos.y};
+		bullet->entity_current_vel = { -bullet->entity_vel.x,0.0f };
+		break;
 	}
 }
 

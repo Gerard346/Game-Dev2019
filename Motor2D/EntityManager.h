@@ -6,7 +6,6 @@ class PlayerEntity;
 
 class EntityManager : public j1Module
 {
-
 public:
 
 	EntityManager();
@@ -31,6 +30,8 @@ public:
 
 	//Handle Entities
 	BaseEntity* FindEntity(const Collider* col) const;
+	BaseEntity* FindDeadEntity(const Collider* col) const;
+
 	BaseEntity* CreateEntity(entityType);
 	bool KillEntity(BaseEntity*);
 

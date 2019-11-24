@@ -52,6 +52,7 @@
     
 </stand_right>
 </entity_animation>
+
 <entity_animation>
 <info type="enemy" image_path="textures/enemy_spritesheet.png"/>
 <jump_left>
@@ -116,9 +117,10 @@
 
 </entity_animation>
 
+<entity_animation>
 <info type="rocket" image_path="textures/Rocket.png"/>
 
-<stand_left>
+<stand_right>
     <sprite n="fire1_ 01.png" x="1" y="1" w="20" h="20"/>
     <sprite n="fire1_ 02.png" x="23" y="1" w="20" h="20"/>
     <sprite n="fire1_ 03.png" x="45" y="1" w="20" h="20"/>
@@ -132,7 +134,7 @@
     <sprite n="fire1_ 11.png" x="221" y="1" w="20" h="20"/>
     <sprite n="fire1_ 12.png" x="243" y="1" w="20" h="20"/>
     <sprite n="fire1_ 13.png" x="265" y="1" w="20" h="20"/>
-</stand_left>
+</stand_right>
 <dead>
     <sprite n="fire1_ 01.png" x="0" y="22" w="32" h="32"/>
     <sprite n="fire1_ 02.png" x="32" y="22" w="32" h="32"/>
@@ -150,7 +152,7 @@
 </dead>
 </entity_animation>
 
-
+<entity_animation>
 <info type="rpg" image_path="textures/RPG_enemy.png"/>
 
 <stand_left>

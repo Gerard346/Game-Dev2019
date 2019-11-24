@@ -13,7 +13,7 @@ Rocket::Rocket()
 {
 }
 
-Rocket::Rocket(const Rocket* copy) :BaseEntity(copy)
+Rocket::Rocket(const Rocket* copy) :Bullet(copy)
 {
 }
 
@@ -25,24 +25,12 @@ bool Rocket::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateRocket", Profiler::Color::BlueViolet);
 
-	if (current_state_entity == entityState::ENTITY_DEAD) {
-		return true;
-	}
-
-	entity_pos.x += entity_current_vel.x * App->Getdt();
-	entity_pos.y += entity_current_vel.y * App->Getdt();
-
-	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+	UpdatePosition();
 
 	return true;
 }
-
 
 bool Rocket::CleanUp()
 {
 	return true;
-}
-
-void Rocket::HandleInput(float dt)
-{
 }

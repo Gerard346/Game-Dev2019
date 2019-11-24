@@ -23,11 +23,7 @@ EnemyRPGEntity::~EnemyRPGEntity()
 
 bool EnemyRPGEntity::Update(float dt)
 {
-	if (current_state_entity == entityState::ENTITY_DEAD) {
-		return true;
-	}
-
-	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+	UpdatePosition();
 
 	return true;
 }

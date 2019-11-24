@@ -8,6 +8,7 @@
 #include "j1Module.h"
 #include "EntityManager.h"
 #include "EnemyGroundEntity.h"
+#include "Rocket.h"
 
 EnemyGroundEntity::EnemyGroundEntity()
 {
@@ -23,16 +24,8 @@ EnemyGroundEntity::~EnemyGroundEntity()
 
 bool EnemyGroundEntity::Update(float dt)
 {
-	if (current_state_entity == entityState::ENTITY_DEAD) {
-		return true;
-	}
-
-	entity_pos.x += entity_current_vel.x * App->Getdt();
-	entity_pos.y += entity_current_vel.y * App->Getdt();
-
-	entity_current_vel.y -= gravity * App->Getdt();
-
-	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+	
+	UpdatePosition();
 
 	return true;
 }
@@ -43,6 +36,7 @@ bool EnemyGroundEntity::CleanUp()
 	return true;
 }
 
-void EnemyGroundEntity::HandleInput(float dt)
+void EnemyGroundEntity::Shoot()
 {
 }
+

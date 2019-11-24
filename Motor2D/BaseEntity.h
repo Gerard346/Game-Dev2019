@@ -45,6 +45,8 @@ enum entityDirection {
 
 class BaseEntity {
 	
+	friend class EntityManager;
+
 public:
 
 	BaseEntity();
@@ -52,13 +54,6 @@ public:
 
 	virtual ~BaseEntity();
 
-	virtual bool Update(float);
-
-	virtual bool CleanUp();
-
-	virtual bool Draw();
-
-	virtual void HandleInput(float dt);
 	virtual void IsDead();
 
 public:
@@ -81,5 +76,15 @@ public:
 	iPoint collider_size = { 0,0 };
 
 	bool entity_floor = false;
+
+protected:
+
+	virtual bool Update(float);
+	virtual bool CleanUp();
+
+	virtual bool Draw();
+
+	void UpdatePosition();
+	void Die();
 };
 #endif 

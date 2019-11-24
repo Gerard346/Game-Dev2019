@@ -1,3 +1,6 @@
+#ifndef ENEMYRPG_ENTITY
+#define ENEMYRPG_ENTITY 
+
 #include "BaseEntity.h"
 
 class EnemyRPGEntity : public BaseEntity {
@@ -16,3 +19,4 @@ public:
 private:
 	bool is_player_seen = false;
 };
+#endif

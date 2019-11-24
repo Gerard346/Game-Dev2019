@@ -106,6 +106,7 @@ bool EntityManager::Start()
 bool EntityManager::PreUpdate()
 {
 	BROFILER_CATEGORY("PreUpdatEntityManager", Profiler::Color::LightGoldenRodYellow);
+	
 	while (new_entities.count() > 0) 
 	{
 		for (int i = 0; i < new_entities.count(); i++) {
@@ -114,6 +115,7 @@ bool EntityManager::PreUpdate()
 		}
 		new_entities.clear();
 	}
+
 	for (int i = 0; i < entities_list.count(); i++) {
 		entities_list.At(i)->data->Update(App->Getdt());
 	}
@@ -128,7 +130,9 @@ bool EntityManager::PostUpdate()
 	for (int i = 0; i < entities_list.count(); i++) {
 		entities_list.At(i)->data->Draw();
 	}
-
+	for (int i = 0; i < dead_entities.count(); i++) {
+		dead_entities.At(i)->data->Draw();
+	}
 	return true;
 }
 
@@ -149,6 +153,11 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 {
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_WALL) {
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
+		if (player_entity == nullptr)
+		{
+			return;
+		}
+
 		//TOP
 		if (coll2->rect.y - (coll->rect.y + coll->rect.h) < 0 && coll2->rect.y - (coll->rect.y + coll->rect.h) > -16) {
 
@@ -190,6 +199,10 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
 
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
+		if (player_entity == nullptr)
+		{
+			return;
+		}
 
 		if (player_entity->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
 		{
@@ -198,10 +211,15 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			App->player->PlayerDies();
 		}
 	}
-	//ENEMIES COLLISION
 
+	//ENEMIES COLLISION
 	if (coll->type == COLLIDER_ENEMY && coll2->type == COLLIDER_WALL) {
 		EnemyGroundEntity* enemy_entity = (EnemyGroundEntity*)FindEntity(coll);
+		if (enemy_entity == nullptr)
+		{
+			return;
+		}
+
 		//TOP
 		if (coll2->rect.y - (coll->rect.y + coll->rect.h) < 0 && coll2->rect.y - (coll->rect.y + coll->rect.h) > -16) {
 
@@ -241,6 +259,10 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
 
 		EnemyGroundEntity* enemy_entity = (EnemyGroundEntity*)FindEntity(coll);
+		if (enemy_entity == nullptr)
+		{
+			return;
+		}
 
 		if (enemy_entity->current_state_entity != entityState::ENTITY_DEAD)
 		{
@@ -249,24 +271,63 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			App->entity->KillEntity(enemy_entity);
 		}
 	}
+	
 	//Rocket && Bullet
 	if (coll->type == COLLIDER_BULLET)
 	{
-		BaseEntity* bullet = FindEntity(coll);
-		App->entity->KillEntity(bullet);
-
-		if (coll2->type == COLLIDER_BULLET) {
-
-			BaseEntity* bullet2 = FindEntity(coll2);
-			App->entity->KillEntity(bullet2);
+		Bullet* bullet = (Bullet*)FindEntity(coll);
+		if (bullet == nullptr)
+		{
+			return;
 		}
-		if (coll2->type == COLLIDER_PLAYER) {
-			BaseEntity* player = FindEntity(coll2);
-			App->entity->KillEntity(player);
+
+		if (coll2->type == COLLIDER_WALL) 
+		{
+			App->entity->KillEntity(bullet);
 		}
-		if (coll2->type == COLLIDER_ENEMY) {
-			BaseEntity* enemy = FindEntity(coll2);
-			App->entity->KillEntity(enemy);
+
+		if (bullet->player_bullet == true)
+		{
+			if (coll2->type == COLLIDER_ENEMY) 
+			{
+				BaseEntity* enemy = FindEntity(coll2);
+				if (enemy == nullptr)
+				{
+					return;
+				}
+
+				App->entity->KillEntity(bullet);
+				App->entity->KillEntity(enemy);
+			}
+		}
+		else
+		{
+			if (coll2->type == COLLIDER_PLAYER) 
+			{
+				BaseEntity* player = FindEntity(coll2);
+				if (player == nullptr)
+				{
+					return;
+				}
+
+				App->entity->KillEntity(bullet);
+				App->entity->KillEntity(player);
+			}
+		}
+
+		if (coll2->type == COLLIDER_BULLET) 
+		{
+			Bullet* bullet2 = (Bullet*)FindEntity(coll2);
+			if (bullet2 == nullptr)
+			{
+				return;
+			}
+
+			if (bullet->player_bullet != bullet2->player_bullet)
+			{
+				App->entity->KillEntity(bullet);
+				App->entity->KillEntity(bullet2);
+			}
 		}
 	}
 }
@@ -283,15 +344,28 @@ bool EntityManager::Save(pugi::xml_node&) const
 
 BaseEntity* EntityManager::FindEntity(const Collider* col) const
 {
-	for (int i = 0; i < entities_list.count(); i++) {
-		if (entities_list.At(i)->data->entity_collider == col) {
+	for (int i = 0; i < entities_list.count(); i++) 
+	{
+		if (entities_list.At(i)->data->entity_collider == col) 
+		{
 			return entities_list.At(i)->data;
 		}
 	}
 
 	return nullptr;
 }
+BaseEntity* EntityManager::FindDeadEntity(const Collider* col) const
+{
+	for (int i = 0; i < dead_entities.count(); i++)
+	{
+		if (dead_entities.At(i)->data->entity_collider == col)
+		{
+			return dead_entities.At(i)->data;
+		}
+	}
 
+	return nullptr;
+}
 BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 {
 	BROFILER_CATEGORY("CreateEntity", Profiler::Color::LightGoldenRodYellow);
@@ -373,26 +447,60 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 	return new_entity;
 }
 
-bool EntityManager::KillEntity(BaseEntity*)
+bool EntityManager::KillEntity(BaseEntity* entity)
 {
-	return true;
+	bool ret = false;
+	for (int i = 0; i < entities_list.count(); i++) 
+	{
+		if (entities_list.At(i)->data == entity) 
+		{
+			entities_list.del(entities_list.At(i));
+			ret = true;
+			break;
+		}
+	}
+
+	if (ret)
+	{
+		dead_entities.add(entity);
+
+		entity->Die();
+	}
+
+	return ret;
 }
 
 void EntityManager::SetEntityState(entityState new_state, Collider* coll)
 {
-	BaseEntity* entity = (BaseEntity*)FindEntity(coll);
+	BaseEntity* entity = nullptr;
 
-	if (entity->current_state_entity == new_state)return;
-
-	entity->current_state_entity = new_state;
-	entity->current_animation = App->animation->GetAnimation(entity->entity_type, entity->current_state_entity);
-
-	if (entity->current_state_entity == ENTITY_JUMP_LEFT || entity->current_state_entity == ENTITY_JUMP_RIGHT)
+	if (new_state == entityState::ENTITY_DEAD) {
+		entity = (BaseEntity*)FindDeadEntity(coll);
+	}
+	else
 	{
-		entity->current_animation->SetLoop(false);
+		entity = (BaseEntity*)FindEntity(coll);
 	}
 
-	entity->current_animation->Reset();
+	if (entity->current_state_entity == new_state)
+	{
+		return;
+	}
+
+	Animation* new_animation = App->animation->GetAnimation(entity->entity_type, new_state);
+
+	if (new_animation != nullptr)
+	{
+		entity->current_state_entity = new_state;
+		entity->current_animation = new_animation;
+
+		if (entity->current_state_entity == ENTITY_JUMP_LEFT || entity->current_state_entity == ENTITY_JUMP_RIGHT)
+		{
+			entity->current_animation->SetLoop(false);
+		}
+
+		entity->current_animation->Reset();
+	}
 }
 
 entityType EntityManager::StrToEntityType(const char* str) const

@@ -44,6 +44,7 @@ public:
 
 	// Propagation style
 	void PropagateASTAR(iPoint origin, iPoint goal);
+	//p2DynArray<iPoint> PropagateASTAR(iPoint origin, iPoint goal);
 
 private:
 

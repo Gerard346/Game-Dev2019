@@ -1,7 +1,14 @@
-#include "BaseEntity.h"
+#ifndef ROCKET_ENTITY
+#define ROCKET_ENTITY
 
-class Rocket : public BaseEntity {
+#include "Bullet.h"
+
+
+
+class Rocket : public Bullet 
+{
 public:
+
 	Rocket();
 	Rocket(const Rocket* copy);
 
@@ -11,8 +18,8 @@ public:
 
 	bool CleanUp();
 
-	void HandleInput(float dt);
-
 private:
 
 };
+
+#endif

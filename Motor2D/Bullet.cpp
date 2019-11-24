@@ -20,27 +20,3 @@ Bullet::Bullet(const Bullet* copy) :BaseEntity(copy)
 Bullet::~Bullet()
 {
 }
-
-bool Bullet::Update(float dt)
-{
-	if (current_state_entity == entityState::ENTITY_DEAD) {
-		return true;
-	}
-
-	entity_pos.x += entity_current_vel.x * App->Getdt();
-	entity_pos.y += entity_current_vel.y * App->Getdt();
-
-	entity_collider->SetPos(entity_pos.x, entity_pos.y);
-
-
-	return true;
-}
-
-bool Bullet::CleanUp()
-{
-	return true;
-}
-
-void Bullet::HandleInput(float dt)
-{
-}
