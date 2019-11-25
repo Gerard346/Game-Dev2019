@@ -48,7 +48,10 @@ bool j1Player::Start()
 		jump_fx = App->audio->LoadFx(jump_fx_path);
 	}
 
-	StatFromCurrentLvl();
+	if (App->fade->current_step == App->fade->fade_to_black) {
+		App->entity->DeleteAll();
+		App->entity->SpawnEntities(App->map->map_info.entities_info);
+	}
 
 	return true;
 }
@@ -271,7 +274,6 @@ void j1Player::StartFromLvl2()
 
 void j1Player::StatFromCurrentLvl()
 {
-	//SpawnPlayer();
 }
 
 void j1Player::GodMode()
@@ -288,6 +290,7 @@ void j1Player::PlayerDies()
 {
 	App->audio->PlayFx(g_is_over_fx);
 	App->fade->FadeToBlack(App->player, App->player);
+
 }
 
 void j1Player::CamFollowPlayer()

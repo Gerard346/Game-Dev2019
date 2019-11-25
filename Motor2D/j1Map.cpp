@@ -47,7 +47,6 @@ bool j1Map::Start()
 			App->map->ChangeMap("Level1.tmx");
 		}
 
-		//App->player->SpawnPlayer();
 	}
 
 	return true;
@@ -187,7 +186,7 @@ bool j1Map::Load(const char* file_name)
 
 		map_loaded = ret;
 	}
-	
+
 	for (int i = 0; i < map_info.layers_info.Count(); i++) {
 		info_layer* current_layer = map_info.layers_info[i];
 		//LOG("Layer ----");
@@ -195,34 +194,34 @@ bool j1Map::Load(const char* file_name)
 		//LOG("tile width: %d tile height: %d", current_layer->width, current_layer->height);
 	}
 
-	for (int i = 0; i < map_info.layers_info.Count(); i++) 
+	for (int i = 0; i < map_info.layers_info.Count(); i++)
 	{
 		info_layer* layer_data = map_info.layers_info[i];
 
-		if (layer_data->attributes->Get_Int("Colliders") == 1) 
+		if (layer_data->attributes->Get_Int("Colliders") == 1)
 		{
 			COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
 			layer_type cur_layer_type = default_layer;
 
-			if (layer_data->attributes->Get_Int("Slider") == 1) 
+			if (layer_data->attributes->Get_Int("Slider") == 1)
 			{
 				collider_type = App->colliders->TileIDToColliderTile(layer_data->attributes->Get_Int("Collider_Type"));
 				cur_layer_type = slider_layer;
 			}
 
-			for (int y = 0; y < map_info.height; y++) 
+			for (int y = 0; y < map_info.height; y++)
 			{
-				for (int x = 0; x < map_info.width; x++) 
+				for (int x = 0; x < map_info.width; x++)
 				{
 					uint tile = layer_data->Get(x, y);
-					if (tile == 0) 
+					if (tile == 0)
 					{
 						continue;
 					}
 
 					const info_tileset* tileset_info = GetTilesetInfoFromTileID((int)layer_data->Get(x, y));
 
-					if (cur_layer_type == default_layer) 
+					if (cur_layer_type == default_layer)
 					{
 						collider_type = App->colliders->TileIDToColliderTile(tile);
 					}
@@ -269,7 +268,7 @@ bool j1Map::Load(const char* file_name)
 			}
 		}
 	}
-	
+
 	App->entity->SpawnEntities(map_info.entities_info);
 
 	return ret;

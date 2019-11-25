@@ -157,6 +157,64 @@ void j1Pathfinding::PropagateASTAR(iPoint origin, iPoint goal)
 	}
 }
 
+p2DynArray<iPoint> j1Pathfinding::PropagateASTARf(fPoint origin, fPoint goal)
+{
+	iPoint map_goal = App->map->WorldToMap(goal.x, goal.y);
+
+	ResetPath();
+
+	walkability_layer = App->map->GetLayer("Walkability");
+
+	if (walkability_layer == nullptr)
+	{
+		return p2DynArray<iPoint>();
+
+	}
+
+	iPoint map_origin = App->map->WorldToMap(origin.x, origin.y);
+	frontier.Push(map_origin, 0);
+	visited.add(map_origin);
+	breadcrumbs.add(map_origin);
+
+	while (frontier.Count() > 0)
+	{
+		iPoint curr;
+		if (frontier.Pop(curr))
+		{
+			iPoint neighbors[4];
+			neighbors[0].create(curr.x + 1, curr.y + 0);
+			neighbors[1].create(curr.x + 0, curr.y + 1);
+			neighbors[2].create(curr.x - 1, curr.y + 0);
+			neighbors[3].create(curr.x + 0, curr.y - 1);
+
+			for (uint i = 0; i < 4; ++i)
+			{
+				int neighbor_cost = MovementCost(neighbors[i].x, neighbors[i].y);
+				if (neighbor_cost > 0)
+				{
+					if (visited.find(neighbors[i]) == -1)
+					{
+						int x_distance = map_goal.x > neighbors[i].x ? map_goal.x - neighbors[i].x : neighbors[i].x - map_goal.x;
+						int y_distance = map_goal.y > neighbors[i].y ? map_goal.y - neighbors[i].y : neighbors[i].y - map_goal.y;
+
+						frontier.Push(neighbors[i], neighbor_cost + cost_so_far[neighbors[i].x][neighbors[i].y] + x_distance + y_distance);
+						visited.add(neighbors[i]);
+						breadcrumbs.add(curr);
+						cost_so_far[neighbors[i].x][neighbors[i].y] = neighbor_cost;
+
+						if (neighbors[i].x == map_goal.x && neighbors[i].y == map_goal.y)
+						{
+							Path(goal.x, goal.y);
+							return path;
+						}
+					}
+				}
+			}
+		}
+	}
+	return p2DynArray<iPoint>();
+}
+
 int j1Pathfinding::MovementCost(int x, int y) const
 {
 	int ret = -1;
@@ -171,7 +229,7 @@ int j1Pathfinding::MovementCost(int x, int y) const
 		}
 		else
 		{
-			ret = 99;
+			ret = -1;
 		}
 	}
 

@@ -34,7 +34,7 @@ bool j1FadeToBlack::Start()
 	return true;
 }
 
-bool j1FadeToBlack::Update(float dt)
+bool j1FadeToBlack::PostUpdate()
 {
 	if (current_step == none)
 	{

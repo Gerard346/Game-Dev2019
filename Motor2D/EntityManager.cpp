@@ -11,6 +11,7 @@
 #include "j1Animation.h"
 #include "p2Log.h"
 #include "SDL/include/SDL_rect.h"
+#include "BaseEntity.h"
 EntityManager::EntityManager()
 {
 	name = ("entityManager");
@@ -208,10 +209,26 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 		{
 			player_entity->entity_current_vel.x = 0.0f;
 			player_entity->entity_current_vel.y = 0.0f;
-			App->player->PlayerDies();
+			App->entity->KillEntity(player_entity);
+
 		}
 	}
+	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_ENEMY) {
 
+		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
+		if (player_entity == nullptr)
+		{
+			return;
+		}
+
+		if (player_entity->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
+		{
+			player_entity->entity_current_vel.x = 0.0f;
+			player_entity->entity_current_vel.y = 0.0f;
+			App->entity->KillEntity(player_entity);
+
+		}
+	}
 	//ENEMIES COLLISION
 	if (coll->type == COLLIDER_ENEMY && coll2->type == COLLIDER_WALL) {
 		EnemyGroundEntity* enemy_entity = (EnemyGroundEntity*)FindEntity(coll);
@@ -256,7 +273,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 		}
 	}
 
-	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
+	if (coll->type == COLLIDER_ENEMY && coll2->type == COLLIDER_DEAD) {
 
 		EnemyGroundEntity* enemy_entity = (EnemyGroundEntity*)FindEntity(coll);
 		if (enemy_entity == nullptr)
@@ -309,9 +326,11 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 				{
 					return;
 				}
-
-				App->entity->KillEntity(bullet);
-				App->entity->KillEntity(player);
+				if (player->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
+				{
+					App->entity->KillEntity(bullet);
+					App->entity->KillEntity(player);
+				}
 			}
 		}
 
@@ -481,7 +500,9 @@ void EntityManager::SetEntityState(entityState new_state, Collider* coll)
 	{
 		entity = (BaseEntity*)FindEntity(coll);
 	}
-
+	if (entity == nullptr) {
+		return;
+	}
 	if (entity->current_state_entity == new_state)
 	{
 		return;
@@ -561,6 +582,26 @@ bool EntityManager::SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& lis
 
 	return true;
 }
+
+bool EntityManager::DeleteAll()
+{
+	for (int i = 0; i < new_entities.count(); i++) {
+		RELEASE(new_entities[i]);
+	}
+	for (int i = 0; i < entities_list.count(); i++) {
+		RELEASE(entities_list[i]);
+	}
+	for (int i = 0; i < dead_entities.count(); i++) {
+		RELEASE(dead_entities[i]);
+	}
+
+	new_entities.clear();
+	entities_list.clear();
+	dead_entities.clear();
+
+	return true;
+}
+
 
 PlayerEntity* EntityManager::GetPlayer() const
 { 

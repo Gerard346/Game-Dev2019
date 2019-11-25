@@ -31394,7 +31394,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Colliders_Walk" width="170" height="23" visible="0">
+ <layer name="Colliders_Walk" width="170" height="23">
   <properties>
    <property name="Collider_Type" type="int" value="2"/>
    <property name="Colliders" type="int" value="1"/>
@@ -43154,7 +43154,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Colliders_Start_Enemies" width="170" height="23">
+ <layer name="Colliders_Start_Enemies" width="170" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="4"/>
    <property name="Colliders" type="int" value="1"/>

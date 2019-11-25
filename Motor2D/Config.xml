@@ -39,14 +39,14 @@
   <entity>
     <type>player</type>
     <gravity g="-360.0"/>
-    <max_speed x="4000.0" y="5000.0"/>
+    <max_speed x="40.0" y="500.0"/>
     <collider_type>player</collider_type>
     <collider_size x="20" y="30"/>
   </entity>
   <entity>
     <type>enemy</type>
     <gravity g="-360.0"/>
-    <max_speed x="4000.0" y="5000.0"/>
+    <max_speed x="50.0" y="50.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="30"/>
   </entity>

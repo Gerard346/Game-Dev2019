@@ -83,8 +83,8 @@ protected:
 	virtual bool CleanUp();
 
 	virtual bool Draw();
+	virtual void Die();
 
 	void UpdatePosition();
-	void Die();
 };
 #endif 

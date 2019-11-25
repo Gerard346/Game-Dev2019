@@ -34,14 +34,13 @@ public:
 
 	BaseEntity* CreateEntity(entityType);
 	bool KillEntity(BaseEntity*);
-
 	void SetEntityState(entityState new_state, Collider* c1);
 	
 	entityType StrToEntityType(const char* input)const;
 	entityState StringToEntityState(const char* str)const;
 	entityType TileIdToEntityType(int) const;
 	bool SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list);
-
+	bool DeleteAll();
 
 	PlayerEntity* GetPlayer()const;
 

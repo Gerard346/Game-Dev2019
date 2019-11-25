@@ -27,7 +27,9 @@ PlayerEntity::~PlayerEntity()
 bool PlayerEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
-
+	if (entity_collider == nullptr) {
+		return true;
+	}
 	HandleInput(App->Getdt());
 
 	entity_pos.x += entity_current_vel.x * App->Getdt();
@@ -54,7 +56,7 @@ void PlayerEntity::HandleInput(float dt)
 		Shoot();
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		entity_current_vel.x = entity_vel.x * -1 * dt;
+		entity_current_vel.x = entity_vel.x * -1 ;
 		if (entity_floor)
 		{
 			App->entity->SetEntityState(ENTITY_WALK_RIGHT, entity_collider);
@@ -79,7 +81,7 @@ void PlayerEntity::HandleInput(float dt)
 	}
 
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		entity_current_vel.x = entity_vel.x * dt;
+		entity_current_vel.x = entity_vel.x ;
 		if (entity_floor)
 		{
 			App->entity->SetEntityState(ENTITY_WALK_LEFT, entity_collider);
@@ -106,7 +108,7 @@ void PlayerEntity::HandleInput(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			App->audio->PlayFx(jump_fx);
 			entity_floor = false;
-			entity_current_vel.y = -entity_vel.y * dt;
+			entity_current_vel.y = -entity_vel.y;
 
 			if (current_state_entity == ENTITY_IDLE_RIGHT || current_state_entity == ENTITY_WALK_RIGHT)
 			{
@@ -124,7 +126,7 @@ void PlayerEntity::HandleInput(float dt)
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 				App->audio->PlayFx(jump_fx);
 				double_jump = true;
-				entity_current_vel.y = -entity_vel.y * dt;
+				entity_current_vel.y = -entity_vel.y;
 
 				if (current_state_entity == ENTITY_IDLE_RIGHT || current_state_entity == ENTITY_WALK_RIGHT)
 				{
@@ -174,5 +176,12 @@ void PlayerEntity::Shoot()
 		bullet->entity_current_vel = { -bullet->entity_vel.x,0.0f };
 		break;
 	}
+}
+
+void PlayerEntity::Die()
+{
+	//App->colliders->EraseCollider(entity_collider);
+	App->entity->SetEntityState(ENTITY_DEAD, entity_collider);
+	App->player->PlayerDies();
 }
 

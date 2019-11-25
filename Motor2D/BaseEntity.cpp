@@ -25,7 +25,6 @@ BaseEntity::~BaseEntity()
 bool BaseEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateBaseEntity", Profiler::Color::Black);
-
 	UpdatePosition();
 
 	return true;
@@ -60,6 +59,9 @@ void BaseEntity::IsDead()
 
 void BaseEntity::UpdatePosition()
 {
+	entity_current_vel.x = entity_current_vel.x > 0 ? entity_current_vel.x > entity_vel.x ? entity_vel.x : entity_current_vel.x : entity_current_vel.x < -entity_vel.x ? -entity_vel.x : entity_current_vel.x;
+	entity_current_vel.y = entity_current_vel.y > 0 ? entity_current_vel.y > entity_vel.y ? entity_vel.y : entity_current_vel.y : entity_current_vel.y < -entity_vel.y ? -entity_vel.y : entity_current_vel.y;
+
 	entity_pos.x += entity_current_vel.x * App->Getdt();
 	entity_pos.y += entity_current_vel.y * App->Getdt();
 

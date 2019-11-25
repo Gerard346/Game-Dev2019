@@ -28,8 +28,8 @@ private:
 	char* g_is_over_fx_path = nullptr;
 	char* jump_fx_path = nullptr;
 
-private:
+protected:
 	void Shoot();
-
+	void Die();
 };
 #endif

@@ -25,6 +25,9 @@ EnemyRPGEntity::~EnemyRPGEntity()
 
 bool EnemyRPGEntity::Update(float dt)
 {
+	if (entity_collider == nullptr) {
+		return true;
+	}
 	if (shoot_timer.ReadSec() > shoot_rate)
 	{
 		shoot_timer.Start();
