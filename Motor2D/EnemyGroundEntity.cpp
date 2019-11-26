@@ -53,12 +53,19 @@ bool EnemyGroundEntity::Update(float dt)
 			}
 
 			//Path
-			/*
+			
 			if (path.Count() == 0 && path_next_pos.y == 0)
 			{
 				path = App->path->PropagateASTARf(entity_pos, entity_player->entity_pos);
-				path.Pop(path_next_pos);
-				path_next_pos = App->map->MapToWorld(path_next_pos.x, path_next_pos.y);
+				if (path.Count() == 0)
+				{
+					//PATROL
+				}
+				else
+				{
+					path.Pop(path_next_pos);
+					path_next_pos = App->map->MapToWorld(path_next_pos.x, path_next_pos.y);
+				}
 			}
 			else
 			{
@@ -83,7 +90,7 @@ bool EnemyGroundEntity::Update(float dt)
 				{
 					entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt(), dir_vector.y* entity_vel.y* App->Getdt()};
 				}
-			}*/
+			}
 		}
 	}
 	

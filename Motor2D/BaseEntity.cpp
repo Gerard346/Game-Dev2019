@@ -10,7 +10,7 @@ BaseEntity::BaseEntity()
 {
 }
 
-BaseEntity::BaseEntity(const BaseEntity* copy): entity_type(copy->entity_type), current_state_entity(copy->current_state_entity), collider_size(copy->collider_size), gravity(copy->gravity), entity_vel(copy->entity_vel)
+BaseEntity::BaseEntity(const BaseEntity* copy): entity_type(copy->entity_type), current_state_entity(copy->current_state_entity), collider_size(copy->collider_size), gravity(copy->gravity), entity_vel(copy->entity_vel), entity_draw_dead(copy->entity_draw_dead)
 {
 
 }

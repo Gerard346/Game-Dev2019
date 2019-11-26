@@ -67,6 +67,7 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 			case BULLET_TYPE:
 			{
 				entity = new Bullet();
+
 			}
 
 			break;
@@ -85,7 +86,7 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 				entity->entity_type = type;
 				entity->entity_vel = fPoint(entity_node.child("max_speed").attribute("x").as_float(), entity_node.child("max_speed").attribute("y").as_float());
 				entity->collider_size = iPoint(entity_node.child("collider_size").attribute("x").as_int(), entity_node.child("collider_size").attribute("y").as_int());
-
+				entity->entity_draw_dead = entity_node.child("draw_dead").attribute("d").as_bool();
 				values_entities.PushBack(entity);
 			}
 
@@ -429,6 +430,14 @@ BaseEntity* EntityManager::FindDeadEntity(const Collider* col) const
 		}
 	}
 
+	for (int i = 0; i < dead_entities_not_visible.count(); i++)
+	{
+		if (dead_entities_not_visible.At(i)->data->entity_collider == col)
+		{
+			return dead_entities_not_visible.At(i)->data;
+		}
+	}
+
 	return nullptr;
 }
 BaseEntity* EntityManager::CreateEntity(entityType entity_type)
@@ -527,7 +536,12 @@ bool EntityManager::KillEntity(BaseEntity* entity)
 
 	if (ret)
 	{
-		dead_entities.add(entity);
+		if (entity->entity_draw_dead) {
+			dead_entities.add(entity);
+		}
+		else {
+			dead_entities_not_visible.add(entity);
+		}
 
 		entity->Die();
 	}

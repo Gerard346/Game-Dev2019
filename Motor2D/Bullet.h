@@ -13,5 +13,6 @@ public:
 
 public:
 	bool player_bullet = false;
+
 };
 #endif

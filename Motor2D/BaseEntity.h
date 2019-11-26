@@ -76,6 +76,7 @@ public:
 	iPoint collider_size = { 0,0 };
 
 	bool entity_floor = false;
+	bool entity_draw_dead = true;
 
 protected:
 

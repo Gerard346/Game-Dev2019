@@ -40,6 +40,7 @@
   <entity>
     <type>player</type>
     <gravity g="-400.0"/>
+<draw_dead d="true"/>
     <max_speed x="200.0" y="200.0"/>
     <collider_type>player</collider_type>
     <collider_size x="20" y="30"/>
@@ -47,6 +48,7 @@
   <entity>
     <type>enemy</type>
     <gravity g="-360.0"/>
+<draw_dead d="true"/>
     <max_speed x="50.0" y="50.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="30"/>
@@ -54,6 +56,7 @@
  <entity>
     <type>rpg</type>
     <gravity g="-360.0"/>
+<draw_dead d="true"/>
     <max_speed x="0.0" y="0.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="28"/>
@@ -61,6 +64,7 @@
  <entity>
     <type>bullet</type>
     <gravity g="0.0"/>
+  	<draw_dead d="false"/>
      <max_speed x="50.0" y="0.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="16" y="16"/>
@@ -68,6 +72,7 @@
  <entity>
     <type>rocket</type>
     <gravity g="0.0"/>
+<draw_dead d="true"/>
      <max_speed x="40.0" y="40.0"/>
     <acceleration a="5.0"/>
     <collider_type>enemy</collider_type>

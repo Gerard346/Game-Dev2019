@@ -51,4 +51,6 @@ private:
 	p2List <BaseEntity*> entities_list;
 	p2List <BaseEntity*> new_entities;
 	p2List <BaseEntity*> dead_entities;
+	p2List <BaseEntity*> dead_entities_not_visible;
+
 };
