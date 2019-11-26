@@ -20,6 +20,7 @@ public:
 
 public:
 	bool double_jump = false;
+	float actual_gravity = gravity;
 
 private:
 	int g_is_over_fx = -1;

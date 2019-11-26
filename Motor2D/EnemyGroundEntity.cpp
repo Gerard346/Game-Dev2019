@@ -30,10 +30,10 @@ bool EnemyGroundEntity::Update(float dt)
 	BaseEntity* entity_player = (BaseEntity*)App->entity->GetPlayer();
 	//Is seen
 	if (entity_player != nullptr) {
-		
+
 		fPoint dir_vector = entity_player->entity_pos - entity_pos;
 		float vec_magnitude = (abs(dir_vector.x) + abs(dir_vector.y));
-		
+
 		if (vec_magnitude < view_distance.x) {
 			//Shooting
 			if (shoot_timer.ReadSec() > shoot_rate && ammo > 0)
@@ -46,14 +46,15 @@ bool EnemyGroundEntity::Update(float dt)
 				}
 			}
 			//Recharge
-			if (ammo == 0 && recharge_timer.ReadSec() > rechage_rate) 
+			if (ammo == 0 && recharge_timer.ReadSec() > rechage_rate)
 			{
 				ammo = 4;
 				shoot_timer.Start();
 			}
 
 			//Path
-			if (path.Count() == 0 && path_next_pos.y == 0) 
+			/*
+			if (path.Count() == 0 && path_next_pos.y == 0)
 			{
 				path = App->path->PropagateASTARf(entity_pos, entity_player->entity_pos);
 				path.Pop(path_next_pos);
@@ -82,10 +83,10 @@ bool EnemyGroundEntity::Update(float dt)
 				{
 					entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt(), dir_vector.y* entity_vel.y* App->Getdt()};
 				}
-			}
+			}*/
 		}
 	}
-
+	
 	UpdatePosition();
 
 	return true;

@@ -23,6 +23,10 @@ struct Attributes
 	float Get_Float(const char*);
 };
 
+enum lvl_map {
+	lvl_1_map,
+	lvl_2_map
+};
 enum map_orientation {
 	no_orientation,
 	orthogonal,
@@ -93,7 +97,7 @@ struct mutable_layer:info_layer {
 	int range_y = 0;
 	int velocity_x = 0;
 	int velocity_y = 0;
-
+	int current_velocity_y = 0;
 	p2DynArray<Collider*> collider;
 
 	void Update(float dt) override;
@@ -175,8 +179,8 @@ public:
 
 	info_layer* GetLayer(char* name)const;
 	const info_tileset* GetTilesetInfoFromTileID(int)const;
-
 	void WantToLoadMap() { want_to_load_map = true; }
+
 
 private:
 	
@@ -184,6 +188,7 @@ private:
 	p2SString			folder;
 	bool				map_loaded;
 	bool				want_to_load_map = false;
+
 };
 
 #endif // __j1MAP_H__

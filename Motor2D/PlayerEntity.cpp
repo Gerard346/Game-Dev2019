@@ -30,17 +30,20 @@ bool PlayerEntity::Update(float dt)
 	if (entity_collider == nullptr) {
 		return true;
 	}
+
 	HandleInput(App->Getdt());
+
+	if (App->player->IsGod() == false) 
+	{
+		entity_current_vel.y -= actual_gravity * App->Getdt();
+	}
 
 	entity_pos.x += entity_current_vel.x * App->Getdt();
 	entity_pos.y += entity_current_vel.y * App->Getdt();
 
-	if (App->player->IsGod() == false) 
-	{
-		entity_current_vel.y -= gravity * App->Getdt();
-	}
-
 	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+
+	actual_gravity = gravity;
 
 	return true;
 }
@@ -52,6 +55,8 @@ bool PlayerEntity::CleanUp()
 
 void PlayerEntity::HandleInput(float dt)
 {
+	
+	
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN) {
 		Shoot();
 	}
@@ -106,6 +111,7 @@ void PlayerEntity::HandleInput(float dt)
 	}
 	if (entity_floor == true) {
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			actual_gravity = gravity;
 			App->audio->PlayFx(jump_fx);
 			entity_floor = false;
 			entity_current_vel.y = -entity_vel.y;

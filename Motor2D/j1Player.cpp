@@ -75,7 +75,7 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	BROFILER_CATEGORY("PostUpdate Player", Profiler::Color::Yellow);
-
+	
 	return true;
 }
 
@@ -263,17 +263,22 @@ void j1Player::SpawnPlayer()
 void j1Player::StartFromLvl1()
 {
 	p_current_lvl = Lvl_1;
-	App->scene->ChangeScene(1.0f);
+	App->fade->FadeToBlack(App->player, App->player);
+
 }
 
 void j1Player::StartFromLvl2()
 {
 	p_current_lvl = Lvl_2;
-	App->scene->ChangeScene(1.0f);
+	App->fade->FadeToBlack(App->player, App->player);
+
+
 }
 
 void j1Player::StatFromCurrentLvl()
 {
+	App->audio->PlayFx(g_is_over_fx);
+	App->fade->FadeToBlack(App->player, App->player);
 }
 
 void j1Player::GodMode()
@@ -290,7 +295,6 @@ void j1Player::PlayerDies()
 {
 	App->audio->PlayFx(g_is_over_fx);
 	App->fade->FadeToBlack(App->player, App->player);
-
 }
 
 void j1Player::CamFollowPlayer()

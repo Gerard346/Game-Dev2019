@@ -1,6 +1,7 @@
 #include "EntityManager.h"
 #include "Brofiler/Brofiler.h"
 #include "j1App.h"
+#include "j1Scene.h"
 #include "PlayerEntity.h"
 #include "EnemyGroundEntity.h"
 #include "EnemyRPGEntity.h"
@@ -195,7 +196,50 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			player_entity->entity_current_vel.x = 0.0f;
 		}
 	}
+	//STICKINESS
+	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_STICKINESS) {
+		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
+		if (player_entity == nullptr)
+		{
+			return;
+		}
 
+		//TOP
+		if (coll2->rect.y - (coll->rect.y + coll->rect.h) < 0 && coll2->rect.y - (coll->rect.y + coll->rect.h) > -16) {
+			player_entity->actual_gravity = player_entity->gravity - 5000;
+			coll->rect.y = coll2->rect.y - coll->rect.h;
+			player_entity->entity_pos.y = coll2->rect.y - coll->rect.h;
+
+			if (player_entity->entity_current_vel.y > 0.0f) {
+				player_entity->entity_current_vel.y = 0.0f;
+			}
+
+			player_entity->entity_floor = true;
+			player_entity->double_jump = false;
+
+			if (player_entity->current_state_entity == ENTITY_JUMP_LEFT)
+			{
+				SetEntityState(ENTITY_IDLE_LEFT, player_entity->entity_collider);
+			}
+
+			else if (player_entity->current_state_entity == ENTITY_JUMP_RIGHT)
+			{
+				SetEntityState(ENTITY_IDLE_RIGHT, player_entity->entity_collider);
+			}
+		}
+		//LEFT
+		else if (coll2->rect.x - (coll->rect.x + coll->rect.w) < 0 && coll2->rect.x - (coll->rect.x + coll->rect.w) > -16) {
+			coll->rect.x = coll2->rect.x - coll->rect.w;
+			player_entity->entity_pos.x = coll2->rect.x - coll->rect.w;
+			player_entity->entity_current_vel.x = 0.0f;
+		}
+		//RIGHT
+		else if (coll->rect.x - (coll2->rect.x + coll2->rect.w) < 0 && coll->rect.x - (coll2->rect.x + coll2->rect.w) > -16) {
+			coll->rect.x = coll2->rect.x + coll2->rect.w;
+			player_entity->entity_pos.x = coll2->rect.x + coll2->rect.w;
+			player_entity->entity_current_vel.x = 0.0f;
+		}
+	}
 
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
 
