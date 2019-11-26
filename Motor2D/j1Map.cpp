@@ -30,6 +30,8 @@ bool j1Map::Awake(const pugi::xml_node& config)
 	bool ret = true;
 
 	folder.create(config.child("folder").child_value());
+	level1_path = (char*)config.child("tmx_level_1").child_value();
+	level2_path = (char*)config.child("tmx_level_2").child_value();
 
 	return ret;
 }
@@ -40,11 +42,11 @@ bool j1Map::Start()
 	{
 		if (App->player->p_current_lvl == Lvl_2)
 		{
-			App->map->ChangeMap("Level2.tmx");
+			App->map->ChangeMap(level2_path);
 		}
 		else
 		{
-			App->map->ChangeMap("Level1.tmx");
+			App->map->ChangeMap(level1_path);
 		}
 
 	}
@@ -406,6 +408,13 @@ const info_tileset* j1Map::GetTilesetInfoFromTileID(int tile_ID) const
 	return nullptr;
 }
 
+char* j1Map::GetPathFromLevel(lvl_map lvl)
+{
+	if (lvl == lvl_1_map) return level1_path;
+	if (lvl == lvl_2_map) return level2_path;
+	return nullptr;
+}
+
 info_layer* j1Map::GetLayer(char* name)const
 {
 	for (int i = 0; i < map_info.layers_info.Count(); i++)
@@ -501,7 +510,7 @@ void mutable_layer::Update(float dt)
 	if (velocity_y != 0)
 	{
 		delta_y = pos_y;
-		pos_y += velocity_y*dt;
+		pos_y += velocity_y *dt;
 		
 		if (abs(pos_y) > range_y)
 		{

@@ -91,10 +91,10 @@ bool j1Player::Load(const pugi::xml_node& node)
 
 	if (p_current_lvl != loaded_lvl) {
 		if (loaded_lvl == 1) {
-			App->map->ChangeMap("Level2.tmx");
+			App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
 		}
 		else {
-			App->map->ChangeMap("Level1.tmx");
+			App->map->ChangeMap(App->map->GetPathFromLevel(lvl_2_map));
 		}
 	}
 	float uu = node.child("player").attribute("position_x").as_float();

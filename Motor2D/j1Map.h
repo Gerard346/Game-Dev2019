@@ -179,6 +179,7 @@ public:
 
 	info_layer* GetLayer(char* name)const;
 	const info_tileset* GetTilesetInfoFromTileID(int)const;
+	char* GetPathFromLevel(lvl_map lvl);
 	void WantToLoadMap() { want_to_load_map = true; }
 
 
@@ -189,6 +190,8 @@ private:
 	bool				map_loaded;
 	bool				want_to_load_map = false;
 
+	char*				level1_path = nullptr;
+	char*				level2_path = nullptr;
 };
 
 #endif // __j1MAP_H__

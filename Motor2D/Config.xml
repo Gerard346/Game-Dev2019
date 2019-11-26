@@ -16,6 +16,8 @@
   </audio>
   <map>
     <folder>maps/</folder>
+    <tmx_level_1>Level1.tmx</tmx_level_1>
+    <tmx_level_2>Level2.tmx</tmx_level_2>
   </map>
 	
   <pathfinding>
@@ -30,7 +32,6 @@
   </scene>
 
 <player>
-	
 	<fx_dead>audio/fx/dead.wav</fx_dead>
 	<fx_jump>audio/fx/jump.wav</fx_jump>
 </player>
@@ -38,8 +39,8 @@
 <entityManager>
   <entity>
     <type>player</type>
-    <gravity g="-360.0"/>
-    <max_speed x="40.0" y="500.0"/>
+    <gravity g="-400.0"/>
+    <max_speed x="200.0" y="200.0"/>
     <collider_type>player</collider_type>
     <collider_size x="20" y="30"/>
   </entity>

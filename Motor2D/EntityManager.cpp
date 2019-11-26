@@ -118,8 +118,10 @@ bool EntityManager::PreUpdate()
 		new_entities.clear();
 	}
 
-	for (int i = 0; i < entities_list.count(); i++) {
-		entities_list.At(i)->data->Update(App->Getdt());
+	if (!App->scene->GetPause()) {
+		for (int i = 0; i < entities_list.count(); i++) {
+			entities_list.At(i)->data->Update(App->Getdt());
+		}
 	}
 
 	return true;

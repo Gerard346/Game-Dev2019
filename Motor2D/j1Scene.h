@@ -33,9 +33,13 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool GetPause();
+
 private:
+
 	p2SString music_path;
 	SDL_Texture* img = nullptr;
+	bool is_paused = false;
 };
 
 #endif // __j1SCENE_H__

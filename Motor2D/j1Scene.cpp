@@ -38,11 +38,9 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 bool j1Scene::Start()
 {
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
-	App->map->Load("Level1.tmx");
+	App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
 
-	//App->player->SpawnPlayer();
-
-	App->audio->PlayMusic(music_path.GetString());
+	//App->audio->PlayMusic(music_path.GetString());
 
 	p2SString title("Last Soldier");
 
@@ -61,7 +59,6 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->SetVolume(20);
 	}
@@ -93,9 +90,12 @@ bool j1Scene::Update(float dt)
 		//App->player->p_current_vel.x = 0.0f;
 		//App->entity->GetPlayer()->p_current_vel.y = 0.0f;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		is_paused = !is_paused;
+	}
 
-	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
+
 	return true;
 }
 
@@ -122,4 +122,9 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+bool j1Scene::GetPause()
+{
+	return is_paused;
 }
