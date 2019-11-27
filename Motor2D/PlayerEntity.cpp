@@ -43,7 +43,10 @@ bool PlayerEntity::Update(float dt)
 
 	entity_collider->SetPos(entity_pos.x, entity_pos.y);
 
-	actual_gravity = gravity;
+	if (actual_gravity != gravity)
+	{
+		actual_gravity = gravity;
+	}
 
 	return true;
 }

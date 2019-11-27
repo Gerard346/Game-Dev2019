@@ -127,6 +127,8 @@ struct info_map {
 	p2DynArray<info_layer*> layers_info;
 	p2DynArray<std::pair<entityType, iPoint>> entities_info;
 	p2DynArray<iPoint> spawn_points; 
+	p2DynArray<iPoint> patrol_points;
+
 };
 
 // ----------------------------------------------------
@@ -180,8 +182,10 @@ public:
 	info_layer* GetLayer(char* name)const;
 	const info_tileset* GetTilesetInfoFromTileID(int)const;
 	char* GetPathFromLevel(lvl_map lvl);
-	void WantToLoadMap() { want_to_load_map = true; }
+	
+	fPoint GetNearestReachablePatrolPoint(float map_x, float map_y)const;
 
+	void WantToLoadMap() { want_to_load_map = true; }
 
 private:
 	

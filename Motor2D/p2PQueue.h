@@ -144,6 +144,22 @@ public:
 		return NULL;
 	}
 
+	unsigned int find(tdata data)const {
+
+		uint index = 0;
+		p2PQueue_item<tdata>* tmp = start;
+
+		while (tmp != NULL) {
+
+			if (tmp->data == data)return index;
+
+
+			tmp = tmp->next;
+			index++;
+		}
+		return -1;
+	}
+
 	/**
 	* Destroy and free all mem
 	*/

@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "j1FadeToBlack.h"
 #include "EntityManager.h"
+#include "j1Pathfinding.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -243,6 +244,9 @@ bool j1Map::Load(const char* file_name)
 							map_info.spawn_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
 							App->colliders->AddCollider(collider_rect, collider_type, this);
 							break;
+						case COLLIDER_PATROL:
+							map_info.patrol_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
+							break;
 						}
 					}
 					else if (cur_layer_type == slider_layer)
@@ -415,6 +419,34 @@ char* j1Map::GetPathFromLevel(lvl_map lvl)
 	return nullptr;
 }
 
+fPoint j1Map::GetNearestReachablePatrolPoint(float map_x, float map_y) const
+{
+	iPoint origin = { (int)map_x, (int)map_y };
+	origin = App->map->WorldToMap(origin.x, origin.y);
+
+	int distance = map_info.width * map_info.height * map_info.tilewidth;
+	fPoint oirigin = { (float)map_x, (float)map_y };
+	fPoint target = { -1, -1};
+	
+	for (int i = 0; i < map_info.patrol_points.Count(); i++)
+	{
+		iPoint cur_point = *map_info.patrol_points.At(i);
+
+		if (App->path->CanReach(origin, App->map->WorldToMap(cur_point.x, cur_point.y)) == false)continue;
+
+		fPoint map_patrol_point = { (float)cur_point.x,(float)cur_point.y };
+		int cur_distance = oirigin.DistanceManhattan(map_patrol_point);
+		
+		if (cur_distance < distance && cur_distance > MIN_DISTANCE)
+		{
+			distance = cur_distance;
+			target = map_patrol_point;
+		}
+	}
+
+	return target;
+}
+
 info_layer* j1Map::GetLayer(char* name)const
 {
 	for (int i = 0; i < map_info.layers_info.Count(); i++)
@@ -546,3 +578,4 @@ void parallax_layer::Update(float dt)
 {
 	pos_x = initial_pos_x - App->render->camera.x * x_delta_relation;
 }
+

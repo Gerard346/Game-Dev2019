@@ -9,6 +9,8 @@
 #include "j1Module.h"
 
 #define COST_MAP 100
+#define DISTANCE_TO_REACH 25
+#define MIN_DISTANCE 16
 
 class SDL_Texture;
 class info_layer;
@@ -44,7 +46,14 @@ public:
 
 	// Propagation style
 	void PropagateASTAR(iPoint origin, iPoint goal);
-	p2DynArray<iPoint> PropagateASTARf(fPoint origin, fPoint goal);
+	bool PropagateASTARf(fPoint origin, fPoint goal, p2DynArray<iPoint>& ref);
+	bool PropagateBFS(const iPoint&, const iPoint&, p2List<iPoint>*, p2PQueue<iPoint>*);
+
+	bool CanReach(const iPoint, const iPoint);
+
+private:
+
+	bool IsWalkable(const iPoint& position) const;
 
 private:
 

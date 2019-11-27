@@ -56,10 +56,15 @@ bool EnemyGroundEntity::Update(float dt)
 			
 			if (path.Count() == 0 && path_next_pos.y == 0)
 			{
-				path = App->path->PropagateASTARf(entity_pos, entity_player->entity_pos);
-				if (path.Count() == 0)
+				if(App->path->PropagateASTARf(entity_pos, entity_player->entity_pos, path) == false)
 				{
 					//PATROL
+					fPoint goal = App->map->GetNearestReachablePatrolPoint(entity_pos.x, entity_pos.y);
+					if (App->path->PropagateASTARf(entity_pos, goal, path) == true)
+					{
+						path.Pop(path_next_pos);
+						path_next_pos = App->map->MapToWorld(path_next_pos.x, path_next_pos.y);
+					}
 				}
 				else
 				{
@@ -74,11 +79,12 @@ bool EnemyGroundEntity::Update(float dt)
 				float vec_magnitude = (abs(dir_vector.x) + abs(dir_vector.y));
 				dir_vector = { dir_vector.x / vec_magnitude , dir_vector.y / vec_magnitude };
 
-				if (vec_magnitude < 10.0f)
+				if (vec_magnitude < 16.0f)
 				{
 					if (path.Count() == 0)
 					{
 						path_next_pos.x = path_next_pos.y = 0;
+						entity_current_vel = { 0.0f, 0.0f };
 					}
 					else
 					{
@@ -88,7 +94,7 @@ bool EnemyGroundEntity::Update(float dt)
 				}
 				else
 				{
-					entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt(), dir_vector.y* entity_vel.y* App->Getdt()};
+					entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt() * vec_magnitude * 0.05f, dir_vector.y* entity_vel.y* App->Getdt()* vec_magnitude * 0.05f};
 				}
 			}
 		}

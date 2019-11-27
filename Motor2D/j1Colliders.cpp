@@ -245,6 +245,10 @@ COLLIDER_TYPE j1Colliders::TileIDToColliderTile(int tile_id) const
 
 		return COLLIDER_STICKINESS;
 
+	case 9:
+
+		return COLLIDER_PATROL;
+
 	}
 	
 

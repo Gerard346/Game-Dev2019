@@ -157,7 +157,7 @@ void j1Pathfinding::PropagateASTAR(iPoint origin, iPoint goal)
 	}
 }
 
-p2DynArray<iPoint> j1Pathfinding::PropagateASTARf(fPoint origin, fPoint goal)
+bool j1Pathfinding::PropagateASTARf(fPoint origin, fPoint goal, p2DynArray<iPoint>& ref)
 {
 	iPoint map_goal = App->map->WorldToMap(goal.x, goal.y);
 
@@ -167,7 +167,7 @@ p2DynArray<iPoint> j1Pathfinding::PropagateASTARf(fPoint origin, fPoint goal)
 
 	if (walkability_layer == nullptr)
 	{
-		return p2DynArray<iPoint>();
+		return false;
 
 	}
 
@@ -205,16 +205,108 @@ p2DynArray<iPoint> j1Pathfinding::PropagateASTARf(fPoint origin, fPoint goal)
 						if (neighbors[i].x == map_goal.x && neighbors[i].y == map_goal.y)
 						{
 							Path(goal.x, goal.y);
-							return path;
+
+							if (path.Count() > 0)
+							{
+								ref.Clear();
+								for (int i = 0; i < path.Count(); i++)
+								{
+									ref.PushBack(*path.At(i));
+								}
+								return true;
+							}
+							else
+							{
+								return false;
+							}							
 						}
 					}
 				}
 			}
 		}
 	}
-	return p2DynArray<iPoint>();
+	return false;
 }
 
+bool j1Pathfinding::CanReach(const iPoint origin, const iPoint destination)
+{
+	p2List<iPoint> closed_list;
+	p2PQueue<iPoint> open_list;
+	open_list.Push(origin,0);
+	uint distance_to_loop = origin.DistanceManhattan(destination) * DISTANCE_TO_REACH;
+
+	while (distance_to_loop > 0)
+	{
+		if (PropagateBFS(origin, destination, &closed_list, &open_list))
+		{
+			//LOG("TRUE");
+			closed_list.clear();
+			open_list.Clear();
+			return true;
+		}
+		distance_to_loop--;
+	}
+	//LOG("FALSE");
+	closed_list.clear();
+	open_list.Clear();
+	return false;
+}
+bool j1Pathfinding::IsWalkable(const iPoint& position) const
+{
+	return walkability_layer->Get(position.x, position.y) > 0;
+}
+
+bool j1Pathfinding::PropagateBFS(const iPoint& origin, const iPoint& destination, p2List<iPoint>* closed, p2PQueue<iPoint>* open_list)
+{
+	walkability_layer = App->map->GetLayer("Walkability");
+
+	if (walkability_layer == nullptr)
+	{
+		return false;
+	}
+
+	p2List<iPoint>* closed_list;
+	if (closed == nullptr)
+		closed_list = &this->visited;
+	else closed_list = closed;
+
+	p2PQueue<iPoint>* open_l;
+	if (open_list == nullptr)
+		open_l = &this->frontier;
+	else open_l = open_list;
+
+	if (closed_list->find(destination) != -1)
+	{
+		return true;
+	}
+
+	iPoint point;
+
+	if (open_l->start != NULL && closed_list->find(destination) == -1)
+	{
+		open_l->Pop(point);
+
+		if (open_l->find(point) == -1)
+			closed_list->add(point);
+		iPoint neightbour[4];
+
+		neightbour[0] = { point.x - 1, point.y };
+		neightbour[1] = { point.x + 1, point.y };
+		neightbour[2] = { point.x, point.y - 1 };
+		neightbour[3] = { point.x, point.y + 1 };
+
+		for (uint i = 0; i < 4; i++)
+		{
+			if (closed_list->find(neightbour[i]) == -1 && IsWalkable(neightbour[i]))
+			{
+				open_l->Push(neightbour[i],0);
+				closed_list->add(neightbour[i]);
+			}
+		}
+	}
+
+	return false;
+}
 int j1Pathfinding::MovementCost(int x, int y) const
 {
 	int ret = -1;
