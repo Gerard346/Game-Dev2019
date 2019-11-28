@@ -72,8 +72,6 @@ void BaseEntity::UpdatePosition()
 
 void BaseEntity::Die(entitySide side)
 {
-	App->colliders->EraseCollider(entity_collider);
-	
 	if (side == entitySide::LEFT) {
 		App->entity->SetEntityState(ENTITY_DEAD_LEFT, entity_collider);
 	}

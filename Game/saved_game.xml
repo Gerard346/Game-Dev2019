@@ -12,12 +12,17 @@
 	<pathfinding />
 	<colliders />
 	<player>
-		<player current_level="1" />
+		<player current_level="0" />
 	</player>
 	<entityManager>
-		<Entity_Alive Type="player" X="225.800079" Y="210.462402" Vel_X="0" Vel_Y="13.6000004" />
-		<Entity_Alive Type="enemy" X="356.785217" Y="162" Vel_X="-33.9897804" Vel_Y="12.2400007" />
-		<Entity_Alive Type="bullet" X="334.300293" Y="165.434418" Vel_X="50" Vel_Y="0" />
+		<Alive_Entities>
+			<Entity_Alive Type="player" X="105.600037" Y="210" />
+			<Entity_Alive Type="enemy" X="325.520508" Y="162" />
+			<Entity_Alive Type="bullet" X="208.249847" Y="172.761215" Vel_X="50" Vel_Y="0" />
+			<Entity_Alive Type="bullet" X="201.249863" Y="188.921631" Vel_X="50" Vel_Y="0" />
+			<Entity_Alive Type="bullet" X="275.283844" Y="162" Vel_X="-50" Vel_Y="0" />
+		</Alive_Entities>
+		<Dead_Entities />
 	</entityManager>
 	<fadetoblack />
 	<renderer>

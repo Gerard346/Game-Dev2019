@@ -23,7 +23,7 @@ public:
 
 	void OnCollision(Collider* c1, Collider* c2);
 
-	bool Load(pugi::xml_node&);
+	bool Load(const pugi::xml_node&);
 	bool Save(pugi::xml_node&);
 
 public:
@@ -41,7 +41,7 @@ public:
 	entityState StringToEntityState(const char* str)const;
 	entityType TileIdToEntityType(int) const;
 	bool SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list);
-	bool DeleteAll();
+	bool DeleteAllEntities();
 
 	PlayerEntity* GetPlayer()const;
 	entitySide GetEntitySideView(BaseEntity*);

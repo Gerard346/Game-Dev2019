@@ -50,7 +50,7 @@ bool j1Player::Start()
 	}
 	
 	if (App->fade->current_step == App->fade->fade_to_black) {
-		App->entity->DeleteAll();
+		App->entity->DeleteAllEntities();
 		App->entity->SpawnEntities(App->map->map_info.entities_info);
 	}
 

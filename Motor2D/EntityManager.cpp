@@ -406,35 +406,69 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 	}
 }
 
-bool EntityManager::Load(pugi::xml_node&)
+bool EntityManager::Load(const pugi::xml_node& node)
 {
+	DeleteAllEntities();
+
+	pugi::xml_node entity = node.child("Alive_Entities").first_child();
+	while (entity != NULL)
+	{
+		entityType entity_type = StrToEntityType((char*)entity.attribute("Type").as_string());
+		BaseEntity* new_entity = CreateEntity(entity_type);
+
+		new_entity->entity_pos.x = entity.attribute("X").as_float();
+		new_entity->entity_pos.y = entity.attribute("Y").as_float();
+		if (entity_type == entityType::BULLET_TYPE || entity_type == entityType::ROCKET_TYPE) {
+			new_entity->entity_current_vel.x = entity.attribute("Vel_X").as_float();
+			new_entity->entity_current_vel.y = entity.attribute("Vel_Y").as_float();
+		}
+
+		entity = entity.next_sibling();
+	}
+
+	pugi::xml_node dead_entity = node.child("Dead_Entities").first_child();
+
+	while (dead_entity != NULL)
+	{
+		entityType entity_type = StrToEntityType((char*)dead_entity.attribute("Type").as_string());
+		BaseEntity* new_entity = CreateEntity(entity_type);
+
+		new_entity->entity_pos.x = dead_entity.attribute("X").as_float();
+		new_entity->entity_pos.y = dead_entity.attribute("Y").as_float();
+
+		App->entity->KillEntity(new_entity);
+		dead_entity = dead_entity.next_sibling();
+	}
+
 	return true;
 }
 
 bool EntityManager::Save(pugi::xml_node& node)
 {
 	bool ret = true;
-
+	node.append_child("Alive_Entities");
+	node.append_child("Dead_Entities");
 	for (int i = 0; i < entities_list.count(); i++)
 	{
-		pugi::xml_node entities_node = node.append_child("Entity_Alive");
+		pugi::xml_node entities_node = node.first_child().append_child("Entity_Alive");
 		{
 			entities_node.append_attribute("Type") = EntityTypeToStr(entities_list[i]->entity_type);
 			entities_node.append_attribute("X") = entities_list[i]->entity_pos.x;
 			entities_node.append_attribute("Y") = entities_list[i]->entity_pos.y;
-			entities_node.append_attribute("Vel_X") = entities_list[i]->entity_current_vel.x;
-			entities_node.append_attribute("Vel_Y") = entities_list[i]->entity_current_vel.y;
+			if (entities_list[i]->entity_type == entityType::BULLET_TYPE || entities_list[i]->entity_type == entityType::ROCKET_TYPE) {
+				entities_node.append_attribute("Vel_X") = entities_list[i]->entity_current_vel.x;
+				entities_node.append_attribute("Vel_Y") = entities_list[i]->entity_current_vel.y;
+			}
 		}
+		
 	}
 	for (int i = 0; i < dead_entities.count(); i++)
 	{
-		pugi::xml_node dead_entities_node = node.append_child("Entity_Dead");
+		pugi::xml_node dead_entities_node = node.child("Dead_Entities").append_child("Entity_Dead");
 		{
 			dead_entities_node.append_attribute("Type") = EntityTypeToStr(dead_entities[i]->entity_type);
 			dead_entities_node.append_attribute("X") = dead_entities[i]->entity_pos.x;
 			dead_entities_node.append_attribute("Y") = dead_entities[i]->entity_pos.y;
-			dead_entities_node.append_attribute("Vel_X") = dead_entities[i]->entity_current_vel.x;
-			dead_entities_node.append_attribute("Vel_Y") = dead_entities[i]->entity_current_vel.y;
 		}
 	}
 	return true;
@@ -575,6 +609,8 @@ bool EntityManager::KillEntity(BaseEntity* entity)
 			dead_entities_not_visible.add(entity);
 		}
 
+		App->colliders->EraseCollider(entity->entity_collider);
+
 		entity->Die(GetEntitySideView(entity));
 	}
 
@@ -705,7 +741,7 @@ bool EntityManager::SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& lis
 	return true;
 }
 
-bool EntityManager::DeleteAll()
+bool EntityManager::DeleteAllEntities()
 {
 	for (int i = 0; i < new_entities.count(); i++) {
 		RELEASE(new_entities[i]);

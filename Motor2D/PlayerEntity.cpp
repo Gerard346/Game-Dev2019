@@ -196,7 +196,6 @@ void PlayerEntity::Die(entitySide side)
 	else {
 		App->entity->SetEntityState(ENTITY_DEAD_RIGHT, entity_collider);
 	}
-
 	App->player->PlayerDies();
 }
 
