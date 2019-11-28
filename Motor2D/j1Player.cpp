@@ -48,10 +48,9 @@ bool j1Player::Start()
 	if (next_lvl_fx == -1) {
 		next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
 	}
-	
-	if (App->fade->current_step == App->fade->fade_to_black) {
-		App->entity->DeleteAllEntities();
-		App->entity->SpawnEntities(App->map->map_info.entities_info);
+	if (p_dead == true) {
+		App->WantToLoadCheckpoints();
+		p_dead = false;
 	}
 
 	return true;
@@ -67,8 +66,9 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Player", Profiler::Color::Yellow);
-
-	CamFollowPlayer();
+	if (!App->fade->isFading()) {
+		CamFollowPlayer();
+	}
 
 	return true;
 }
@@ -104,7 +104,7 @@ bool j1Player::Load(const pugi::xml_node& node)
 bool j1Player::Save(pugi::xml_node& node) 
 {
 	pugi::xml_node player = node.append_child("player");
-	player.append_attribute("current_level").set_value(p_current_lvl);
+	player.append_attribute("current_level").set_value(p_current_lvl+1);
 
 	return true;
 }
@@ -116,6 +116,7 @@ bool j1Player::Save(pugi::xml_node& node)
 
 void j1Player::ChangeLvl()
 {
+	next_lvl = true;
 	if (p_current_lvl == Lvl_1) {
 		StartFromLvl2();
 	}
@@ -227,49 +228,21 @@ void j1Player::PlayerInput(float dt)
 		}*/
 }
 
-
-
-void j1Player::SpawnPlayer()
-{
-	PlayerEntity* player = App->entity->GetPlayer();
-
-	//player
-
-	App->entity->CreateEntity(entityType::PLAYER_TYPE);
-	/*
-	p_dead = false;
-	p_spawn = { App->map->map_info.p_spaw_point.x, App->map->map_info.p_spaw_point.y, p_size_collider.x, p_size_collider.y };
-	p_pos = fPoint(p_spawn.x, p_spawn.y - p_size_collider.y * 0.5f);
-	p_current_vel = { 0.0f,0.0f };
-	p_floor = false;
-	
-	if (p_collider == nullptr) {
-		p_collider = App->colliders->AddCollider(p_spawn, COLLIDER_PLAYER);
-	}
-
-	p_collider->callback = this;
-
-	current_animation = App->animation->GetAnimation(PLAYER, (ANIMATION_TYPE)p_current_state);
-*/}
-
 void j1Player::StartFromLvl1()
 {
 	p_current_lvl = Lvl_1;
-	App->fade->FadeToBlack(App->player, App->player);
-
+	App->scene->ChangeScene(1.0f);
 }
 
 void j1Player::StartFromLvl2()
 {
 	p_current_lvl = Lvl_2;
-	App->fade->FadeToBlack(App->player, App->player);
-
-
+	App->scene->ChangeScene(1.0f);
 }
 
 void j1Player::StatFromCurrentLvl()
 {
-	App->fade->FadeToBlack(App->player, App->player);
+	App->scene->ChangeScene(1.0f);
 }
 
 void j1Player::GodMode()
@@ -284,6 +257,7 @@ bool j1Player::IsGod()
 
 void j1Player::PlayerDies()
 {
+	p_dead = true;
 	App->audio->PlayFx(g_is_over_fx);
 	App->fade->FadeToBlack(App->player, App->player);
 }

@@ -80,9 +80,17 @@ void j1App::WantToSave()
 	want_to_save = true;
 }
 
+void j1App::WantToSaveCheckpoints() {
+	want_to_save_checkpoints = true;
+}
 void j1App::WantToLoad()
 {
 	want_to_load = true;
+}
+
+void j1App::WantToLoadCheckpoints()
+{
+	want_to_load_checkpoints = true;
 }
 
 float j1App::Getdt() const
@@ -195,11 +203,18 @@ void j1App::FinishUpdate()
 		Load();
 		want_to_load = false;
 	}
+	if (want_to_load_checkpoints == true) {
+		LoadCheckPoints();
+		want_to_load_checkpoints = false;
+	}
 	if (want_to_save == true) {
 		Save();
 		want_to_save = false;
 	}
-
+	if (want_to_save_checkpoints == true) {
+		SaveCheckPoints();
+		want_to_save_checkpoints = false;
+	}
 	avg_fps = (float)frame_count / fps_timer.ReadSec();
 	
 	if (is_fps_capped) {
@@ -357,6 +372,35 @@ void j1App::Load()
 	}
 }
 
+void j1App::LoadCheckPoints()
+{
+	pugi::xml_document load_file;
+
+	pugi::xml_parse_result result = load_file.load_file("saved_checkpoints.xml");
+	if (result == false) {
+		LOG(result.description());
+	}
+
+	pugi::xml_node load_main = load_file.first_child();
+
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL)
+	{
+		pugi::xml_node node = load_main.child(item->data->name.GetString());
+		if (node == NULL) {
+			LOG("Error loading node");
+
+		}
+		else {
+			item->data->Load(node);
+		}
+		item = item->next;
+
+	}
+}
+
 void j1App::Save()
 {
 
@@ -376,4 +420,22 @@ void j1App::Save()
 	save_file.save_file("saved_game.xml");
 }
 
+void j1App::SaveCheckPoints()
+{
+
+	pugi::xml_document save_file;
+	p2List_item<j1Module*>* item;
+
+	pugi::xml_node save_main = save_file.append_child("saved_checkpoints");
+	item = modules.start;
+
+	while (item != NULL)
+	{
+		pugi::xml_node new_node = save_main.append_child(item->data->name.GetString());
+		item->data->Save(new_node);
+		item = item->next;
+
+	}
+	save_file.save_file("saved_checkpoints.xml");
+}
 

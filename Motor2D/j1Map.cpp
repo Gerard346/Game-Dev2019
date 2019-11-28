@@ -39,6 +39,7 @@ bool j1Map::Awake(const pugi::xml_node& config)
 
 bool j1Map::Start()
 {
+
 	if (want_to_load_map)
 	{
 		if (App->player->p_current_lvl == Lvl_2)
@@ -242,6 +243,7 @@ bool j1Map::Load(const char* file_name)
 							break;
 						case COLLIDER_START:
 							map_info.spawn_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
+							collider_rect.h = App->render->camera.h;
 							App->colliders->AddCollider(collider_rect, collider_type, this);
 							break;
 						case COLLIDER_PATROL:
@@ -274,7 +276,6 @@ bool j1Map::Load(const char* file_name)
 			}
 		}
 	}
-
 	App->entity->SpawnEntities(map_info.entities_info);
 
 	return ret;
@@ -289,6 +290,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 void j1Map::ChangeMap(const char* path)
 {
+	App->entity->DeleteAllEntities();
 	App->map->CleanUp();
 	App->map->Load(path);
 }

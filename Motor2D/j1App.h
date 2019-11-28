@@ -47,7 +47,9 @@ public:
 	// Add a new module to handle
 	void AddModule(j1Module* module);
 	void WantToSave();
+	void WantToSaveCheckpoints();
 	void WantToLoad();
+	void WantToLoadCheckpoints();
 	float Getdt() const;
 	// Exposing some properties for reading
 	int GetArgc() const;
@@ -56,8 +58,11 @@ public:
 private:
 
 	void Load();
+	void LoadCheckPoints();
 
 	void Save();
+
+	void SaveCheckPoints();
 	// Call modules before each loop iteration
 	void PrepareUpdate();
 	
@@ -92,7 +97,11 @@ public:
 private:
 
 	bool want_to_save = false;
+	bool want_to_save_checkpoints = true;
+
 	bool want_to_load = false;
+	bool want_to_load_checkpoints = false;
+
 	bool is_fps_capped = true;
 	
 	p2SString cap_string = "";

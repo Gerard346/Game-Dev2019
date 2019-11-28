@@ -150,13 +150,13 @@ void PlayerEntity::HandleInput(float dt)
 	}
 	if (App->player->IsGod()) {
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			entity_current_vel.y = -entity_vel.x * dt;
+			entity_current_vel.y = -entity_vel.y;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP) {
 			entity_current_vel.y = 0.0f;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			entity_current_vel.y = entity_vel.x * dt;
+			entity_current_vel.y = entity_vel.y;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP) {
 			entity_current_vel.y = 0.0f;

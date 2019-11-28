@@ -22,7 +22,7 @@ private:
 	float rechage_rate = 8.0f;
 	int ammo = 4;
 
-	fPoint view_distance = { 2250.0f,0.0f };
+	fPoint view_distance = { 200.0f,0.0f };
 	p2DynArray<iPoint>	path;
 	iPoint				path_next_pos = { 0.0f,0.0f };
 

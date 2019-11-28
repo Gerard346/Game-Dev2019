@@ -61,9 +61,6 @@ public:
 
 	void PlayerInput(float dt);
 
-	void SpawnPlayer();
-
-
 public:
 	Levels p_current_lvl = Lvl_1;
 
@@ -71,11 +68,14 @@ private:
 	bool p_god = false;
 	bool p_floor = false;
 	bool double_jump = false;
-
+	bool next_lvl = false;
+	bool p_dead = false;
 	int g_is_over_fx = -1;
 	int next_lvl_fx = -1;
 
 	char* g_is_over_fx_path = nullptr;
 	char* next_lvl_fx_path = nullptr;
+
+	bool start_from_current_lvl = false;
 };
 #endif

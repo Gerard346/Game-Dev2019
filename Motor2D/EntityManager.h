@@ -51,6 +51,9 @@ public:
 	int jump_fx = -1;
 
 private:
+	bool CheckPointsLoad(const pugi::xml_node&);
+	bool SaveCheckpointsSave(pugi::xml_node&);
+
 	char* shoot_fx_path = nullptr;
 	char* jump_fx_path = nullptr;
 

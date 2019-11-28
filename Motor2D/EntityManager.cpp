@@ -165,6 +165,9 @@ bool EntityManager::CleanUp()
 
 void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 {
+	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_START) {
+		App->WantToSaveCheckpoints();
+	}
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_WALL) {
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
 		if (player_entity == nullptr)
@@ -801,4 +804,3 @@ entitySide EntityManager::GetEntitySideView(BaseEntity* entity)
 
 	return entitySide::RIGHT;
 }
-
