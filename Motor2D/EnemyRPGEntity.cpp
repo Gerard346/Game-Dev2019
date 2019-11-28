@@ -9,6 +9,7 @@
 #include "EntityManager.h"
 #include "EnemyRPGEntity.h"
 #include "Rocket.h"
+#include "j1Player.h"
 EnemyRPGEntity::EnemyRPGEntity()
 {
 	shoot_timer.Start();
@@ -69,4 +70,5 @@ void EnemyRPGEntity::Shoot()
 
 		break;
 	}
+	App->audio->PlayFx(App->entity->shoot_fx);
 }

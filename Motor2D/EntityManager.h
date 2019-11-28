@@ -45,7 +45,13 @@ public:
 	PlayerEntity* GetPlayer()const;
 	entitySide GetEntitySideView(BaseEntity*);
 
+public:
+	int shoot_fx = -1;
+	int jump_fx = -1;
+
 private:
+	char* shoot_fx_path = nullptr;
+	char* jump_fx_path = nullptr;
 
 	p2DynArray <BaseEntity*> values_entities;
 

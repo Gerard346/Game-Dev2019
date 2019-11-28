@@ -58,18 +58,19 @@
 </stand_right>
 
 <dead_right loop="false">
-    <sprite n="Dead_02.png" x="99" y="0" w="27" h="26"/>
-    <sprite n="Dead_03.png" x="70" y="2" w="29" h="30"/>
-    <sprite n="Dead_04.png" x="36" y="2" w="33" h="30"/>
-    <sprite n="Dead_05.png" x="0" y="2" w="36" h="30"/>
+    <sprite n="Dead_02.png" x="0" y="37" w="27" h="26"/>
+    <sprite n="Dead_03.png" x="27" y="37" w="29" h="30"/>
+    <sprite n="Dead_04.png" x="57" y="37" w="33" h="30"/>
+    <sprite n="Dead_05.png" x="90" y="37" w="36" h="30"/>
 </dead_right>
 
 
 <dead_left loop="false">
     <sprite n="Dead_02.png" x="99" y="0" w="27" h="26"/>
-    <sprite n="Dead_03.png" x="53" y="2" w="29" h="30"/>
-    <sprite n="Dead_04.png" x="70" y="2" w="33" h="30"/>
+    <sprite n="Dead_03.png" x="70" y="2" w="29" h="30"/>
+    <sprite n="Dead_04.png" x="36" y="2" w="33" h="30"/>
     <sprite n="Dead_05.png" x="0" y="2" w="36" h="30"/>
+
 </dead_left>
 
 
@@ -141,10 +142,10 @@
 
 
 <dead_left loop="false">
-    <sprite n="Dead_02.png" x="99" y="0" w="27" h="26"/>
-    <sprite n="Dead_03.png" x="53" y="2" w="29" h="30"/>
-    <sprite n="Dead_04.png" x="70" y="2" w="33" h="30"/>
-    <sprite n="Dead_05.png" x="0" y="2" w="36" h="30"/>
+    <sprite n="Dead_02.png" x="0" y="37" w="27" h="26"/>
+    <sprite n="Dead_03.png" x="27" y="37" w="29" h="30"/>
+    <sprite n="Dead_04.png" x="57" y="37" w="33" h="30"/>
+    <sprite n="Dead_05.png" x="90" y="37" w="36" h="30"/>
 </dead_left>
 
 </entity_animation>

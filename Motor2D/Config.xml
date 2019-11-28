@@ -32,8 +32,9 @@
   </scene>
 
 <player>
-	<fx_dead>audio/fx/dead.wav</fx_dead>
-	<fx_jump>audio/fx/jump.wav</fx_jump>
+        <fx_dead>audio/fx/dead.wav</fx_dead>	
+        <fx_next_lvl>audio/fx/next_lvl.wav</fx_next_lvl>
+
 </player>
 
 <entityManager>
@@ -78,6 +79,10 @@
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="20"/>
   </entity>
+
+  <fx_jump>audio/fx/jump.wav</fx_jump>
+  <fx_shoot>audio/fx/shoot.wav</fx_shoot>
+
 </entityManager>
 
 

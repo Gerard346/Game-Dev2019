@@ -1,6 +1,7 @@
 #include "EntityManager.h"
 #include "Brofiler/Brofiler.h"
 #include "j1App.h"
+#include "j1Audio.h"
 #include "j1Scene.h"
 #include "PlayerEntity.h"
 #include "EnemyGroundEntity.h"
@@ -31,6 +32,7 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 	{
 		pugi::xml_node entity_node = node.first_child();
 
+
 		while (entity_node != NULL) 
 		{
 			BaseEntity* entity = nullptr;
@@ -41,7 +43,6 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 			case PLAYER_TYPE:
 			{
 				entity = new PlayerEntity();
-
 				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
 			}
 				break;
@@ -92,6 +93,8 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 
 			entity_node = entity_node.next_sibling();
 		}
+		jump_fx_path = (char*)node.child("fx_jump").child_value();
+		shoot_fx_path = (char*)node.child("fx_shoot").child_value();
 	}
 
 	else {
@@ -103,6 +106,12 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 
 bool EntityManager::Start()
 {
+	if (jump_fx == -1) {
+		jump_fx = App->audio->LoadFx(jump_fx_path);
+	}
+	if (shoot_fx == -1) {
+		shoot_fx = App->audio->LoadFx(shoot_fx_path);
+	}
 	return true;
 }
 

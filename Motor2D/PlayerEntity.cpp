@@ -115,7 +115,7 @@ void PlayerEntity::HandleInput(float dt)
 	if (entity_floor == true) {
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			actual_gravity = gravity;
-			App->audio->PlayFx(jump_fx);
+			App->audio->PlayFx(App->entity->jump_fx);
 			entity_floor = false;
 			entity_current_vel.y = -entity_vel.y;
 
@@ -133,7 +133,7 @@ void PlayerEntity::HandleInput(float dt)
 
 		if (entity_current_vel.y > -1) {
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-				App->audio->PlayFx(jump_fx);
+				App->audio->PlayFx(App->entity->jump_fx);
 				double_jump = true;
 				entity_current_vel.y = -entity_vel.y;
 
@@ -185,11 +185,11 @@ void PlayerEntity::Shoot()
 		bullet->entity_current_vel = { -bullet->entity_vel.x,0.0f };
 		break;
 	}
+	App->audio->PlayFx(App->entity->shoot_fx);
 }
 
 void PlayerEntity::Die(entitySide side)
 {
-
 	if (side == entitySide::LEFT) {
 		App->entity->SetEntityState(ENTITY_DEAD_LEFT, entity_collider);
 	}

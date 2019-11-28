@@ -28,7 +28,7 @@ bool j1Player::Awake(const pugi::xml_node& node)
 
 	if (node != nullptr) {
 		g_is_over_fx_path = (char*)node.child("fx_dead").child_value();
-		jump_fx_path = (char*)node.child("fx_jump").child_value();
+		next_lvl_fx_path = (char*)node.child("fx_next_lvl").child_value();
 	}
 
 	else {
@@ -44,10 +44,11 @@ bool j1Player::Start()
 	if (g_is_over_fx == -1) {
 		g_is_over_fx = App->audio->LoadFx(g_is_over_fx_path);
 	}
-	if (jump_fx == -1) {
-		jump_fx = App->audio->LoadFx(jump_fx_path);
+	
+	if (next_lvl_fx == -1) {
+		next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
 	}
-
+	
 	if (App->fade->current_step == App->fade->fade_to_black) {
 		App->entity->DeleteAll();
 		App->entity->SpawnEntities(App->map->map_info.entities_info);
@@ -277,7 +278,6 @@ void j1Player::StartFromLvl2()
 
 void j1Player::StatFromCurrentLvl()
 {
-	App->audio->PlayFx(g_is_over_fx);
 	App->fade->FadeToBlack(App->player, App->player);
 }
 

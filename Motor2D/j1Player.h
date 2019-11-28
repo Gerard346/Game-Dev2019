@@ -65,22 +65,17 @@ public:
 
 
 public:
-
 	Levels p_current_lvl = Lvl_1;
-	
 
 private:
-
-
 	bool p_god = false;
 	bool p_floor = false;
 	bool double_jump = false;
 
 	int g_is_over_fx = -1;
-	int jump_fx = -1;
+	int next_lvl_fx = -1;
 
 	char* g_is_over_fx_path = nullptr;
-	char* jump_fx_path = nullptr;
-
+	char* next_lvl_fx_path = nullptr;
 };
 #endif

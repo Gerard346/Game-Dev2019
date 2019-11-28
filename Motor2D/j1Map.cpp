@@ -524,6 +524,9 @@ info_layer* j1Map::LoadLayerAttributes(const pugi::xml_node &node, info_layer* l
 
 void mutable_layer::Update(float dt)
 {
+	if (App->scene->GetPause()) {
+		return;
+	}
 	int delta_x = 0;
 	int delta_y = 0;
 

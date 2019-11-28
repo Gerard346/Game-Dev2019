@@ -10,7 +10,7 @@
 #include "EnemyGroundEntity.h"
 #include "Rocket.h"
 #include "j1Pathfinding.h"
-
+#include "j1Player.h"
 EnemyGroundEntity::EnemyGroundEntity()
 {
 	shoot_timer.Start();
@@ -132,5 +132,6 @@ void EnemyGroundEntity::Shoot()
 		bullet->entity_current_vel = { -bullet->entity_vel.x,0.0f };
 		break;
 	}
+	App->audio->PlayFx(App->entity->shoot_fx);
 }
 
