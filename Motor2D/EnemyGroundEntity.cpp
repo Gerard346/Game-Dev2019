@@ -10,7 +10,7 @@
 #include "EnemyGroundEntity.h"
 #include "Rocket.h"
 #include "j1Pathfinding.h"
-#include "j1Player.h"
+
 EnemyGroundEntity::EnemyGroundEntity()
 {
 	shoot_timer.Start();

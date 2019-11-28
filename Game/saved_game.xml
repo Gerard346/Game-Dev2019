@@ -9,10 +9,16 @@
 	<animation />
 	<scene />
 	<map />
+	<pathfinding />
 	<colliders />
 	<player>
-		<player position_x="125.577942" position_y="226" current_level="1" />
+		<player current_level="1" />
 	</player>
+	<entityManager>
+		<Entity_Alive Type="player" X="225.800079" Y="210.462402" Vel_X="0" Vel_Y="13.6000004" />
+		<Entity_Alive Type="enemy" X="356.785217" Y="162" Vel_X="-33.9897804" Vel_Y="12.2400007" />
+		<Entity_Alive Type="bullet" X="334.300293" Y="165.434418" Vel_X="50" Vel_Y="0" />
+	</entityManager>
 	<fadetoblack />
 	<renderer>
 		<camera x="0" y="32" />

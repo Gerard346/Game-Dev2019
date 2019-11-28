@@ -411,8 +411,32 @@ bool EntityManager::Load(pugi::xml_node&)
 	return true;
 }
 
-bool EntityManager::Save(pugi::xml_node&) const
+bool EntityManager::Save(pugi::xml_node& node)
 {
+	bool ret = true;
+
+	for (int i = 0; i < entities_list.count(); i++)
+	{
+		pugi::xml_node entities_node = node.append_child("Entity_Alive");
+		{
+			entities_node.append_attribute("Type") = EntityTypeToStr(entities_list[i]->entity_type);
+			entities_node.append_attribute("X") = entities_list[i]->entity_pos.x;
+			entities_node.append_attribute("Y") = entities_list[i]->entity_pos.y;
+			entities_node.append_attribute("Vel_X") = entities_list[i]->entity_current_vel.x;
+			entities_node.append_attribute("Vel_Y") = entities_list[i]->entity_current_vel.y;
+		}
+	}
+	for (int i = 0; i < dead_entities.count(); i++)
+	{
+		pugi::xml_node dead_entities_node = node.append_child("Entity_Dead");
+		{
+			dead_entities_node.append_attribute("Type") = EntityTypeToStr(dead_entities[i]->entity_type);
+			dead_entities_node.append_attribute("X") = dead_entities[i]->entity_pos.x;
+			dead_entities_node.append_attribute("Y") = dead_entities[i]->entity_pos.y;
+			dead_entities_node.append_attribute("Vel_X") = dead_entities[i]->entity_current_vel.x;
+			dead_entities_node.append_attribute("Vel_Y") = dead_entities[i]->entity_current_vel.y;
+		}
+	}
 	return true;
 }
 
@@ -602,6 +626,34 @@ entityType EntityManager::StrToEntityType(const char* str) const
 
 
 	return entityType();
+}
+
+char* EntityManager::EntityTypeToStr(entityType type) const
+{
+	switch (type)
+	{
+	case UNKNOWN:
+		return nullptr;
+		break;
+	case PLAYER_TYPE:
+		return("player");
+		break;
+	case ENEMY_GROUND_TYPE:
+		return("enemy");
+		break;
+	case ENEMY_RPG_TYPE:
+		return("rpg");
+		break;
+	case BULLET_TYPE:
+		return("bullet");
+		break;
+	case ROCKET_TYPE:
+		return("rocket");
+		break;
+	default:
+		return nullptr;
+		break;
+	}
 }
 
 entityState EntityManager::StringToEntityState(const char* str) const

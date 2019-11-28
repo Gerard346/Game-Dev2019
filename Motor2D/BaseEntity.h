@@ -19,8 +19,7 @@ enum entityType {
 	ENEMY_GROUND_TYPE,
 	ENEMY_RPG_TYPE,
 	BULLET_TYPE,
-	ROCKET_TYPE,
-	RPG_TYPE
+	ROCKET_TYPE
 };
 
 enum entityState {

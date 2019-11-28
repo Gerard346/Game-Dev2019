@@ -98,22 +98,13 @@ bool j1Player::Load(const pugi::xml_node& node)
 			App->map->ChangeMap(App->map->GetPathFromLevel(lvl_2_map));
 		}
 	}
-	float uu = node.child("player").attribute("position_x").as_float();
-	//p_pos.x = node.child("player").attribute("position_x").as_float();
-	//p_pos.y = node.child("player").attribute("position_y").as_float();
-
 	return true;
 }
 
 bool j1Player::Save(pugi::xml_node& node) 
 {
 	pugi::xml_node player = node.append_child("player");
-
-//	player.append_attribute("position_x").set_value(p_pos.x);;
-
-	//player.append_attribute("position_y").set_value(p_pos.y);
-
-	//player.append_attribute("current_level").set_value(p_current_lvl);;
+	player.append_attribute("current_level").set_value(p_current_lvl);
 
 	return true;
 }

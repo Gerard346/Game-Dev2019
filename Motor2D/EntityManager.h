@@ -24,7 +24,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	bool Load(pugi::xml_node&);
-	bool Save(pugi::xml_node&) const;
+	bool Save(pugi::xml_node&);
 
 public:
 
@@ -37,6 +37,7 @@ public:
 	void SetEntityState(entityState new_state, Collider* c1);
 	
 	entityType StrToEntityType(const char* input)const;
+	char* EntityTypeToStr(entityType) const;
 	entityState StringToEntityState(const char* str)const;
 	entityType TileIdToEntityType(int) const;
 	bool SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list);
