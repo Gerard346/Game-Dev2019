@@ -98,6 +98,11 @@ float j1App::Getdt() const
 	return dt;
 }
 
+uint j1App::GetCappedFrames() const
+{
+	return capped_frames;
+}
+
 // Called before render is available
 bool j1App::Awake()
 {

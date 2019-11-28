@@ -94,5 +94,7 @@ protected:
 	virtual void Die(entitySide);
 
 	void UpdatePosition();
+	bool AnimationUpdate();
+
 };
 #endif 

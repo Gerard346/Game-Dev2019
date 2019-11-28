@@ -140,12 +140,10 @@ bool j1Map::CleanUp()
 		App->tex->UnLoad(map_info.tilesets_info.At(i)->img);
 	}
 	map_info.tilesets_info.Clear();
+	map_info.entities_info.Clear();
+	map_info.patrol_points.Clear();
+	map_info.spawn_points.Clear();
 
-
-	// TODO 2: clean up all layer data
-	// Remove all layers
-
-	// Clean up the pugui tree
 	map_file.reset();
 	App->colliders->EraseAllColliders();
 
@@ -290,6 +288,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 void j1Map::ChangeMap(const char* path)
 {
+
 	App->entity->DeleteAllEntities();
 	App->map->CleanUp();
 	App->map->Load(path);

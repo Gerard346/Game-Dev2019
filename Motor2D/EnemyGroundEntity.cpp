@@ -14,11 +14,13 @@
 EnemyGroundEntity::EnemyGroundEntity()
 {
 	shoot_timer.Start();
+	timer_path.Start();
 }
 
 EnemyGroundEntity::EnemyGroundEntity(const EnemyGroundEntity* copy):BaseEntity(copy)
 {
 	shoot_timer.Start();
+	timer_path.Start();
 }
 
 EnemyGroundEntity::~EnemyGroundEntity()
@@ -53,9 +55,10 @@ bool EnemyGroundEntity::Update(float dt)
 			}
 
 			//Path
-			
-			if (path.Count() == 0 && path_next_pos.y == 0)
+			App->path->TypePathfinding(typePathfinding::FLY);
+			if (path.Count() == 0 && path_next_pos.y == 0 || timer_path.ReadSec() > recalculate_path)
 			{
+				timer_path.Start();
 				if(App->path->PropagateASTARf(entity_pos, entity_player->entity_pos, path) == false)
 				{
 					//PATROL
@@ -94,14 +97,18 @@ bool EnemyGroundEntity::Update(float dt)
 				}
 				else
 				{
-					entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt() * vec_magnitude * 0.05f, dir_vector.y* entity_vel.y* App->Getdt()* vec_magnitude * 0.05f};
+					if (App->Getdt() < 1.0f / App->GetCappedFrames()) 
+					{
+						//entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt()* vec_magnitude, dir_vector.y* entity_vel.y* App->Getdt()* vec_magnitude};
+						entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt()* 1000.0f, dir_vector.y* entity_vel.y* App->Getdt() * 1000.0f};
+					}
 				}
 			}
 		}
 	}
 	
 	UpdatePosition();
-
+	AnimationUpdate();
 	return true;
 }
 

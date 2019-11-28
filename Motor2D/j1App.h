@@ -51,6 +51,7 @@ public:
 	void WantToLoad();
 	void WantToLoadCheckpoints();
 	float Getdt() const;
+	uint GetCappedFrames() const;
 	// Exposing some properties for reading
 	int GetArgc() const;
 	const char* GetArgv(int index) const;

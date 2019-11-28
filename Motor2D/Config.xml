@@ -17,7 +17,7 @@
   <map>
     <folder>maps/</folder>
     <tmx_level_1>Level1.tmx</tmx_level_1>
-    <tmx_level_2>Level2.tmx</tmx_level_2>
+    <tmx_level_2>Level1.tmx</tmx_level_2>
   </map>
 	
   <pathfinding>
@@ -48,9 +48,9 @@
   </entity>
   <entity>
     <type>enemy</type>
-    <gravity g="-360.0"/>
+    <gravity g="0.0"/>
 <draw_dead d="true"/>
-    <max_speed x="50.0" y="0.0"/>
+    <max_speed x="50.0" y="20.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="30"/>
   </entity>
@@ -58,7 +58,7 @@
     <type>rpg</type>
     <gravity g="-360.0"/>
 <draw_dead d="true"/>
-    <max_speed x="0.0" y="0.0"/>
+    <max_speed x="0.0" y="20.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="28"/>
   </entity>

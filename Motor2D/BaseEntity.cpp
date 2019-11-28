@@ -26,7 +26,7 @@ bool BaseEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateBaseEntity", Profiler::Color::Black);
 	UpdatePosition();
-
+	AnimationUpdate();
 	return true;
 }
 
@@ -68,6 +68,28 @@ void BaseEntity::UpdatePosition()
 	entity_current_vel.y -= gravity * App->Getdt();
 
 	entity_collider->SetPos(entity_pos.x, entity_pos.y);
+}
+
+bool BaseEntity::AnimationUpdate()
+{
+	if (abs(entity_current_vel.y) > 20) {
+		if (entity_current_vel.x > 0) {
+			App->entity->SetEntityState(ENTITY_JUMP_LEFT, entity_collider);
+		}
+		else{
+			App->entity->SetEntityState(ENTITY_JUMP_RIGHT, entity_collider);
+		}
+	}
+	else {
+
+		if (entity_current_vel.x >= 0) {
+			App->entity->SetEntityState(ENTITY_WALK_LEFT, entity_collider);
+		}
+		else {
+			App->entity->SetEntityState(ENTITY_WALK_RIGHT, entity_collider);
+		}
+	}
+	return true;
 }
 
 void BaseEntity::Die(entitySide side)

@@ -92,10 +92,10 @@ bool j1Player::Load(const pugi::xml_node& node)
 
 	if (p_current_lvl != loaded_lvl) {
 		if (loaded_lvl == 1) {
-			App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
+//			App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
 		}
 		else {
-			App->map->ChangeMap(App->map->GetPathFromLevel(lvl_2_map));
+			//App->map->ChangeMap(App->map->GetPathFromLevel(lvl_2_map));
 		}
 	}
 	return true;
@@ -258,7 +258,7 @@ bool j1Player::IsGod()
 void j1Player::PlayerDies()
 {
 	p_dead = true;
-	App->audio->PlayFx(g_is_over_fx);
+ 	App->audio->PlayFx(g_is_over_fx);
 	App->fade->FadeToBlack(App->player, App->player);
 }
 

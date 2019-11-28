@@ -15,6 +15,11 @@
 class SDL_Texture;
 class info_layer;
 
+enum typePathfinding {
+	NONE_PATH,
+	WALK,
+	FLY
+};
 // ----------------------------------------------------
 class j1Pathfinding : public j1Module
 {
@@ -50,6 +55,8 @@ public:
 	bool PropagateBFS(const iPoint&, const iPoint&, p2List<iPoint>*, p2PQueue<iPoint>*);
 
 	bool CanReach(const iPoint, const iPoint);
+
+	void TypePathfinding(typePathfinding);
 
 private:
 

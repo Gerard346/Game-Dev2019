@@ -107,8 +107,6 @@ void j1Pathfinding::PropagateASTAR(iPoint origin, iPoint goal)
 
 	ResetPath();
 
-	walkability_layer = App->map->GetLayer("Walkability");
-
 	if (walkability_layer == nullptr)
 	{
 		return;
@@ -162,8 +160,6 @@ bool j1Pathfinding::PropagateASTARf(fPoint origin, fPoint goal, p2DynArray<iPoin
 	iPoint map_goal = App->map->WorldToMap(goal.x, goal.y);
 
 	ResetPath();
-
-	walkability_layer = App->map->GetLayer("Walkability");
 
 	if (walkability_layer == nullptr)
 	{
@@ -251,6 +247,24 @@ bool j1Pathfinding::CanReach(const iPoint origin, const iPoint destination)
 	open_list.Clear();
 	return false;
 }
+
+void j1Pathfinding::TypePathfinding(typePathfinding type)
+{
+	switch (type)
+	{
+	case NONE:
+		break;
+	case WALK:
+		walkability_layer = App->map->GetLayer("Walkability");
+		break;
+	case FLY:
+		walkability_layer = App->map->GetLayer("WalkabilityFly");
+		break;
+	default:
+		break;
+	}
+}
+
 bool j1Pathfinding::IsWalkable(const iPoint& position) const
 {
 	return walkability_layer->Get(position.x, position.y) > 0;
@@ -258,7 +272,6 @@ bool j1Pathfinding::IsWalkable(const iPoint& position) const
 
 bool j1Pathfinding::PropagateBFS(const iPoint& origin, const iPoint& destination, p2List<iPoint>* closed, p2PQueue<iPoint>* open_list)
 {
-	walkability_layer = App->map->GetLayer("Walkability");
 
 	if (walkability_layer == nullptr)
 	{
