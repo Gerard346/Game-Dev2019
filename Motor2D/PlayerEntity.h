@@ -31,6 +31,6 @@ private:
 
 protected:
 	void Shoot();
-	void Die();
+	void Die(entitySide);
 };
 #endif

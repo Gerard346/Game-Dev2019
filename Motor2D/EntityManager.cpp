@@ -252,7 +252,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			return;
 		}
 
-		if (player_entity->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
+		if (player_entity->current_state_entity != entityState::ENTITY_DEAD_RIGHT || player_entity->current_state_entity != entityState::ENTITY_DEAD_LEFT && App->player->IsGod() == false)
 		{
 			player_entity->entity_current_vel.x = 0.0f;
 			player_entity->entity_current_vel.y = 0.0f;
@@ -268,12 +268,11 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			return;
 		}
 
-		if (player_entity->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
+		if (player_entity->current_state_entity != entityState::ENTITY_DEAD_RIGHT || player_entity->current_state_entity != entityState::ENTITY_DEAD_LEFT && App->player->IsGod() == false)
 		{
 			player_entity->entity_current_vel.x = 0.0f;
 			player_entity->entity_current_vel.y = 0.0f;
 			App->entity->KillEntity(player_entity);
-
 		}
 	}
 	//ENEMIES COLLISION
@@ -328,7 +327,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			return;
 		}
 
-		if (enemy_entity->current_state_entity != entityState::ENTITY_DEAD)
+		if (enemy_entity->current_state_entity != entityState::ENTITY_DEAD_LEFT || enemy_entity->current_state_entity != entityState::ENTITY_DEAD_RIGHT)
 		{
 			enemy_entity->entity_current_vel.x = 0.0f;
 			enemy_entity->entity_current_vel.y = 0.0f;
@@ -373,7 +372,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 				{
 					return;
 				}
-				if (player->current_state_entity != entityState::ENTITY_DEAD && App->player->IsGod() == false)
+				if (player->current_state_entity != entityState::ENTITY_DEAD_RIGHT || player->current_state_entity != entityState::ENTITY_DEAD_RIGHT && App->player->IsGod() == false)
 				{
 					App->entity->KillEntity(bullet);
 					App->entity->KillEntity(player);
@@ -543,7 +542,7 @@ bool EntityManager::KillEntity(BaseEntity* entity)
 			dead_entities_not_visible.add(entity);
 		}
 
-		entity->Die();
+		entity->Die(GetEntitySideView(entity));
 	}
 
 	return ret;
@@ -553,7 +552,7 @@ void EntityManager::SetEntityState(entityState new_state, Collider* coll)
 {
 	BaseEntity* entity = nullptr;
 
-	if (new_state == entityState::ENTITY_DEAD) {
+	if (new_state == entityState::ENTITY_DEAD_LEFT || new_state == entityState::ENTITY_DEAD_RIGHT) {
 		entity = (BaseEntity*)FindDeadEntity(coll);
 	}
 	else
@@ -606,9 +605,11 @@ entityState EntityManager::StringToEntityState(const char* str) const
 	if (strcmp(str, "run_left") == 0) return entityState::ENTITY_WALK_LEFT;
 	if (strcmp(str, "stand_left") == 0) return entityState::ENTITY_IDLE_LEFT;
 
-	if (strcmp(str, "dead") == 0) return entityState::ENTITY_DEAD;
-	if (strcmp(str, "shoot") == 0) return entityState::ENTITY_SHOOTING;
+	if (strcmp(str, "dead_left") == 0) return entityState::ENTITY_DEAD_LEFT;
+	if (strcmp(str, "dead_right") == 0) return entityState::ENTITY_DEAD_RIGHT;
 
+	if (strcmp(str, "shoot_right") == 0) return entityState::ENTITY_SHOOTING_RIGHT;
+	if (strcmp(str, "shoot_left") == 0) return entityState::ENTITY_SHOOTING_LEFT;
 
 	return entityState::NONE_STATE;
 }
@@ -673,5 +674,34 @@ PlayerEntity* EntityManager::GetPlayer() const
 		}
 	}
 	return nullptr;
+}
+
+entitySide EntityManager::GetEntitySideView(BaseEntity* entity)
+{
+	switch (entity->current_state_entity)
+	{
+	case entityState::ENTITY_IDLE_LEFT:
+		return entitySide::LEFT;
+	case entityState::ENTITY_WALK_LEFT:
+		return entitySide::LEFT;
+	case entityState::ENTITY_JUMP_LEFT:
+		return entitySide::LEFT;
+	case entityState::ENTITY_SHOOTING_LEFT:
+		return entitySide::LEFT;
+
+	case entityState::ENTITY_IDLE_RIGHT:
+		return entitySide::RIGHT;
+	case entityState::ENTITY_WALK_RIGHT:
+		return entitySide::RIGHT;
+	case entityState::ENTITY_JUMP_RIGHT:
+		return entitySide::RIGHT;
+	case entityState::ENTITY_SHOOTING_RIGHT:
+		return entitySide::RIGHT;
+
+	default:
+		return entitySide::RIGHT;
+	}
+
+	return entitySide::RIGHT;
 }
 

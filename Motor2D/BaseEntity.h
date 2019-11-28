@@ -28,11 +28,13 @@ enum entityState {
 	ENTITY_IDLE_LEFT,
 	ENTITY_WALK_LEFT,
 	ENTITY_JUMP_LEFT,
+	ENTITY_SHOOTING_LEFT,
+	ENTITY_DEAD_LEFT,
 	ENTITY_IDLE_RIGHT,
 	ENTITY_WALK_RIGHT,
 	ENTITY_JUMP_RIGHT,
-	ENTITY_SHOOTING,
-	ENTITY_DEAD
+	ENTITY_SHOOTING_RIGHT,
+	ENTITY_DEAD_RIGHT
 };
 
 enum entityDirection {
@@ -43,6 +45,11 @@ enum entityDirection {
 	ENTITY_RIGHT
 };
 
+enum entitySide {
+	NONE,
+	LEFT,
+	RIGHT
+};
 class BaseEntity {
 	
 	friend class EntityManager;
@@ -60,6 +67,7 @@ public:
 
 	entityType entity_type = entityType::UNKNOWN;
 	entityState current_state_entity = entityState::NONE_STATE;
+	entitySide current_side_entity = entitySide::NONE;
 	Animation* current_animation = nullptr;
 	float animation_index = 0.0f;
 
@@ -84,7 +92,7 @@ protected:
 	virtual bool CleanUp();
 
 	virtual bool Draw();
-	virtual void Die();
+	virtual void Die(entitySide);
 
 	void UpdatePosition();
 };

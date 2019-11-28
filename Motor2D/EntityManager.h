@@ -43,6 +43,7 @@ public:
 	bool DeleteAll();
 
 	PlayerEntity* GetPlayer()const;
+	entitySide GetEntitySideView(BaseEntity*);
 
 private:
 
