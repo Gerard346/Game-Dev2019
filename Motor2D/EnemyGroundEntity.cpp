@@ -32,34 +32,33 @@ bool EnemyGroundEntity::Update(float dt)
 	BaseEntity* entity_player = (BaseEntity*)App->entity->GetPlayer();
 	//Is seen
 	if (entity_player != nullptr) {
-
 		fPoint dir_vector = entity_player->entity_pos - entity_pos;
 		float vec_magnitude = (abs(dir_vector.x) + abs(dir_vector.y));
-
-		if (vec_magnitude < view_distance.x) {
-			//Shooting
-			if (shoot_timer.ReadSec() > shoot_rate && ammo > 0)
-			{
-				shoot_timer.Start();
-				Shoot();
-				ammo -= 1;
-				if (ammo == 0) {
-					recharge_timer.Start();
+		if (vec_magnitude < is_viewed.x) {
+			if (vec_magnitude < view_distance.x) {
+				//Shooting
+				if (shoot_timer.ReadSec() > shoot_rate&& ammo > 0)
+				{
+					shoot_timer.Start();
+					Shoot();
+					ammo -= 1;
+					if (ammo == 0) {
+						recharge_timer.Start();
+					}
+				}
+				//Recharge
+				if (ammo == 0 && recharge_timer.ReadSec() > rechage_rate)
+				{
+					ammo = 4;
+					shoot_timer.Start();
 				}
 			}
-			//Recharge
-			if (ammo == 0 && recharge_timer.ReadSec() > rechage_rate)
-			{
-				ammo = 4;
-				shoot_timer.Start();
-			}
-
 			//Path
-			App->path->TypePathfinding(typePathfinding::FLY);
+			App->path->TypePathfinding(typePathfinding::WALK);
 			if (path.Count() == 0 && path_next_pos.y == 0 || timer_path.ReadSec() > recalculate_path)
 			{
 				timer_path.Start();
-				if(App->path->PropagateASTARf(entity_pos, entity_player->entity_pos, path) == false)
+				if (App->path->PropagateASTARf(entity_pos, entity_player->entity_pos, path) == false)
 				{
 					//PATROL
 					fPoint goal = App->map->GetNearestReachablePatrolPoint(entity_pos.x, entity_pos.y);
@@ -97,10 +96,10 @@ bool EnemyGroundEntity::Update(float dt)
 				}
 				else
 				{
-					if (App->Getdt() < 1.0f / App->GetCappedFrames()) 
+					if (App->Getdt() < 1.0f / App->GetCappedFrames())
 					{
-						//entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt()* vec_magnitude, dir_vector.y* entity_vel.y* App->Getdt()* vec_magnitude};
-						entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt()* 1000.0f, dir_vector.y* entity_vel.y* App->Getdt() * 1000.0f};
+						entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt()* vec_magnitude, dir_vector.y* entity_vel.y* App->Getdt()* vec_magnitude * 0.0005f};
+						//entity_current_vel += { dir_vector.x* entity_vel.x* App->Getdt()* 1000.0f, dir_vector.y* entity_vel.y* App->Getdt() * 1000.0f};
 					}
 				}
 			}
@@ -109,6 +108,7 @@ bool EnemyGroundEntity::Update(float dt)
 	
 	UpdatePosition();
 	AnimationUpdate();
+	
 	return true;
 }
 

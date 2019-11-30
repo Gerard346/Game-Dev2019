@@ -302,6 +302,7 @@ void j1Colliders::DebugMode()
 		case COLLIDER_DEAD: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
+		case COLLIDER_STICKINESS:
 		case COLLIDER_WALL: // Green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;

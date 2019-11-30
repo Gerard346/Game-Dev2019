@@ -76,6 +76,9 @@
     <ClCompile Include="EnemyRPGEntity.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyDrone.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -175,6 +178,9 @@
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClInclude>
     <ClInclude Include="EnemyRPGEntity.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDrone.h">
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClInclude>
   </ItemGroup>

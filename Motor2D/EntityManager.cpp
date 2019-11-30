@@ -6,6 +6,7 @@
 #include "PlayerEntity.h"
 #include "EnemyGroundEntity.h"
 #include "EnemyRPGEntity.h"
+#include "EnemyDrone.h"
 #include "Bullet.h"
 #include "Rocket.h"
 #include "j1Module.h"
@@ -56,6 +57,14 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 
 			break;
 
+			case DRONE_TYPE:
+			{
+				entity = new EnemyDrone();
+
+				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
+			}
+
+			break;
 			case ENEMY_RPG_TYPE:
 			{
 				entity = new EnemyRPGEntity();
@@ -221,7 +230,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 
 		//TOP
 		if (coll2->rect.y - (coll->rect.y + coll->rect.h) < 0 && coll2->rect.y - (coll->rect.y + coll->rect.h) > -16) {
-			player_entity->actual_gravity = player_entity->gravity - 5000;
+			player_entity->actual_gravity = player_entity->gravity - 2000;
 			coll->rect.y = coll2->rect.y - coll->rect.h;
 			player_entity->entity_pos.y = coll2->rect.y - coll->rect.h;
 
@@ -255,7 +264,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			player_entity->entity_current_vel.x = 0.0f;
 		}
 	}
-
+	
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
 
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
@@ -544,7 +553,13 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 		new_enemy_ground->collider_type = COLLIDER_ENEMY;
 		new_entity = new_enemy_ground;
 	}
-	
+	break;
+	case DRONE_TYPE:
+	{
+		EnemyDrone* new_enemy_drone = new EnemyDrone((const EnemyDrone*)new_entity);
+		new_enemy_drone->collider_type = COLLIDER_ENEMY;
+		new_entity = new_enemy_drone;
+	}
 		break;
 	case ENEMY_RPG_TYPE:
 	{
@@ -662,6 +677,7 @@ entityType EntityManager::StrToEntityType(const char* str) const
 	if (strcmp(str, "rpg") == 0) return entityType::ENEMY_RPG_TYPE;
 	if (strcmp(str, "bullet") == 0) return entityType::BULLET_TYPE;
 	if (strcmp(str, "rocket") == 0) return entityType::ROCKET_TYPE;
+	if (strcmp(str, "drone") == 0) return entityType::DRONE_TYPE;
 
 
 	return entityType();
@@ -688,6 +704,9 @@ char* EntityManager::EntityTypeToStr(entityType type) const
 		break;
 	case ROCKET_TYPE:
 		return("rocket");
+		break;
+	case DRONE_TYPE:
+		return("drone");
 		break;
 	default:
 		return nullptr;
@@ -721,8 +740,10 @@ entityType EntityManager::TileIdToEntityType(int i) const
 		return entityType::PLAYER_TYPE;
 	case 7:
 		return entityType::ENEMY_GROUND_TYPE;
-	case 8:
+	case 10:
 		return entityType::ENEMY_RPG_TYPE;
+	case 11:
+		return entityType::DRONE_TYPE;
 	}
 	return entityType::UNKNOWN;
 }

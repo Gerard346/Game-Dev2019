@@ -12,20 +12,34 @@
 	<pathfinding />
 	<colliders />
 	<player>
-		<player current_level="0" />
+		<player current_level="1" />
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="105.600037" Y="210" />
-			<Entity_Alive Type="enemy" X="325.520508" Y="162" />
-			<Entity_Alive Type="bullet" X="208.249847" Y="172.761215" Vel_X="50" Vel_Y="0" />
-			<Entity_Alive Type="bullet" X="201.249863" Y="188.921631" Vel_X="50" Vel_Y="0" />
-			<Entity_Alive Type="bullet" X="275.283844" Y="162" Vel_X="-50" Vel_Y="0" />
+			<Entity_Alive Type="drone" X="148.874374" Y="125.706978" />
+			<Entity_Alive Type="player" X="531.799805" Y="162" />
+			<Entity_Alive Type="drone" X="2608" Y="144" />
+			<Entity_Alive Type="enemy" X="3238.58276" Y="162.795563" />
+			<Entity_Alive Type="enemy" X="723.229553" Y="210.474655" />
+			<Entity_Alive Type="rocket" X="311.44455" Y="149.186142" Vel_X="93.9796906" Vel_Y="3.01117349" />
+			<Entity_Alive Type="rocket" X="337.620575" Y="149.707489" Vel_X="93.5112228" Vel_Y="3.21257305" />
+			<Entity_Alive Type="rocket" X="263.939636" Y="147.029404" Vel_X="93.8663864" Vel_Y="3.39777708" />
+			<Entity_Alive Type="rocket" X="181.230011" Y="116.448242" Vel_X="84.1827469" Vel_Y="9.72651291" />
+			<Entity_Alive Type="bullet" X="643.55188" Y="210.44577" Vel_X="-150" Vel_Y="0" />
 		</Alive_Entities>
-		<Dead_Entities />
+		<Dead_Entities>
+			<Entity_Dead Type="rocket" X="309.075928" Y="127.74707" />
+			<Entity_Dead Type="rocket" X="141.229279" Y="192.28714" />
+			<Entity_Dead Type="rocket" X="79.9952698" Y="189.017975" />
+			<Entity_Dead Type="rocket" X="69.653801" Y="183.843918" />
+			<Entity_Dead Type="rocket" X="160.140778" Y="175.272049" />
+			<Entity_Dead Type="rocket" X="94.7534485" Y="191.986496" />
+			<Entity_Dead Type="rocket" X="115.369934" Y="172.078003" />
+			<Entity_Dead Type="rocket" X="76.5486374" Y="191.476837" />
+		</Dead_Entities>
 	</entityManager>
 	<fadetoblack />
 	<renderer>
-		<camera x="0" y="32" />
+		<camera x="-551" y="32" />
 	</renderer>
 </save>

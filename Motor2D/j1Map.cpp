@@ -39,6 +39,7 @@ bool j1Map::Awake(const pugi::xml_node& config)
 
 bool j1Map::Start()
 {
+	App->render->camera.x = 0;
 
 	if (want_to_load_map)
 	{
