@@ -38,6 +38,7 @@ class Animation
 public:
 
 	Animation();
+	Animation(const Animation* cpy);
 	~Animation();
 
 protected:

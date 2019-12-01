@@ -380,7 +380,7 @@ void j1Pathfinding::DrawPath()
 
 void j1Pathfinding::Draw()
 {
-	DrawPath();
+	 DrawPath();
 }
 
 bool j1Pathfinding::CleanUp()

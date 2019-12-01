@@ -10,6 +10,7 @@
 #include "j1Map.h"
 #include "j1Module.h"
 #include "EntityManager.h"
+#include "j1FadeToBlack.h"
 
 PlayerEntity::PlayerEntity()
 {
@@ -24,13 +25,17 @@ PlayerEntity::~PlayerEntity()
 {
 }
 
+void PlayerEntity::Start()
+{
+	App->entity->SetEntityState(ENTITY_IDLE_LEFT, this->entity_collider);
+}
+
 bool PlayerEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdatePlayerEntity", Profiler::Color::DarkOliveGreen);
 	if (entity_collider == nullptr) {
 		return true;
 	}
-
 	HandleInput(App->Getdt());
 
 	if (App->player->IsGod() == false) 
@@ -189,7 +194,7 @@ void PlayerEntity::Shoot()
 }
 
 void PlayerEntity::Die(entitySide side)
-{
+{	
 	if (side == entitySide::LEFT) {
 		App->entity->SetEntityState(ENTITY_DEAD_LEFT, entity_collider);
 	}

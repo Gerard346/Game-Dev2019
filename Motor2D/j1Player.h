@@ -53,8 +53,11 @@ public:
 
 	void GodMode();
 
-	bool IsGod();
+	bool IsGod() const;
 
+	bool IsDead() const;
+
+	bool IsChangingLVL() const;
 	void PlayerDies();
 
 	void CamFollowPlayer();

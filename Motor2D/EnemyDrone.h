@@ -10,6 +10,7 @@ public:
 
 	~EnemyDrone();
 
+	void Start() override;
 	bool Update(float dt);
 
 	bool CleanUp();
@@ -29,6 +30,9 @@ private:
 	float recalculate_path = 2.0f;
 	j1Timer timer_path;
 	float acceleration = 2.0f;
+
+	fPoint a_point = { 0.0f, 0.0f };
+	fPoint b_point = { 0.0f, 0.0f };
 
 protected:
 	void Shoot();

@@ -183,7 +183,7 @@ public:
 	const info_tileset* GetTilesetInfoFromTileID(int)const;
 	char* GetPathFromLevel(lvl_map lvl);
 	
-	fPoint GetNearestReachablePatrolPoint(float map_x, float map_y)const;
+	bool GetPatrolPoints(float map_x, float map_y, fPoint& a, fPoint& b)const;
 
 	void WantToLoadMap() { want_to_load_map = true; }
 

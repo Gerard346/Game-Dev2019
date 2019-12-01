@@ -11,7 +11,7 @@ public:
 	PlayerEntity(const PlayerEntity* copy);
 
 	~PlayerEntity();
-
+	void Start() override;
 	bool Update(float dt);
 
 	bool CleanUp();

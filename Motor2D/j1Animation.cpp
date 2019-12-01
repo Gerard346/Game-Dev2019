@@ -33,9 +33,19 @@ Animation::Animation()
 {
 }
 
+Animation::Animation(const Animation* cpy): sprites(cpy->sprites), texture(cpy->texture), animation_type(cpy->animation_type), loop(cpy->loop),speed(cpy->speed)
+{
+
+}
+
 Animation::~Animation()
 {
+	/*for (int i = 0; i < sprites.Count(); i++)
+	{
+		RELEASE(sprites[i]);
+	}*/
 	sprites.Clear();
+
 	texture = nullptr;
 }
 
@@ -245,6 +255,11 @@ Animation* j1Animation::GetAnimation(entityType entityType, entityState animatio
 			}
 			break;
 		}
+	}
+
+	if (target_animation != nullptr)
+	{
+		target_animation = new Animation(target_animation);
 	}
 
 	return target_animation;

@@ -25,6 +25,14 @@ EnemyGroundEntity::EnemyGroundEntity(const EnemyGroundEntity* copy):BaseEntity(c
 
 EnemyGroundEntity::~EnemyGroundEntity()
 {
+	
+}
+
+void EnemyGroundEntity::Start()
+{
+	App->entity->SetEntityState(ENTITY_IDLE_RIGHT, this->entity_collider);
+	App->path->TypePathfinding(WALK);
+	App->map->GetPatrolPoints(entity_pos.x, entity_pos.y, a_point, b_point);
 }
 
 bool EnemyGroundEntity::Update(float dt)
@@ -61,11 +69,16 @@ bool EnemyGroundEntity::Update(float dt)
 				if (App->path->PropagateASTARf(entity_pos, entity_player->entity_pos, path) == false)
 				{
 					//PATROL
-					fPoint goal = App->map->GetNearestReachablePatrolPoint(entity_pos.x, entity_pos.y);
+					float a_distance = entity_pos.DistanceManhattan(a_point);
+					float b_distance = entity_pos.DistanceManhattan(b_point);
+					fPoint goal = a_distance < b_distance ? b_point : a_point;
+
 					if (App->path->PropagateASTARf(entity_pos, goal, path) == true)
 					{
+						LOG("CRIDAt");
 						path.Pop(path_next_pos);
 						path_next_pos = App->map->MapToWorld(path_next_pos.x, path_next_pos.y);
+						LOG("CRIDAdsat");
 					}
 				}
 				else

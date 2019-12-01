@@ -46,13 +46,16 @@ bool j1Player::Start()
 	}
 	
 	if (next_lvl_fx == -1) {
-		next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
+		//next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
 	}
 	if (p_dead == true) {
-		App->WantToLoadCheckpoints();
 		p_dead = false;
+		App->WantToLoadCheckpoints();
 	}
 
+	
+	//next_lvl = false;
+	
 	return true;
 }
 
@@ -66,9 +69,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Player", Profiler::Color::Yellow);
-	if (!App->fade->isFading()) {
 		CamFollowPlayer();
-	}
 
 	return true;
 }
@@ -116,7 +117,8 @@ bool j1Player::Save(pugi::xml_node& node)
 
 void j1Player::ChangeLvl()
 {
-	next_lvl = true;
+
+	//next_lvl = true;
 	if (p_current_lvl == Lvl_1) {
 		StartFromLvl2();
 	}
@@ -250,40 +252,52 @@ void j1Player::GodMode()
 	p_god = !p_god;
 }
 
-bool j1Player::IsGod()
+bool j1Player::IsGod() const
 {
 	return p_god;
 }
 
+bool j1Player::IsDead() const
+{
+	return p_dead;
+}
+
+bool j1Player::IsChangingLVL() const
+{
+	return next_lvl;
+}
+
 void j1Player::PlayerDies()
 {
-	p_dead = true;
- 	App->audio->PlayFx(g_is_over_fx);
-	App->fade->FadeToBlack(App->player, App->player);
+	if (p_dead == false)
+	{
+		LOG("DEAD");
+		p_dead = true;
+		App->audio->PlayFx(g_is_over_fx);
+		App->fade->FadeToBlack(App->player, App->player);
+	}
 }
 
 void j1Player::CamFollowPlayer()
 {
+	PlayerEntity* entity_player = App->entity->GetPlayer();
+	if (entity_player == nullptr)return;
+
 	uint window_w, window_h;
 	App->win->GetWindowSize(window_w, window_h);
 
 	int max_width = App->map->map_info.width * App->map->map_info.tilewidth;
 	int max_height = App->map->map_info.height * App->map->map_info.tileheight;
-	
+
 	int min_camera_x = 0;
 	int max_camera_x = -max_width * App->win->GetScale() + window_w;
 
-	PlayerEntity* entity_player = nullptr;
+
 	int target_cam_x = 0;
-	entity_player = App->entity->GetPlayer();
-	if (entity_player != nullptr) {
-		target_cam_x = (-entity_player->entity_pos.x * App->win->GetScale()) + (window_w * 0.5f);
-	}
+	target_cam_x = (-entity_player->entity_pos.x * App->win->GetScale()) + (window_w * 0.5f);
 
 	App->render->camera.x = target_cam_x > min_camera_x ? min_camera_x : target_cam_x < max_camera_x ? max_camera_x : target_cam_x;
-	
-	App->render->camera.y = window_h - max_height * App->win->GetScale();
 
-	//App->render->camera
+	App->render->camera.y = window_h - max_height * App->win->GetScale();
 }
 

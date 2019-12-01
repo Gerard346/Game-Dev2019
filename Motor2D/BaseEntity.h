@@ -87,6 +87,7 @@ public:
 	bool entity_draw_dead = true;
 
 protected:
+	virtual void Start();
 
 	virtual bool Update(float);
 	virtual bool CleanUp();

@@ -10,6 +10,7 @@ public:
 	
 	~EnemyGroundEntity();
 
+	void Start() override;
 	bool Update(float dt);
 
 	bool CleanUp();
@@ -23,12 +24,16 @@ private:
 	int ammo = 4;
 
 	fPoint view_distance = { 250.0f,0.0f };
-	fPoint is_viewed = { 1000.0f,0.0f };
+	fPoint is_viewed = { 400.0f,0.0f };
 	p2DynArray<iPoint>	path;
 	iPoint				path_next_pos = { 0.0f,0.0f };
 
 	float recalculate_path = 2.0f;
 	j1Timer timer_path;
+
+	fPoint a_point = { 0.0f, 0.0f };
+	fPoint b_point = { 0.0f, 0.0f };
+
 protected:
 
 	void Shoot();

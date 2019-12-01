@@ -282,6 +282,8 @@ bool j1Map::Load(const char* file_name)
 
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
+	if (App->player->IsChangingLVL())return;
+
 	if (c1->type == COLLIDER_FINISH && c2->type == COLLIDER_PLAYER && App->fade->isFading() == false) {
 		App->player->ChangeLvl();
 	}
@@ -421,7 +423,36 @@ char* j1Map::GetPathFromLevel(lvl_map lvl)
 	return nullptr;
 }
 
-fPoint j1Map::GetNearestReachablePatrolPoint(float map_x, float map_y) const
+bool j1Map::GetPatrolPoints(float map_x, float map_y, fPoint& a, fPoint& b) const
+{
+	iPoint origin = { (int)map_x, (int)map_y };
+	origin = App->map->WorldToMap(origin.x, origin.y);
+
+	int distance = map_info.width * map_info.height * map_info.tilewidth;
+	fPoint oirigin = { (float)map_x, (float)map_y };
+	fPoint target = { -1, -1 };
+
+	p2PQueue<fPoint> points_queue;
+
+	for (int i = 0; i < map_info.patrol_points.Count(); i++)
+	{
+		iPoint cur_point = *map_info.patrol_points.At(i);
+
+		if (App->path->CanReach(origin, App->map->WorldToMap(cur_point.x, cur_point.y)) == false)continue;
+
+		fPoint map_patrol_point = { (float)cur_point.x,(float)cur_point.y };
+		int cur_distance = oirigin.DistanceManhattan(map_patrol_point);
+
+		points_queue.Push(map_patrol_point, cur_distance * -1);
+	}
+
+	points_queue.Pop(a);
+	points_queue.Pop(b);
+
+	return true;
+}
+
+/*fPoint j1Map::GetNearestReachablePatrolPoint(float map_x, float map_y) const
 {
 	iPoint origin = { (int)map_x, (int)map_y };
 	origin = App->map->WorldToMap(origin.x, origin.y);
@@ -447,7 +478,7 @@ fPoint j1Map::GetNearestReachablePatrolPoint(float map_x, float map_y) const
 	}
 
 	return target;
-}
+}*/
 
 info_layer* j1Map::GetLayer(char* name)const
 {

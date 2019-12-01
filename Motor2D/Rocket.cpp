@@ -24,10 +24,7 @@ Rocket::~Rocket()
 bool Rocket::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateRocket", Profiler::Color::BlueViolet);
-	if (entity_collider == nullptr) {
-		entity_draw_dead = false;
-		return true;
-	}
+	
 	BaseEntity* player_entity = (BaseEntity*)App->entity->GetPlayer();
 
 	if (player_entity != nullptr)

@@ -22,6 +22,11 @@ BaseEntity::~BaseEntity()
 	}
 }
 
+void BaseEntity::Start()
+{
+	App->entity->SetEntityState(ENTITY_IDLE_RIGHT, this->entity_collider);
+}
+
 bool BaseEntity::Update(float dt)
 {
 	BROFILER_CATEGORY("UpdateBaseEntity", Profiler::Color::Black);
@@ -37,6 +42,8 @@ bool BaseEntity::CleanUp()
 
 bool BaseEntity::Draw()
 {
+	if (current_animation == nullptr)return true;
+
 	animation_index += 0.01f;// dt * current_animation->GetSpeed();
 	current_animation->SetCurrentFrame((uint)animation_index);
 

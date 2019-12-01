@@ -15,6 +15,8 @@
 #include "p2Log.h"
 #include "SDL/include/SDL_rect.h"
 #include "BaseEntity.h"
+#include "j1FadeToBlack.h"
+
 EntityManager::EntityManager()
 {
 	name = ("entityManager");
@@ -132,6 +134,7 @@ bool EntityManager::PreUpdate()
 	{
 		for (int i = 0; i < new_entities.count(); i++) {
 			BaseEntity* new_entity = new_entities.At(i)->data;
+			new_entity->Start();
 			entities_list.add(new_entity);
 		}
 		new_entities.clear();
@@ -174,9 +177,6 @@ bool EntityManager::CleanUp()
 
 void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 {
-	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_START) {
-		App->WantToSaveCheckpoints();
-	}
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_WALL) {
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
 		if (player_entity == nullptr)
@@ -264,8 +264,18 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			player_entity->entity_current_vel.x = 0.0f;
 		}
 	}
-	
+
+	//if (App->player->IsChangingLVL())return;
+
+	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_START) {
+		App->WantToSaveCheckpoints();
+	}
+
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
+
+		if (App->fade->isFading())return;
+		if (App->player->IsDead()) return;
+		if (App->player->IsGod())return;
 
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
 		if (player_entity == nullptr)
@@ -273,28 +283,25 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			return;
 		}
 
-		if (player_entity->current_state_entity != entityState::ENTITY_DEAD_RIGHT || player_entity->current_state_entity != entityState::ENTITY_DEAD_LEFT && App->player->IsGod() == false)
-		{
-			player_entity->entity_current_vel.x = 0.0f;
-			player_entity->entity_current_vel.y = 0.0f;
-			App->entity->KillEntity(player_entity);
-
-		}
+		player_entity->entity_current_vel.x = 0.0f;
+		player_entity->entity_current_vel.y = 0.0f;
+		App->entity->KillEntity(player_entity);
 	}
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_ENEMY) {
 
+		if (App->fade->isFading())return;
+		if (App->player->IsDead()) return;
+		if (App->player->IsGod())return;
+
 		PlayerEntity* player_entity = (PlayerEntity*)FindEntity(coll);
 		if (player_entity == nullptr)
 		{
 			return;
 		}
 
-		if (player_entity->current_state_entity != entityState::ENTITY_DEAD_RIGHT || player_entity->current_state_entity != entityState::ENTITY_DEAD_LEFT && App->player->IsGod() == false)
-		{
-			player_entity->entity_current_vel.x = 0.0f;
-			player_entity->entity_current_vel.y = 0.0f;
-			App->entity->KillEntity(player_entity);
-		}
+		player_entity->entity_current_vel.x = 0.0f;
+		player_entity->entity_current_vel.y = 0.0f;
+		App->entity->KillEntity(player_entity);
 	}
 	//ENEMIES COLLISION
 	if (coll->type == COLLIDER_ENEMY && coll2->type == COLLIDER_WALL) {
@@ -386,18 +393,20 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 		}
 		else
 		{
-			if (coll2->type == COLLIDER_PLAYER) 
+			if (coll2->type == COLLIDER_PLAYER)
 			{
+				if (App->fade->isFading())return;
+				if (App->player->IsDead()) return;
+				if (App->player->IsGod())return;
+
 				BaseEntity* player = FindEntity(coll2);
 				if (player == nullptr)
 				{
 					return;
 				}
-				if (player->current_state_entity != entityState::ENTITY_DEAD_RIGHT || player->current_state_entity != entityState::ENTITY_DEAD_RIGHT && App->player->IsGod() == false)
-				{
-					App->entity->KillEntity(bullet);
-					App->entity->KillEntity(player);
-				}
+				
+				App->entity->KillEntity(bullet);
+				App->entity->KillEntity(player);
 			}
 		}
 
@@ -462,6 +471,7 @@ bool EntityManager::Save(pugi::xml_node& node)
 	node.append_child("Dead_Entities");
 	for (int i = 0; i < entities_list.count(); i++)
 	{
+		if (entities_list[i]->entity_type == entityType::ROCKET_TYPE || entities_list[i]->entity_type == entityType::BULLET_TYPE) continue;
 		pugi::xml_node entities_node = node.first_child().append_child("Entity_Alive");
 		{
 			entities_node.append_attribute("Type") = EntityTypeToStr(entities_list[i]->entity_type);
@@ -476,6 +486,8 @@ bool EntityManager::Save(pugi::xml_node& node)
 	}
 	for (int i = 0; i < dead_entities.count(); i++)
 	{
+		if (dead_entities[i]->entity_type == entityType::ROCKET_TYPE || dead_entities[i]->entity_type == entityType::BULLET_TYPE) continue;
+
 		pugi::xml_node dead_entities_node = node.child("Dead_Entities").append_child("Entity_Dead");
 		{
 			dead_entities_node.append_attribute("Type") = EntityTypeToStr(dead_entities[i]->entity_type);
@@ -488,6 +500,14 @@ bool EntityManager::Save(pugi::xml_node& node)
 
 BaseEntity* EntityManager::FindEntity(const Collider* col) const
 {
+	for (int i = 0; i < new_entities.count(); i++)
+	{
+		if (new_entities.At(i)->data->entity_collider == col)
+		{
+			return new_entities.At(i)->data;
+		}
+	}
+
 	for (int i = 0; i < entities_list.count(); i++) 
 	{
 		if (entities_list.At(i)->data->entity_collider == col) 
@@ -588,19 +608,12 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 
 	break;
 	}
-
-	entities_list.add(new_entity);
+	
+	new_entities.add(new_entity);
 
 	new_entity->entity_collider = App->colliders->AddCollider({ 0,0,new_entity->collider_size.x, new_entity->collider_size.y }, new_entity->collider_type, this);
 	
-	if (new_entity->collider_type == COLLIDER_PLAYER) 
-	{
-		SetEntityState(ENTITY_IDLE_LEFT, new_entity->entity_collider);
-	}
-	else
-	{
-		SetEntityState(ENTITY_IDLE_RIGHT, new_entity->entity_collider);
-	}
+
 
 	return new_entity;
 }
@@ -652,6 +665,11 @@ void EntityManager::SetEntityState(entityState new_state, Collider* coll)
 	if (entity->current_state_entity == new_state)
 	{
 		return;
+	}
+
+	if (entity->current_animation != nullptr)
+	{
+		//RELEASE(entity->current_animation);
 	}
 
 	Animation* new_animation = App->animation->GetAnimation(entity->entity_type, new_state);

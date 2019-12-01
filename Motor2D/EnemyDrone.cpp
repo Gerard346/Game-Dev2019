@@ -27,13 +27,19 @@ EnemyDrone::~EnemyDrone()
 {
 }
 
+void EnemyDrone::Start()
+{
+	App->entity->SetEntityState(ENTITY_IDLE_RIGHT, this->entity_collider);
+	App->path->TypePathfinding(FLY);
+	App->map->GetPatrolPoints(entity_pos.x, entity_pos.y, a_point, b_point);
+}
+
 bool EnemyDrone::Update(float dt)
 {
-	
 	BaseEntity* entity_player = (BaseEntity*)App->entity->GetPlayer();
 	//Is seen
 	if (entity_player != nullptr) {
-
+		
 		fPoint dir_vector = entity_player->entity_pos - entity_pos;
 		float vec_magnitude = (abs(dir_vector.x) + abs(dir_vector.y));
 		if (vec_magnitude < is_viewed.x) {
@@ -63,7 +69,10 @@ bool EnemyDrone::Update(float dt)
 					if (App->path->PropagateASTARf(entity_pos, entity_player->entity_pos, path) == false)
 					{
 						//PATROL
-						fPoint goal = App->map->GetNearestReachablePatrolPoint(entity_pos.x, entity_pos.y);
+						float a_distance = entity_pos.DistanceManhattan(a_point);
+						float b_distance = entity_pos.DistanceManhattan(b_point);
+						fPoint goal = a_distance < b_distance ? b_point : a_point;
+
 						if (App->path->PropagateASTARf(entity_pos, goal, path) == true)
 						{
 							path.Pop(path_next_pos);
@@ -108,8 +117,9 @@ bool EnemyDrone::Update(float dt)
 			}
 		}
 	}
+
 	UpdatePosition();
-	AnimationUpdate();
+
 	return true;
 }
 
