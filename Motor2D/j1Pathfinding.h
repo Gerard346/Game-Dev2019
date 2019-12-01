@@ -77,6 +77,9 @@ private:
 	char* str_load_tex = nullptr;
 
 	iPoint prev_click_point;
+
+public:
+	bool debug = false;
 };
 
 #endif // __j1PATHFINDING_H__

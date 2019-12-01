@@ -12,6 +12,7 @@
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "EntityManager.h"
+#include "j1Pathfinding.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -38,8 +39,7 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 bool j1Scene::Start()
 {
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
-	App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
-
+	//App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
 	//App->audio->PlayMusic(music_path.GetString());
 
 	p2SString title("Last Soldier");
@@ -81,14 +81,13 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->WantToLoad();
 
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
 		App->colliders->debug = !App->colliders->debug;
+		App->path->debug = !App->path->debug;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		App->player->GodMode();
-		//PlayerEntity*  = App->entity->GetPlayer() TODO
-		//App->player->p_current_vel.x = 0.0f;
-		//App->entity->GetPlayer()->p_current_vel.y = 0.0f;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		is_paused = !is_paused;

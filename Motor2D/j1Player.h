@@ -62,8 +62,6 @@ public:
 
 	void CamFollowPlayer();
 
-	void PlayerInput(float dt);
-
 public:
 	Levels p_current_lvl = Lvl_1;
 

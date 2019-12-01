@@ -46114,7 +46114,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Colliders_Walk" width="250" height="23">
+ <layer name="Colliders_Walk" width="250" height="23" visible="0">
   <properties>
    <property name="Collider_Type" type="int" value="2"/>
    <property name="Colliders" type="int" value="1"/>
@@ -86433,7 +86433,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="WalkabilityFly" width="250" height="23">
+ <layer name="WalkabilityFly" width="250" height="23" visible="0">
   <properties>
    <property name="Colliders " type="int" value="0"/>
    <property name="Draw" type="int" value="0"/>
@@ -92191,7 +92191,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Patron" width="250" height="23">
+ <layer name="Patron" width="250" height="23" visible="0">
   <properties>
    <property name="Colliders" type="int" value="1"/>
   </properties>

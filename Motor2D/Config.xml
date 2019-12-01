@@ -33,7 +33,7 @@
 
 <player>
         <fx_dead>audio/fx/dead.wav</fx_dead>	
-        <fx_next_lvl>audio/fx/next_lvl.wav</fx_next_lvl>
+        <fx_next_lvl>audio/fx/dead.wav</fx_next_lvl>
 
 </player>
 
@@ -73,7 +73,7 @@
  <entity>
     <type>rocket</type>
     <gravity g="0.0"/>
-<draw_dead d="true"/>
+<draw_dead d="false"/>
      <max_speed x="100.0" y="100.0"/>
     <acceleration a="5.0"/>
     <collider_type>enemy</collider_type>

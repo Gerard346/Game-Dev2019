@@ -164,14 +164,21 @@ bool EntityManager::PostUpdate()
 
 bool EntityManager::CleanUp()
 {
+	LOG("PETAS AQUI?");
 	for (int i = 0; i < entities_list.count(); i++) {
 		entities_list.At(i)->data->CleanUp();
 		App->colliders->EraseCollider(entities_list.At(i)->data->entity_collider);
-		RELEASE(entities_list.At(i)->data);
+		RELEASE(entities_list.At(i)->data);	
+	}
+	for (int i = 0; i < dead_entities_not_visible.count(); i++) {
+		dead_entities_not_visible.At(i)->data->CleanUp();
+		App->colliders->EraseCollider(dead_entities_not_visible.At(i)->data->entity_collider);
+		RELEASE(dead_entities_not_visible.At(i)->data);
 	}
 
 	entities_list.clear();
-
+	dead_entities_not_visible.clear();
+	LOG("CLEANING ENTITIES");
 	return true;
 }
 

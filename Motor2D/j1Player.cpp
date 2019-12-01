@@ -46,7 +46,7 @@ bool j1Player::Start()
 	}
 	
 	if (next_lvl_fx == -1) {
-		//next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
+		next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
 	}
 	if (p_dead == true) {
 		p_dead = false;
@@ -110,14 +110,9 @@ bool j1Player::Save(pugi::xml_node& node)
 	return true;
 }
 
-
-
-
-
-
 void j1Player::ChangeLvl()
 {
-
+	App->audio->PlayFx(next_lvl_fx);
 	//next_lvl = true;
 	if (p_current_lvl == Lvl_1) {
 		StartFromLvl2();
@@ -126,108 +121,6 @@ void j1Player::ChangeLvl()
 	else{
 		StartFromLvl1();
 	}
-}
-
-void j1Player::PlayerInput(float dt)
-{/*
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-			p_current_vel.x = p_vel.x * -1*dt;
-			if (p_floor)
-			{
-				SetPlayerState(WALK_RIGHT);
-			}
-			else
-			{
-				SetPlayerState(JUMP_RIGHT);
-
-			}
-		}
-
-		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
-			p_current_vel.x = 0.0f;
-			if (p_floor)
-			{
-				SetPlayerState(IDLE_RIGHT);
-			}
-			else
-			{
-				SetPlayerState(JUMP_RIGHT);
-			}
-		}
-
-		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-			p_current_vel.x = p_vel.x*dt;
-			if (p_floor)
-			{
-				SetPlayerState(WALK_LEFT);
-			}
-			else
-			{
-				SetPlayerState(JUMP_LEFT);
-			}
-		}
-
-		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {
-			p_current_vel.x = 0.0f;
-			if (p_floor)
-			{
-				SetPlayerState(IDLE_LEFT);
-			}
-			else
-			{
-				SetPlayerState(JUMP_LEFT);
-			}
-
-		}
-		if (p_floor == true) {
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-				App->audio->PlayFx(jump_fx);
-				p_floor = false;
-				p_current_vel.y = -p_vel.y*dt;
-
-				if (p_current_state == IDLE_RIGHT || p_current_state == WALK_RIGHT)
-				{
-					SetPlayerState(JUMP_RIGHT);
-				}
-				else if(p_current_state == IDLE_LEFT || p_current_state == WALK_LEFT)
-				{
-					SetPlayerState(JUMP_LEFT);
-				}
-			}
-		}
-		else if (double_jump == false && p_floor == false && IsGod() == false) {
-			
-			if (p_current_vel.y > -1) {
-				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-					App->audio->PlayFx(jump_fx);
-					double_jump = true;
-					p_current_vel.y = -p_vel.y*dt;
-
-					if (p_current_state == IDLE_RIGHT || p_current_state == WALK_RIGHT)
-					{
-						SetPlayerState(JUMP_RIGHT);
-					}
-					else if (p_current_state == IDLE_LEFT || p_current_state == WALK_LEFT)
-					{
-						SetPlayerState(JUMP_LEFT);
-					}
-				}
-			}
-		}
-		if (IsGod()) {
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-				p_current_vel.y = -p_vel.x*dt;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_UP) {
-				p_current_vel.y = 0.0f;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-				p_current_vel.y = p_vel.x*dt;
-			}
-			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_UP) {
-				p_current_vel.y = 0.0f;
-			}
-		}*/
 }
 
 void j1Player::StartFromLvl1()

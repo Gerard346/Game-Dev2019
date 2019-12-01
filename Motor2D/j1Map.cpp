@@ -40,7 +40,10 @@ bool j1Map::Awake(const pugi::xml_node& config)
 bool j1Map::Start()
 {
 	App->render->camera.x = 0;
-
+	if (start_game) {
+		start_game = false;
+		LoadMaplvl1();
+	}
 	if (want_to_load_map)
 	{
 		if (App->player->p_current_lvl == Lvl_2)
@@ -293,8 +296,13 @@ void j1Map::ChangeMap(const char* path)
 {
 
 	App->entity->DeleteAllEntities();
-	App->map->CleanUp();
-	App->map->Load(path);
+	//App->map->CleanUp();
+ 	App->map->Load(path);
+}
+
+void j1Map::LoadMaplvl1()
+{
+	App->map->Load(level1_path);
 }
 
 iPoint j1Map::MapToWorld(int x, int y) const

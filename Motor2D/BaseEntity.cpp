@@ -37,6 +37,7 @@ bool BaseEntity::Update(float dt)
 
 bool BaseEntity::CleanUp()
 {
+
 	return true;
 }
 
