@@ -40,7 +40,7 @@ bool j1Scene::Start()
 {
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
 	//App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
-	//App->audio->PlayMusic(music_path.GetString());
+	App->audio->PlayMusic(music_path.GetString());
 
 	p2SString title("Last Soldier");
 
@@ -75,8 +75,9 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		App->player->StatFromCurrentLvl();
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		App->WantToSave();
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		if (loadinglevel == true) {
@@ -93,6 +94,11 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		App->player->GodMode();
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		App->SetCappedFrames();
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		is_paused = !is_paused;
 	}
@@ -116,6 +122,7 @@ bool j1Scene::PostUpdate()
 void j1Scene::ChangeScene(const float value) const
 {
 	if (App->player->IsChangingLVL()) {
+		App->path->ResetPath();
 		App->fade->FadeToBlack(App->map, App->map, value);
 		App->map->WantToLoadMap();
 		App->player->setChangingLVL();

@@ -103,6 +103,8 @@ void j1Pathfinding::Path(int x, int y)
 
 void j1Pathfinding::PropagateASTAR(iPoint origin, iPoint goal)
 {
+	BROFILER_CATEGORY("A star", Profiler::Color::Black);
+
 	iPoint map_goal = App->map->WorldToMap(goal.x, goal.y);
 
 	ResetPath();

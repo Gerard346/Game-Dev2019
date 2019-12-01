@@ -76,7 +76,7 @@ private:
 
 	char* str_load_tex = nullptr;
 
-	iPoint prev_click_point;
+	iPoint prev_click_point = { 0, 0 };
 
 public:
 	bool debug = false;

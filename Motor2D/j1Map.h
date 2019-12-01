@@ -162,7 +162,7 @@ public:
 	void ChangeMap(const char*);
 
 	void LoadMaplvl1();
-
+	void LoadMaplvl2();
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 

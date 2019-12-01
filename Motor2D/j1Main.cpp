@@ -81,6 +81,7 @@ int main(int argc, char* args[])
 
 			// Loop all modules until we are asked to leave ---------------------
 			case LOOP:
+			{BROFILER_FRAME("UpdateThread"); }
 			if(App->Update() == false)
 				state = CLEAN;
 			break;

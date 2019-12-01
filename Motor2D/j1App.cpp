@@ -88,6 +88,11 @@ void j1App::WantToLoad()
 	want_to_load = true;
 }
 
+bool j1App::IsLoading()
+{
+	return want_to_load;
+}
+
 void j1App::WantToLoadCheckpoints()
 {
 	want_to_load_checkpoints = true;
@@ -346,6 +351,11 @@ const char* j1App::GetArgv(int index) const
 		return args[index];
 	else
 		return NULL;
+}
+
+void j1App::SetCappedFrames()
+{
+	is_fps_capped = !is_fps_capped;
 }
 
 void j1App::Load()

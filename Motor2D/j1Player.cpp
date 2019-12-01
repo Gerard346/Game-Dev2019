@@ -52,9 +52,9 @@ bool j1Player::Start()
 		p_dead = false;
 		App->WantToLoadCheckpoints();
 	}
-
 	
-	//next_lvl = false;
+
+	next_lvl = false;
 	
 	return true;
 }
@@ -91,23 +91,28 @@ bool j1Player::Load(const pugi::xml_node& node)
 {
 	int loaded_lvl = node.child("player").attribute("current_level").as_int();
 	next_lvl = true;
+	Levels current_lvl;
+	if (loaded_lvl == 0) {
+		current_lvl = Lvl_1;
+	}
+	else {
+		current_lvl = Lvl_2;
+	}
 
-		if (loaded_lvl == 1) {
-			p_current_lvl = Lvl_1;
-			App->scene->ChangeScene(1.0f);
-		}
-		else {
-			p_current_lvl = Lvl_2;
-			App->scene->ChangeScene(1.0f);
-		}
-	
+	if(current_lvl == Lvl_1 ){
+		App->map->LoadMaplvl1();
+	}
+	else {
+		App->map->LoadMaplvl2();
+	}
+
 	return true;
 }
 
 bool j1Player::Save(pugi::xml_node& node) 
 {
 	pugi::xml_node player = node.append_child("player");
-	player.append_attribute("current_level").set_value(p_current_lvl+1);
+	player.append_attribute("current_level").set_value(p_current_lvl);
 
 	return true;
 }

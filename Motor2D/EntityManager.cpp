@@ -164,7 +164,6 @@ bool EntityManager::PostUpdate()
 
 bool EntityManager::CleanUp()
 {
-	LOG("PETAS AQUI?");
 	for (int i = 0; i < entities_list.count(); i++) {
 		entities_list.At(i)->data->CleanUp();
 		App->colliders->EraseCollider(entities_list.At(i)->data->entity_collider);
@@ -178,7 +177,6 @@ bool EntityManager::CleanUp()
 
 	entities_list.clear();
 	dead_entities_not_visible.clear();
-	LOG("CLEANING ENTITIES");
 	return true;
 }
 
@@ -383,6 +381,10 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 		{
 			App->entity->KillEntity(bullet);
 		}
+		if (coll2->type == COLLIDER_STICKINESS)
+		{
+			App->entity->KillEntity(bullet);
+		}
 
 		if (bullet->player_bullet == true)
 		{
@@ -467,7 +469,7 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		App->entity->KillEntity(new_entity);
 		dead_entity = dead_entity.next_sibling();
 	}
-
+	App->scene->LoadingLevelSet(true);
 	return true;
 }
 
@@ -801,11 +803,13 @@ bool EntityManager::DeleteAllEntities()
 	for (int i = 0; i < dead_entities.count(); i++) {
 		RELEASE(dead_entities[i]);
 	}
-
+	for (int i = 0; i < dead_entities_not_visible.count(); i++) {
+		RELEASE(dead_entities_not_visible[i]);
+	}
 	new_entities.clear();
 	entities_list.clear();
 	dead_entities.clear();
-
+	dead_entities_not_visible.clear();
 	return true;
 }
 

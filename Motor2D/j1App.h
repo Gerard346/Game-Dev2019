@@ -49,12 +49,15 @@ public:
 	void WantToSave();
 	void WantToSaveCheckpoints();
 	void WantToLoad();
+	bool IsLoading();
 	void WantToLoadCheckpoints();
 	float Getdt() const;
 	uint GetCappedFrames() const;
 	// Exposing some properties for reading
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
+
+	void SetCappedFrames();
 
 private:
 

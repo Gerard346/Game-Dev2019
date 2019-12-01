@@ -59,7 +59,9 @@ bool j1Map::Start()
 		}
 
 	}
-
+	if (App->player->IsChangingLVL()) {
+		App->player->setChangingLVL();
+	}
 	return true;
 }
 
@@ -282,7 +284,6 @@ bool j1Map::Load(const char* file_name)
 		}
 	}
 	App->entity->SpawnEntities(map_info.entities_info);
-
 	return ret;
 }
 
@@ -305,7 +306,20 @@ void j1Map::ChangeMap(const char* path)
 
 void j1Map::LoadMaplvl1()
 {
+	App->map->CleanUp();
 	App->map->Load(level1_path);
+	if (App->player->IsChangingLVL()) {
+		App->player->setChangingLVL();
+	}
+}
+
+void j1Map::LoadMaplvl2()
+{
+	App->map->CleanUp();
+	App->map->Load(level2_path);
+	if (App->player->IsChangingLVL()) {
+		App->player->setChangingLVL();
+	}
 }
 
 iPoint j1Map::MapToWorld(int x, int y) const
@@ -462,6 +476,7 @@ bool j1Map::GetPatrolPoints(float map_x, float map_y, fPoint& a, fPoint& b) cons
 
 	return true;
 }
+
 
 /*fPoint j1Map::GetNearestReachablePatrolPoint(float map_x, float map_y) const
 {

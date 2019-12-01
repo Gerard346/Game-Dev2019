@@ -75,10 +75,8 @@ bool EnemyGroundEntity::Update(float dt)
 
 					if (App->path->PropagateASTARf(entity_pos, goal, path) == true)
 					{
-						LOG("CRIDAt");
 						path.Pop(path_next_pos);
 						path_next_pos = App->map->MapToWorld(path_next_pos.x, path_next_pos.y);
-						LOG("CRIDAdsat");
 					}
 				}
 				else

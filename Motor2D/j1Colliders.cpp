@@ -56,7 +56,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_ENEMY][COLLIDER_DEAD] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_BULLET] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_STICKINESS] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_START] = false;
 
 	matrix[COLLIDER_BULLET][COLLIDER_WALL] = true;
@@ -72,7 +72,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_STICKINESS][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_STICKINESS][COLLIDER_FINISH] = false;
 	matrix[COLLIDER_STICKINESS][COLLIDER_DEAD] = false;
-	matrix[COLLIDER_STICKINESS][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_STICKINESS][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_STICKINESS][COLLIDER_BULLET] = true;
 	matrix[COLLIDER_STICKINESS][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_STICKINESS][COLLIDER_START] = false;
@@ -204,7 +204,7 @@ bool j1Colliders::EraseAllColliders() {
 }
 bool Collider::CheckCollision(const SDL_Rect & r) const
 {
-	return (rect.x < r.x + r.w &&
+      	return (rect.x < r.x + r.w &&
 		rect.x + rect.w > r.x &&
 		rect.y < r.y + r.h &&
 		rect.h + rect.y > r.y);
