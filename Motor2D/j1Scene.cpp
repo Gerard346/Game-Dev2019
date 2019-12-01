@@ -66,7 +66,7 @@ bool j1Scene::Update(float dt)
 		App->audio->SetVolume(-20);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN){
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
 		App->player->StartFromLvl1();
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
@@ -78,8 +78,12 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->WantToSave();
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->WantToLoad();
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+		if (loadinglevel == true) {
+			loadinglevel = false;
+			App->WantToLoad();
+		}
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
 		App->colliders->debug = !App->colliders->debug;
@@ -111,8 +115,11 @@ bool j1Scene::PostUpdate()
 
 void j1Scene::ChangeScene(const float value) const
 {
-	App->fade->FadeToBlack(App->map, App->map, value);
-	App->map->WantToLoadMap();
+	if (App->player->IsChangingLVL()) {
+		App->fade->FadeToBlack(App->map, App->map, value);
+		App->map->WantToLoadMap();
+		App->player->setChangingLVL();
+	}
 }
 
 // Called before quitting
@@ -126,4 +133,14 @@ bool j1Scene::CleanUp()
 bool j1Scene::GetPause()
 {
 	return is_paused;
+}
+
+bool j1Scene::LoadingLevel()
+{
+	return loadinglevel;
+}
+
+void j1Scene::LoadingLevelSet(bool loading)
+{
+	loadinglevel = loading;
 }

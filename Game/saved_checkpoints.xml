@@ -4,7 +4,7 @@
 	<window />
 	<textures />
 	<audio>
-		<audio volume_music="0" />
+		<audio volume_music="128" />
 	</audio>
 	<animation />
 	<scene />
@@ -15,11 +15,16 @@
 		<player current_level="1" />
 	</player>
 	<entityManager>
-		<Alive_Entities />
+		<Alive_Entities>
+			<Entity_Alive Type="drone" X="414.400116" Y="112.588852" />
+			<Entity_Alive Type="player" X="64" Y="210.435593" />
+			<Entity_Alive Type="enemy" X="3136" Y="162" />
+			<Entity_Alive Type="enemy" X="880" Y="210" />
+		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>
 	<fadetoblack />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="0" y="32" />
 	</renderer>
 </saved_checkpoints>

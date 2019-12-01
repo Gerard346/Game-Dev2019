@@ -46,13 +46,16 @@ bool j1Map::Start()
 	}
 	if (want_to_load_map)
 	{
+		want_to_load_map = false;
 		if (App->player->p_current_lvl == Lvl_2)
 		{
 			App->map->ChangeMap(level2_path);
+			App->scene->LoadingLevelSet(true);
 		}
 		else
 		{
 			App->map->ChangeMap(level1_path);
+			App->scene->LoadingLevelSet(true);
 		}
 
 	}

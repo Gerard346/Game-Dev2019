@@ -58,6 +58,7 @@ public:
 	bool IsDead() const;
 
 	bool IsChangingLVL() const;
+	void setChangingLVL();
 	void PlayerDies();
 
 	void CamFollowPlayer();
