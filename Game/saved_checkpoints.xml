@@ -12,19 +12,12 @@
 	<pathfinding />
 	<colliders />
 	<player>
-		<player current_level="0" />
+		<player current_level="1" />
 	</player>
 	<entityManager>
-		<Alive_Entities>
-			<Entity_Alive Type="drone" X="411.520233" Y="98.0141525" />
-			<Entity_Alive Type="player" X="64" Y="210" />
-			<Entity_Alive Type="enemy" X="3136" Y="162" />
-			<Entity_Alive Type="enemy" X="880" Y="210" />
-		</Alive_Entities>
+		<Alive_Entities />
 		<Dead_Entities />
 	</entityManager>
 	<fadetoblack />
-	<renderer>
-		<camera x="0" y="32" />
-	</renderer>
+	<renderer />
 </saved_checkpoints>

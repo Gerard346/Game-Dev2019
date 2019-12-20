@@ -90,25 +90,6 @@ bool j1Render::CleanUp()
 	SDL_DestroyRenderer(renderer);
 	return true;
 }
-bool j1Render::Load(const pugi::xml_node& node)
-{
-
-	camera.x = node.child("camera").attribute("x").as_int();
-	camera.y = node.child("camera").attribute("y").as_int();
-	return true;
-}
-bool j1Render::Save(pugi::xml_node& node)
-{
-	
-	pugi::xml_node camera_node = node.append_child("camera");
-	camera_node.append_attribute("x");
-	camera_node.attribute("x").set_value(camera.x);
-	camera_node.append_attribute("y");
-	camera_node.attribute("y").set_value(camera.y);
-
-	return true;
-}
-
 
 void j1Render::SetBackgroundColor(SDL_Color color)
 {

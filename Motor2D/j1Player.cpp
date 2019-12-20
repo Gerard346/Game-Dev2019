@@ -53,9 +53,6 @@ bool j1Player::Start()
 		App->WantToLoadCheckpoints();
 	}
 	
-
-	next_lvl = false;
-	
 	return true;
 }
 
@@ -89,21 +86,17 @@ bool j1Player::CleanUp()
 
 bool j1Player::Load(const pugi::xml_node& node)
 {
-	int loaded_lvl = node.child("player").attribute("current_level").as_int();
-	next_lvl = true;
-	Levels current_lvl;
-	if (loaded_lvl == 0) {
-		current_lvl = Lvl_1;
+	Levels loaded_lvl = (Levels)node.child("player").attribute("current_level").as_int();
+	
+	if (loaded_lvl == Lvl_1)
+	{
+		StartFromLvl1();
+		//App->map->LoadMaplvl1();
 	}
-	else {
-		current_lvl = Lvl_2;
-	}
-
-	if(current_lvl == Lvl_1 ){
-		App->map->LoadMaplvl1();
-	}
-	else {
-		App->map->LoadMaplvl2();
+	else 
+	{
+		StartFromLvl2();
+		//App->map->LoadMaplvl2();
 	}
 
 	return true;
@@ -120,7 +113,6 @@ bool j1Player::Save(pugi::xml_node& node)
 void j1Player::ChangeLvl()
 {
 	App->audio->PlayFx(next_lvl_fx);
-	next_lvl = true;
 	
 	if (p_current_lvl == Lvl_1) {
 		StartFromLvl2();
@@ -133,24 +125,18 @@ void j1Player::ChangeLvl()
 
 void j1Player::StartFromLvl1()
 {
-	next_lvl = true;
-
 	p_current_lvl = Lvl_1;
 	App->scene->ChangeScene(1.0f);
 }
 
 void j1Player::StartFromLvl2()
 {
-	next_lvl = true;
-
 	p_current_lvl = Lvl_2;
 	App->scene->ChangeScene(1.0f);
 }
 
 void j1Player::StatFromCurrentLvl()
 {
-	next_lvl = true;
-
 	App->scene->ChangeScene(1.0f);
 }
 
@@ -167,16 +153,6 @@ bool j1Player::IsGod() const
 bool j1Player::IsDead() const
 {
 	return p_dead;
-}
-
-bool j1Player::IsChangingLVL() const
-{
-	return next_lvl;
-}
-
-void j1Player::setChangingLVL()
-{
-	next_lvl = !next_lvl;
 }
 
 void j1Player::PlayerDies()

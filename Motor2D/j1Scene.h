@@ -35,7 +35,6 @@ public:
 
 	bool GetPause();
 
-	bool LoadingLevel();
 
 private:
 

@@ -121,12 +121,9 @@ bool j1Scene::PostUpdate()
 
 void j1Scene::ChangeScene(const float value) const
 {
-	if (App->player->IsChangingLVL()) {
-		App->path->ResetPath();
-		App->fade->FadeToBlack(App->map, App->map, value);
-		App->map->WantToLoadMap();
-		App->player->setChangingLVL();
-	}
+	App->path->ResetPath();
+	App->fade->FadeToBlack(App->map, App->map, value);
+	App->map->WantToLoadMap();
 }
 
 // Called before quitting

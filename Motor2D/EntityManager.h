@@ -40,17 +40,22 @@ public:
 	char* EntityTypeToStr(entityType) const;
 	entityState StringToEntityState(const char* str)const;
 	entityType TileIdToEntityType(int) const;
+	
 	bool SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list);
 	bool DeleteAllEntities();
+
+	bool EntitiesLoad();
 
 	PlayerEntity* GetPlayer()const;
 	entitySide GetEntitySideView(BaseEntity*);
 
 public:
+
 	int shoot_fx = -1;
 	int jump_fx = -1;
 
 private:
+
 	char* shoot_fx_path = nullptr;
 	char* jump_fx_path = nullptr;
 
@@ -60,5 +65,8 @@ private:
 	p2List <BaseEntity*> new_entities;
 	p2List <BaseEntity*> dead_entities;
 	p2List <BaseEntity*> dead_entities_not_visible;
+
+	bool load_pending = false;
+	pugi::xml_node load_node;
 
 };

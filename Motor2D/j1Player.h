@@ -11,6 +11,7 @@ struct SDL_Texture;
 class Animation;
 
 enum Levels {
+	Lvl_undefined,
 	Lvl_1,
 	Lvl_2
 };
@@ -57,8 +58,6 @@ public:
 
 	bool IsDead() const;
 
-	bool IsChangingLVL() const;
-	void setChangingLVL();
 	void PlayerDies();
 
 	void CamFollowPlayer();
@@ -70,7 +69,6 @@ private:
 	bool p_god = false;
 	bool p_floor = false;
 	bool double_jump = false;
-	bool next_lvl = false;
 	bool p_dead = false;
 	int g_is_over_fx = -1;
 	int next_lvl_fx = -1;

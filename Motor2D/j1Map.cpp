@@ -46,11 +46,15 @@ bool j1Map::Start()
 		want_to_load_map = false;
 		if (App->player->p_current_lvl == Lvl_2)
 		{
-			App->map->ChangeMap(level2_path);
+			//App->player->StartFromLvl2();
+			LoadMaplvl2();
+			//App->map->ChangeMap(level2_path);
 		}
 		else
 		{
-			App->map->ChangeMap(level1_path);
+			//App->player->StartFromLvl1();
+			LoadMaplvl1();
+			//App->map->ChangeMap(level1_path);
 		}
 
 	}
@@ -59,9 +63,6 @@ bool j1Map::Start()
 		LoadMaplvl1();
 	}
 
-	if (App->player->IsChangingLVL()) {
-		App->player->setChangingLVL();
-	}
 	return true;
 }
 
@@ -283,43 +284,29 @@ bool j1Map::Load(const char* file_name)
 			}
 		}
 	}
+
 	App->entity->SpawnEntities(map_info.entities_info);
+
 	return ret;
 }
 
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
-	if (App->player->IsChangingLVL())return;
-
 	if (c1->type == COLLIDER_FINISH && c2->type == COLLIDER_PLAYER && App->fade->isFading() == false) {
 		App->player->ChangeLvl();
 	}
-}
-
-void j1Map::ChangeMap(const char* path)
-{
-
-	App->entity->DeleteAllEntities();
-	//App->map->CleanUp();
- 	App->map->Load(path);
 }
 
 void j1Map::LoadMaplvl1()
 {
 	App->map->CleanUp();
 	App->map->Load(level1_path);
-	if (App->player->IsChangingLVL()) {
-		App->player->setChangingLVL();
-	}
 }
 
 void j1Map::LoadMaplvl2()
 {
 	App->map->CleanUp();
 	App->map->Load(level2_path);
-	if (App->player->IsChangingLVL()) {
-		App->player->setChangingLVL();
-	}
 }
 
 iPoint j1Map::MapToWorld(int x, int y) const
@@ -425,7 +412,8 @@ render_orderer j1Map::StringToRenderOrdererEnum(const char* input_string) const
 const info_tileset* j1Map::GetTilesetInfoFromTileID(int tile_ID) const
 {
 	
-	for (int i = 0; i < map_info.tilesets_info.Count(); i++) {
+	for (int i = 0; i < map_info.tilesets_info.Count(); i++) 
+	{
 		if (i == map_info.tilesets_info.Count() - 1) {
 			return  map_info.tilesets_info.At(i);
 		}

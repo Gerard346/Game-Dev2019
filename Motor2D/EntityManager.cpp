@@ -438,9 +438,18 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 
 bool EntityManager::Load(const pugi::xml_node& node)
 {
-	DeleteAllEntities();
+	load_node = node;
+	load_pending = true;
 
-	pugi::xml_node entity = node.child("Alive_Entities").first_child();
+	return true;
+}
+
+bool EntityManager::EntitiesLoad()
+{
+	load_pending = false;
+
+	pugi::xml_node entity = load_node.child("Alive_Entities").first_child();
+
 	while (entity != NULL)
 	{
 		entityType entity_type = StrToEntityType((char*)entity.attribute("Type").as_string());
@@ -448,7 +457,9 @@ bool EntityManager::Load(const pugi::xml_node& node)
 
 		new_entity->entity_pos.x = entity.attribute("X").as_float();
 		new_entity->entity_pos.y = entity.attribute("Y").as_float();
-		if (entity_type == entityType::BULLET_TYPE || entity_type == entityType::ROCKET_TYPE) {
+
+		if (entity_type == entityType::BULLET_TYPE || entity_type == entityType::ROCKET_TYPE) 
+		{
 			new_entity->entity_current_vel.x = entity.attribute("Vel_X").as_float();
 			new_entity->entity_current_vel.y = entity.attribute("Vel_Y").as_float();
 		}
@@ -456,7 +467,7 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		entity = entity.next_sibling();
 	}
 
-	pugi::xml_node dead_entity = node.child("Dead_Entities").first_child();
+	pugi::xml_node dead_entity = load_node.child("Dead_Entities").first_child();
 
 	while (dead_entity != NULL)
 	{
@@ -467,6 +478,7 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		new_entity->entity_pos.y = dead_entity.attribute("Y").as_float();
 
 		App->entity->KillEntity(new_entity);
+
 		dead_entity = dead_entity.next_sibling();
 	}
 	return true;
@@ -776,18 +788,26 @@ entityType EntityManager::TileIdToEntityType(int i) const
 
 bool EntityManager::SpawnEntities(p2DynArray<std::pair<entityType, iPoint>>& list)
 {
-	for (int i = 0; i < list.Count(); i++)
+	DeleteAllEntities();
+
+	if (load_pending)
 	{
-		BaseEntity* new_entity = CreateEntity(list[i].first);
-		
-		if (new_entity == nullptr)
-		{
-			return false;
-		}
-
-		new_entity->entity_pos = fPoint(list[i].second.x, list[i].second.y);
+		EntitiesLoad();
 	}
+	else
+	{
+		for (int i = 0; i < list.Count(); i++)
+		{
+			BaseEntity* new_entity = CreateEntity(list[i].first);
 
+			if (new_entity == nullptr)
+			{
+				return false;
+			}
+
+			new_entity->entity_pos = fPoint(list[i].second.x, list[i].second.y);
+		}
+	}
 	return true;
 }
 
