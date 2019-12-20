@@ -36,11 +36,9 @@ public:
 	bool GetPause();
 
 	bool LoadingLevel();
-	void LoadingLevelSet(bool loading);
 
 private:
 
-	bool loadinglevel = true;
 	p2SString music_path;
 	SDL_Texture* img = nullptr;
 	bool is_paused = false;

@@ -16,13 +16,11 @@
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="159.200043" Y="210" />
-			<Entity_Alive Type="enemy" X="3136" Y="162" />
-			<Entity_Alive Type="enemy" X="880" Y="210" />
+			<Entity_Alive Type="player" X="64" Y="226" />
+			<Entity_Alive Type="enemy" X="2416" Y="210" />
+			<Entity_Alive Type="enemy" X="2960" Y="210" />
 		</Alive_Entities>
-		<Dead_Entities>
-			<Entity_Dead Type="drone" X="406.653931" Y="162.910873" />
-		</Dead_Entities>
+		<Dead_Entities />
 	</entityManager>
 	<fadetoblack />
 	<renderer>

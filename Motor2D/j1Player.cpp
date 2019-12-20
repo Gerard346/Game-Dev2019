@@ -121,6 +121,7 @@ void j1Player::ChangeLvl()
 {
 	App->audio->PlayFx(next_lvl_fx);
 	next_lvl = true;
+	
 	if (p_current_lvl == Lvl_1) {
 		StartFromLvl2();
 	}

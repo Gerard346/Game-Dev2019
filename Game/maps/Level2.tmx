@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="253" height="23" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="walkability_tiles_OK" tilewidth="16" tileheight="16" tilecount="11" columns="11">
-  <image source="../../Release/Game/maps/walkability_tiles_OK.png" width="176" height="16"/>
+  <image source="walkability_tiles_OK.png" width="176" height="16"/>
   <terraintypes>
    <terrain name="Walk" tile="-1">
     <properties>
@@ -14,13 +14,13 @@
   <tile id="0" terrain="0,0,0,0"/>
  </tileset>
  <tileset firstgid="12" name="asdsd" tilewidth="16" tileheight="16" tilecount="950" columns="38">
-  <image source="../../Release/Game/maps/tiles_map.png" width="608" height="400"/>
+  <image source="tiles_map.png" width="608" height="400"/>
  </tileset>
  <tileset firstgid="962" name="subway_BG" tilewidth="16" tileheight="16" tilecount="527" columns="31">
-  <image source="../../Release/Game/maps/subway_BG.png" width="496" height="272"/>
+  <image source="subway_BG.png" width="496" height="272"/>
  </tileset>
  <tileset firstgid="1489" name="wall_subway" tilewidth="16" tileheight="16" tilecount="1505" columns="35">
-  <image source="../../Release/Game/maps/wall_subway.png" width="560" height="696"/>
+  <image source="wall_subway.png" width="560" height="696"/>
  </tileset>
  <layer name="Parallax" width="253" height="23">
   <properties>

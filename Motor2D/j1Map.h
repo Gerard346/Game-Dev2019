@@ -195,7 +195,6 @@ private:
 	p2SString			folder;
 	bool				map_loaded;
 	bool				want_to_load_map = false;
-	bool				start_game = true;
 	char*				level1_path = nullptr;
 	char*				level2_path = nullptr;
 };

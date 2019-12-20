@@ -299,26 +299,28 @@ void j1Colliders::DebugMode()
 		case COLLIDER_START: // red
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
 			break;
+
 		case COLLIDER_DEAD: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
+
 		case COLLIDER_STICKINESS:
 		case COLLIDER_WALL: // Green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
+
 		case COLLIDER_PLAYER: // blue
 			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
 			break;
+
 		case COLLIDER_ENEMY:
 		case COLLIDER_BULLET:
-	
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
-
 			break;
+
 		case COLLIDER_FINISH: // magenta
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
 			break;
-
 		}
 	}
 

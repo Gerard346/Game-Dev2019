@@ -40,25 +40,25 @@ bool j1Map::Awake(const pugi::xml_node& config)
 bool j1Map::Start()
 {
 	App->render->camera.x = 0;
-	if (start_game) {
-		start_game = false;
-		LoadMaplvl1();
-	}
+	
 	if (want_to_load_map)
 	{
 		want_to_load_map = false;
 		if (App->player->p_current_lvl == Lvl_2)
 		{
 			App->map->ChangeMap(level2_path);
-			App->scene->LoadingLevelSet(true);
 		}
 		else
 		{
 			App->map->ChangeMap(level1_path);
-			App->scene->LoadingLevelSet(true);
 		}
 
 	}
+	else
+	{
+		LoadMaplvl1();
+	}
+
 	if (App->player->IsChangingLVL()) {
 		App->player->setChangingLVL();
 	}

@@ -80,8 +80,8 @@ bool j1Scene::Update(float dt)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-		if (loadinglevel == true) {
-			loadinglevel = false;
+		if (App->IsLoading() == false)
+		{
 			App->WantToLoad();
 		}
 	}
@@ -140,14 +140,4 @@ bool j1Scene::CleanUp()
 bool j1Scene::GetPause()
 {
 	return is_paused;
-}
-
-bool j1Scene::LoadingLevel()
-{
-	return loadinglevel;
-}
-
-void j1Scene::LoadingLevelSet(bool loading)
-{
-	loadinglevel = loading;
 }

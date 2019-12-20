@@ -469,7 +469,6 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		App->entity->KillEntity(new_entity);
 		dead_entity = dead_entity.next_sibling();
 	}
-	App->scene->LoadingLevelSet(true);
 	return true;
 }
 
