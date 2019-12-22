@@ -48,10 +48,6 @@ bool j1Player::Start()
 	if (next_lvl_fx == -1) {
 		next_lvl_fx = App->audio->LoadFx(next_lvl_fx_path);
 	}
-	if (p_dead == true) {
-		p_dead = false;
-		App->WantToLoadCheckpoints();
-	}
 	
 	return true;
 }
@@ -155,6 +151,11 @@ bool j1Player::IsDead() const
 	return p_dead;
 }
 
+void j1Player::setAlive()
+{
+	p_dead = false;
+}
+
 void j1Player::PlayerDies()
 {
 	if (p_dead == false)
@@ -162,7 +163,7 @@ void j1Player::PlayerDies()
 		LOG("DEAD");
 		p_dead = true;
 		App->audio->PlayFx(g_is_over_fx);
-		App->fade->FadeToBlack(App->player, App->player);
+		App->WantToLoadCheckpoints();
 	}
 }
 

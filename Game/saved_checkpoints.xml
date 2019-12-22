@@ -15,7 +15,12 @@
 		<player current_level="1" />
 	</player>
 	<entityManager>
-		<Alive_Entities />
+		<Alive_Entities>
+			<Entity_Alive Type="drone" X="455.920044" Y="105.480003" />
+			<Entity_Alive Type="player" X="77.6000061" Y="210" />
+			<Entity_Alive Type="enemy" X="3136" Y="162" />
+			<Entity_Alive Type="enemy" X="880" Y="210" />
+		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>
 	<fadetoblack />

@@ -12,14 +12,13 @@
 	<pathfinding />
 	<colliders />
 	<player>
-		<player current_level="1" />
+		<player current_level="2" />
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="drone" X="380.382416" Y="156.013962" />
-			<Entity_Alive Type="player" X="64" Y="210.462402" />
-			<Entity_Alive Type="enemy" X="3136" Y="162" />
-			<Entity_Alive Type="enemy" X="880" Y="210" />
+			<Entity_Alive Type="player" X="64" Y="226.490005" />
+			<Entity_Alive Type="enemy" X="2416" Y="210" />
+			<Entity_Alive Type="enemy" X="2960" Y="210" />
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>

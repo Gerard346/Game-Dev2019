@@ -58,6 +58,8 @@ public:
 
 	bool IsDead() const;
 
+	void setAlive();
+
 	void PlayerDies();
 
 	void CamFollowPlayer();

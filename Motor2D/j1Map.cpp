@@ -44,6 +44,7 @@ bool j1Map::Start()
 	if (want_to_load_map)
 	{
 		want_to_load_map = false;
+		App->player->setAlive();
 		if (App->player->p_current_lvl == Lvl_2)
 		{
 			//App->player->StartFromLvl2();

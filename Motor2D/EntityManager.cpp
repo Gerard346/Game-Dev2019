@@ -438,17 +438,9 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 
 bool EntityManager::Load(const pugi::xml_node& node)
 {
-	load_node = node;
-	load_pending = true;
-
-	return true;
-}
-
-bool EntityManager::EntitiesLoad()
-{
-	load_pending = false;
-
 	pugi::xml_node entity = load_node.child("Alive_Entities").first_child();
+
+	App->player->setAlive();
 
 	while (entity != NULL)
 	{
@@ -458,7 +450,7 @@ bool EntityManager::EntitiesLoad()
 		new_entity->entity_pos.x = entity.attribute("X").as_float();
 		new_entity->entity_pos.y = entity.attribute("Y").as_float();
 
-		if (entity_type == entityType::BULLET_TYPE || entity_type == entityType::ROCKET_TYPE) 
+		if (entity_type == entityType::BULLET_TYPE || entity_type == entityType::ROCKET_TYPE)
 		{
 			new_entity->entity_current_vel.x = entity.attribute("Vel_X").as_float();
 			new_entity->entity_current_vel.y = entity.attribute("Vel_Y").as_float();
@@ -481,6 +473,13 @@ bool EntityManager::EntitiesLoad()
 
 		dead_entity = dead_entity.next_sibling();
 	}
+	return true;
+}
+
+bool EntityManager::EntitiesLoad()
+{
+	load_pending = false;
+
 	return true;
 }
 
