@@ -63,8 +63,6 @@ bool PlayerEntity::CleanUp()
 
 void PlayerEntity::HandleInput(float dt)
 {
-	
-	
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN) {
 		Shoot();
 	}

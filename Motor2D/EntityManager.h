@@ -1,6 +1,7 @@
 #include "p2List.h"
 #include "j1Module.h"
 #include "BaseEntity.h"
+#include "p2Point.h"
 
 class PlayerEntity;
 
@@ -65,6 +66,7 @@ private:
 	p2List <BaseEntity*> new_entities;
 	p2List <BaseEntity*> dead_entities;
 	p2List <BaseEntity*> dead_entities_not_visible;
+	p2List <EntityReference> pending_entities;
 
 	bool load_pending = false;
 	pugi::xml_node load_node;

@@ -50,6 +50,20 @@ enum entitySide {
 	LEFT,
 	RIGHT
 };
+
+struct EntityReference 
+{
+	EntityReference() {}
+	EntityReference(entityType type_entity, float pos_x, float pos_y, bool is_dead) : type_entity(type_entity), pos_entity(pos_x, pos_y), is_dead(is_dead)
+	{
+
+	}
+
+	entityType type_entity;
+	fPoint pos_entity;
+	bool is_dead;
+};
+
 class BaseEntity {
 	
 	friend class EntityManager;

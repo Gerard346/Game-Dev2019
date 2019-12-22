@@ -44,20 +44,17 @@ bool j1Map::Start()
 	if (want_to_load_map)
 	{
 		want_to_load_map = false;
+
 		App->player->setAlive();
+
 		if (App->player->p_current_lvl == Lvl_2)
 		{
-			//App->player->StartFromLvl2();
 			LoadMaplvl2();
-			//App->map->ChangeMap(level2_path);
 		}
 		else
 		{
-			//App->player->StartFromLvl1();
 			LoadMaplvl1();
-			//App->map->ChangeMap(level1_path);
 		}
-
 	}
 	else
 	{
@@ -150,13 +147,15 @@ bool j1Map::CleanUp()
 	for (int i = 0; i < map_info.tilesets_info.Count(); i++) {
 		App->tex->UnLoad(map_info.tilesets_info.At(i)->img);
 	}
+
 	map_info.tilesets_info.Clear();
 	map_info.entities_info.Clear();
 	map_info.patrol_points.Clear();
 	map_info.spawn_points.Clear();
 
-	map_file.reset();
 	App->colliders->EraseAllColliders();
+
+	map_file.reset();
 
 	return true;
 }
@@ -192,10 +191,8 @@ bool j1Map::Load(const char* file_name)
 				new_layer = LoadLayerInfo(child_map_info, new_layer);
 				map_info.layers_info.PushBack(new_layer);
 			}
-			//LOG("%s", child_map_info.name());
 			child_map_info = child_map_info.next_sibling();//Next on hierachy
 		}
-
 
 		map_loaded = ret;
 	}
@@ -258,6 +255,12 @@ bool j1Map::Load(const char* file_name)
 						case COLLIDER_PATROL:
 							map_info.patrol_points.PushBack({ x * tileset_info->tilewidth,y * tileset_info->tileheight });
 							break;
+
+
+						default:
+						{
+							//App->colliders->AddCollider(collider_rect, COLLIDER_WALL, this);
+						}
 						}
 					}
 					else if (cur_layer_type == slider_layer)
@@ -300,13 +303,11 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 void j1Map::LoadMaplvl1()
 {
-	App->map->CleanUp();
 	App->map->Load(level1_path);
 }
 
 void j1Map::LoadMaplvl2()
 {
-	App->map->CleanUp();
 	App->map->Load(level2_path);
 }
 

@@ -192,7 +192,7 @@ bool j1Colliders::EraseAllColliders() {
 		if (colliders[i] == NULL) {
 			continue;
 		}
-		if (colliders[i]->type == COLLIDER_PLAYER) {
+		if (colliders[i]->type == COLLIDER_PLAYER || colliders[i]->type == COLLIDER_ENEMY || colliders[i]->type == COLLIDER_BULLET) {
 			continue;
 		}
 		else {

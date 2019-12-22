@@ -187,6 +187,6 @@ void j1Player::CamFollowPlayer()
 
 	App->render->camera.x = target_cam_x > min_camera_x ? min_camera_x : target_cam_x < max_camera_x ? max_camera_x : target_cam_x;
 
-	App->render->camera.y = window_h - max_height * App->win->GetScale();
+	//App->render->camera.y = window_h - max_height * App->win->GetScale();
 }
 

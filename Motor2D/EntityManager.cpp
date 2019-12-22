@@ -438,11 +438,16 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 
 bool EntityManager::Load(const pugi::xml_node& node)
 {
-	pugi::xml_node entity = load_node.child("Alive_Entities").first_child();
-
-	App->player->setAlive();
+	pugi::xml_node entity = node.child("Alive_Entities").first_child();
 
 	while (entity != NULL)
+	{
+		pending_entities.add(EntityReference(StrToEntityType((char*)entity.attribute("Type").as_string()), entity.attribute("X").as_float(), entity.attribute("Y").as_float(), false));
+
+		entity = entity.next_sibling();
+	}
+
+	/*while (entity != NULL)
 	{
 		entityType entity_type = StrToEntityType((char*)entity.attribute("Type").as_string());
 		BaseEntity* new_entity = CreateEntity(entity_type);
@@ -450,18 +455,19 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		new_entity->entity_pos.x = entity.attribute("X").as_float();
 		new_entity->entity_pos.y = entity.attribute("Y").as_float();
 
-		if (entity_type == entityType::BULLET_TYPE || entity_type == entityType::ROCKET_TYPE)
-		{
-			new_entity->entity_current_vel.x = entity.attribute("Vel_X").as_float();
-			new_entity->entity_current_vel.y = entity.attribute("Vel_Y").as_float();
-		}
+		entity = entity.next_sibling();
+	}*/
+
+	pugi::xml_node dead_entity = node.child("Dead_Entities").first_child();
+
+	while (dead_entity != NULL)
+	{
+		pending_entities.add(EntityReference(StrToEntityType((char*)entity.attribute("Type").as_string()), entity.attribute("X").as_float(), entity.attribute("Y").as_float(), true));
 
 		entity = entity.next_sibling();
 	}
 
-	pugi::xml_node dead_entity = load_node.child("Dead_Entities").first_child();
-
-	while (dead_entity != NULL)
+	/*while (dead_entity != NULL)
 	{
 		entityType entity_type = StrToEntityType((char*)dead_entity.attribute("Type").as_string());
 		BaseEntity* new_entity = CreateEntity(entity_type);
@@ -472,13 +478,27 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		App->entity->KillEntity(new_entity);
 
 		dead_entity = dead_entity.next_sibling();
-	}
+	}*/
 	return true;
 }
 
 bool EntityManager::EntitiesLoad()
 {
 	load_pending = false;
+
+	for (int i = 0; i < pending_entities.count(); i++)
+	{
+		BaseEntity* new_entity = CreateEntity(pending_entities[i].type_entity);
+
+		new_entity->entity_pos = pending_entities[i].pos_entity;
+
+		if (pending_entities[i].is_dead)
+		{
+			App->entity->KillEntity(new_entity);
+		}
+	}
+
+	pending_entities.clear();
 
 	return true;
 }
@@ -773,7 +793,7 @@ entityState EntityManager::StringToEntityState(const char* str) const
 entityType EntityManager::TileIdToEntityType(int i) const
 {
 	switch (i) {
-	case 3:
+	case 12:
 		return entityType::PLAYER_TYPE;
 	case 7:
 		return entityType::ENEMY_GROUND_TYPE;
