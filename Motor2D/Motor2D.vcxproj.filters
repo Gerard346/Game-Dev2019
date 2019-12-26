@@ -79,6 +79,12 @@
     <ClCompile Include="EnemyDrone.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClCompile>
+    <ClCompile Include="GUIElement.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -183,6 +189,12 @@
     <ClInclude Include="EnemyDrone.h">
       <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClInclude>
+    <ClInclude Include="GUIElement.h">
+      <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -208,6 +220,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities\EntityType">
       <UniqueIdentifier>{cb580b15-f131-4011-8c59-a7ee9c36597d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUIType">
+      <UniqueIdentifier>{31ca8b4a-cdcd-46bf-bebf-a1bcb1a013e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

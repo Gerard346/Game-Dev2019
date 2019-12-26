@@ -80,11 +80,13 @@
     <ClCompile Include="EnemyDrone.cpp" />
     <ClCompile Include="EnemyGroundEntity.cpp" />
     <ClCompile Include="EnemyRPGEntity.cpp" />
+    <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="j1Animation.cpp" />
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="j1Colliders.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="j1FadeToBlack.cpp" />
+    <ClCompile Include="j1Gui.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -109,11 +111,13 @@
     <ClInclude Include="EnemyDrone.h" />
     <ClInclude Include="EnemyGroundEntity.h" />
     <ClInclude Include="EnemyRPGEntity.h" />
+    <ClInclude Include="GUIElement.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="j1Colliders.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="j1FadeToBlack.h" />
+    <ClInclude Include="j1Gui.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1Pathfinding.h" />
     <ClInclude Include="j1PerfTimer.h" />

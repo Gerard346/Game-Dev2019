@@ -14,6 +14,8 @@
 #include "j1FadeToBlack.h"
 #include "j1Animation.h"
 #include "EntityManager.h"
+#include "j1Gui.h"
+
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -32,6 +34,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	entity = new EntityManager();
 	fade = new j1FadeToBlack();
 	animation = new j1Animation();
+	gui = new j1Gui();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -47,7 +50,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(player);
 	AddModule(entity);
 	AddModule(fade);
-	
+	AddModule(gui);
 	// render last to swap buffer
 	AddModule(render);
 

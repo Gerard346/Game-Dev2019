@@ -22,6 +22,8 @@ class j1FadeToBlack;
 class j1Animation;
 class EntityManager;
 class j1Pathfinding;
+class j1Gui;
+
 class j1App
 {
 public:
@@ -98,6 +100,8 @@ public:
 	j1FadeToBlack*		fade = nullptr;
 	EntityManager*		entity = nullptr;
 	j1Pathfinding*		path = nullptr;
+	j1Gui*				gui = nullptr;
+
 private:
 
 	bool want_to_save = false;
