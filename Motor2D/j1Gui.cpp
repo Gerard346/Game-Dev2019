@@ -6,6 +6,7 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 #include "GUIElement.h"
+#include "GUI_Image.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -17,13 +18,13 @@ j1Gui::~j1Gui()
 {}
 
 // Called before render is available
-bool j1Gui::Awake(pugi::xml_node& conf)
+bool j1Gui::Awake(const pugi::xml_node& node)
 {
 	LOG("Loading GUI atlas");
 	bool ret = true;
-
-	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
-
+	if (node != nullptr) {
+		atlas_file_name = node.child("atlas").attribute("file").as_string("");
+	}
 	return ret;
 }
 
@@ -69,6 +70,9 @@ GUIElement* j1Gui::GenerateElemGUI(TypeGUI type)
 	{
 	case UNDEFINED:
 		ret = new GUIElement();
+		break;
+	case IMAGE:
+		ret = new GUI_Image();
 		break;
 	}
 	return ret;

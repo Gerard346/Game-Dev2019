@@ -1,9 +1,9 @@
-#include "GUIElement.h"
 #include "j1Render.h"
 #include "j1Input.h"
 #include "j1App.h"
 #include "p2Log.h"
 #include "j1Gui.h"
+#include "GUIElement.h"
 
 GUIElement::GUIElement(TypeGUI type_gui) : type_gui(type_gui)
 {

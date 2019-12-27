@@ -1,3 +1,5 @@
+#pragma once
+
 #include "p2List.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
@@ -17,7 +19,7 @@ class GUIElement {
 
 public:
 
-	GUIElement(TypeGUI type_gui = UNDEFINED);
+	GUIElement(TypeGUI type_gui = TypeGUI::UNDEFINED);
 	~GUIElement();
 
 	virtual bool Update(float dt);
@@ -45,7 +47,7 @@ public:
 	p2List<GUIElement*> childs;
 
 protected:
-	TypeGUI type_gui = UNDEFINED;
+	TypeGUI type_gui = TypeGUI::UNDEFINED;
 
 	bool active_elem = true;
 	bool interactive = true;

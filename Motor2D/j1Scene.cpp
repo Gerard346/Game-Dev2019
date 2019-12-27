@@ -13,6 +13,8 @@
 #include "j1FadeToBlack.h"
 #include "EntityManager.h"
 #include "j1Pathfinding.h"
+#include "j1Gui.h"
+#include "GUIElement.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -45,6 +47,17 @@ bool j1Scene::Start()
 	p2SString title("Last Soldier");
 
 	App->win->SetTitle(title.GetString());
+
+	scene_gui = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
+	scene_gui->SetBoxElem({ 0,0,App->render->camera.w,App->render->camera.h });
+
+	// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
+	imgsa = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	imgsa->SetRectTexture({ 0, 0, 1500	, 1503 });
+	imgsa->SetBoxElem({ 0,0,0,0 });
+	scene_gui->AddChild(imgsa);
+
+	App->gui->AddSceneGUI(scene_gui);
 
 	return true;
 }

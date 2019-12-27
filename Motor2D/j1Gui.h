@@ -1,11 +1,11 @@
-#ifndef __j1GUI_H__
-#define __j1GUI_H__
+#pragma once
 
 #include "j1Module.h"
 
 #define CURSOR_WIDTH 2
 
 struct GUIElement;
+struct SDL_Texture;
 
 enum TypeGUI;
 
@@ -28,7 +28,7 @@ public:
 
 	virtual ~j1Gui();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(const pugi::xml_node&);
 
 	bool Start();
 
@@ -63,4 +63,3 @@ public:
 	SDL_Color UI_BROWN = { 255, 255, 255, 255 };
 };
 
-#endif // __j1GUI_H__

@@ -36,6 +36,9 @@
         <fx_next_lvl>audio/fx/dead.wav</fx_next_lvl>
 
 </player>
+  <gui>
+    <atlas file="gui/atlas.png"/>
+  </gui>
 
 <entityManager>
   <entity>

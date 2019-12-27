@@ -42,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(gui);
 	AddModule(animation);
 	AddModule(scene);
 	AddModule(map);
@@ -49,8 +50,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(colliders);
 	AddModule(player);
 	AddModule(entity);
+
 	AddModule(fade);
-	AddModule(gui);
 	// render last to swap buffer
 	AddModule(render);
 

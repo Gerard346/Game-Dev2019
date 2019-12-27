@@ -85,6 +85,9 @@
     <ClCompile Include="j1Gui.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_Image.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Image.h">
+      <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,8 +3,9 @@
 
 #include "j1Module.h"
 #include "PugiXml/src/pugixml.hpp"
-struct SDL_Texture;
+#include "GUI_Image.h"
 
+struct SDL_Texture;
 class j1Scene : public j1Module
 {
 public:
@@ -41,6 +42,9 @@ private:
 	p2SString music_path;
 	SDL_Texture* img = nullptr;
 	bool is_paused = false;
+
+	GUI_Image* imgsa = nullptr;
+	GUIElement* scene_gui = nullptr;
 };
 
 #endif // __j1SCENE_H__
