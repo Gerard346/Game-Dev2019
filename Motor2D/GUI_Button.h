@@ -20,7 +20,7 @@ public:
 
 private:
 
-	float button_on_delay = 0.0f;
+	float button_on_delay = 0.3f;
 	float timer = 0.0f;
 	GUI_Image button_on;
 	GUI_Image button_off;
@@ -33,8 +33,10 @@ public:
 	void SetButtonOff(SDL_Rect rect_button, int texture_button = -1);
 	void SetButtonHover(SDL_Rect rect_button, int texture_button = -1);
 	void SetBlocked();
-	void SetBoxElem(SDL_Rect elem);
-	void SetPosElem(iPoint position);
+	
+	void SetLocalRect(SDL_Rect elem) override;
+	void SetLocalPos(iPoint position) override;
+	
 	void SetDelayButton(float delay);
 };
 #endif

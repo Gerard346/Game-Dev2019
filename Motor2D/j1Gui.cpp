@@ -40,24 +40,21 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate()
 {
-
+	CalculateLayer(gui_scene);
+	
 	return true;
 }
 
 bool j1Gui::Update(float dt)
 {
-	for (int i = 0; i < gui_scenes.count(); i++) {
-		gui_scenes[i]->Update(dt);
-	}
+	gui_scene->Update(dt);
 
 	return true;
 }
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
-	for (int i = 0; i < gui_scenes.count(); i++) {
-		gui_scenes[i]->Draw(debug);
-	}
+	gui_scene->Draw(debug);
 
 	return true;
 }
@@ -66,10 +63,9 @@ bool j1Gui::PostUpdate()
 bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
-	for (int i = 0; i < gui_scenes.count(); i++) {
-		gui_scenes[i]->CleanUp();
-	}
-	gui_scenes.clear();
+	
+	gui_scene->CleanUp();
+
 	return true;
 }
 
@@ -126,7 +122,7 @@ int j1Gui::CalculateTopLayer(const GUIElement* element, int& layer)
 		GUIElement* current_element = element->childs.At(i)->data;
 
 		CalculateTopLayer(current_element, layer);
-		if (current_element->GetLayer() > layer&& current_element->GetElemActive() && current_element->GetElemInteractive() && current_element->MouseIn())
+		if (current_element->GetLayer() > layer && current_element->GetElemActive() && current_element->GetElemInteractive() && current_element->MouseIn())
 		{
 			layer = current_element->GetLayer();
 		}
@@ -135,8 +131,7 @@ int j1Gui::CalculateTopLayer(const GUIElement* element, int& layer)
 	return top_layer = layer;
 }
 
-
-void j1Gui::AddSceneGUI(GUIElement* elem)
+void j1Gui::SetSceneGUI(GUIElement* elem)
 {
-	gui_scenes.add(elem);
+	gui_scene = elem;
 }

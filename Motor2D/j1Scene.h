@@ -50,7 +50,10 @@ private:
 	GUI_Image* imgsa = nullptr;
 	GUIElement* scene_gui = nullptr;
 	GUI_Button* button = nullptr;
+	GUI_Button* button2 = nullptr;
+
 	GUI_Window* window = nullptr;
+	GUI_Image* window_back = nullptr;
 };
 
 #endif // __j1SCENE_H__

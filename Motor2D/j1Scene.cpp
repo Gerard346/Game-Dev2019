@@ -68,17 +68,25 @@ bool j1Scene::Start()
 	window->SetLocalRect({ 100,100,300,300 });
 	scene_gui->AddChild(window);
 
+
+
 	button = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
 	button->SetButtonOff({ 0,113,229,69 }, 0);
 	button->SetButtonOn({ 642,169,229,69 }, 0);
 	button->SetButtonHover({ 411,169,229,69 }, 0);
-	button->SetBoxElem({0,0,229,69});
+	button->SetLocalRect({-50,0,229,69});
+	button->SetInputTarget(this);
 	window->AddChild(button);
 
-	button->SetInputTarget(this);
-	button->SetElemActive(true);
-	button->SetElemInteractive(true);
-	App->gui->AddSceneGUI(scene_gui);
+	button2 = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
+	button2->SetButtonOff({ 0,113,229,69 }, 0);
+	button2->SetButtonOn({ 642,169,229,69 }, 0);
+	button2->SetButtonHover({ 411,169,229,69 }, 0);
+	button2->SetLocalRect({ 0,30,229,69 });
+	button2->SetInputTarget(this);
+	window->AddChild(button2, button->GetLayer() + 1);
+
+	App->gui->SetSceneGUI(scene_gui);
 
 	return true;
 }

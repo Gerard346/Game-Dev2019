@@ -97,6 +97,9 @@
     <ClCompile Include="GUI_Window.cpp">
       <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
     </ClCompile>
+    <ClCompile Include="GUI_Slider.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -217,6 +220,9 @@
       <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Window.h">
+      <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Slider.h">
       <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
     </ClInclude>
   </ItemGroup>

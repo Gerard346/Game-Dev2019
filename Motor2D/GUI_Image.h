@@ -16,6 +16,8 @@ private:
 	Uint8 alpha = 255;
 	int alpha_min = 200;
 	bool alpha_off = true;
+	bool is_button_image = false;
+
 public:
 
 	bool Draw(bool debug);
@@ -24,5 +26,8 @@ public:
 	void SetRectTexture(SDL_Rect new_rect_texture);
 	int GetIdTexture()const;
 	void SetIdTexture(int new_id);
+
+	void SetAsButtonImage();
+	bool IsButtonImage()const;
 };
 #endif

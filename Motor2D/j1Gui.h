@@ -41,7 +41,7 @@ public:
 
 	GUIElement* GenerateElemGUI(TypeGUI type);
 
-	void AddSceneGUI(GUIElement* elem);
+	void SetSceneGUI(GUIElement* elem);
 
 	SDL_Texture* GetAtlas() const;
 	int GetTopLayer();
@@ -49,7 +49,7 @@ public:
 
 	void SetDebug();
 private:
-	p2List<GUIElement*> gui_scenes;
+	GUIElement* gui_scene;
 	bool debug = false;
 
 	SDL_Texture* atlas;

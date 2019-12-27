@@ -21,16 +21,25 @@ bool GUI_Image::Draw(bool debug)
 	}
 	else
 	{
-		SDL_Rect screen_rect = GetScreenRect();
+		SDL_Rect screen_rect = is_button_image ? parent->parent->GetScreenRect() : parent->GetScreenRect();
+
+		screen_rect.x *= (int)App->win->GetScale();
+		screen_rect.y *= (int)App->win->GetScale();
+		screen_rect.w *= (int)App->win->GetScale();
+		screen_rect.h *= (int)App->win->GetScale();
+
+		SDL_RenderSetViewport(App->render->renderer, &screen_rect);
 
 		if (id_texture == -1 || rect_texture.w == 0 || rect_texture.h == 0)
 		{
-			App->render->Blit(App->gui->GetAtlas(), screen_rect.x - App->render->camera.x / App->win->GetScale(), screen_rect.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
+			App->render->Blit(App->gui->GetAtlas(), box_elem.x - App->render->camera.x / App->win->GetScale(), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
 		}
 		else
 		{
-			App->render->Blit(App->gui->GetAtlas(), (screen_rect.x - App->render->camera.x / App->win->GetScale()), screen_rect.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
+			App->render->Blit(App->gui->GetAtlas(), (box_elem.x - App->render->camera.x / App->win->GetScale()), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
 		}
+
+		SDL_RenderSetViewport(App->render->renderer, NULL);
 	}
 
 	DrawChilds(debug);
@@ -55,4 +64,14 @@ int GUI_Image::GetIdTexture() const
 void GUI_Image::SetIdTexture(int new_id)
 {
 	id_texture = new_id;
+}
+
+void GUI_Image::SetAsButtonImage()
+{
+	is_button_image = true;
+}
+
+bool GUI_Image::IsButtonImage() const
+{
+	return is_button_image;
 }

@@ -133,6 +133,8 @@ void GUIElement::AddChild(GUIElement* elem, int child_layer)
 	{
 		elem->SetLayer(layer + 1);
 	}
+	else elem->SetLayer(child_layer);
+
 	childs.add(elem);
 	
 	elem->SetParent(this);

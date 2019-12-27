@@ -9,8 +9,16 @@
 GUI_Button::GUI_Button() :GUIElement(BUTTON)
 {
 	button_off.SetParent(this);
+	button_off.SetLayer(layer);
+	button_off.SetAsButtonImage();
+
 	button_on.SetParent(this);
+	button_on.SetLayer(layer);
+	button_on.SetAsButtonImage();
+
 	button_hover.SetParent(this);
+	button_hover.SetLayer(layer);
+	button_hover.SetAsButtonImage();
 }
 
 GUI_Button::~GUI_Button()
@@ -66,7 +74,7 @@ void GUI_Button::HandleInput()
 
 	bool mouse_in = MouseIn();
 
-	if (mouse_in)
+	if (mouse_in && layer == App->gui->GetTopLayer())
 	{
 		input_target->HandleInput(this, MOUSE_IN);
 		button_state = BUTTON_HOVER;
@@ -138,7 +146,7 @@ void GUI_Button::SetBlocked()
 	button_state = BUTTON_ON;
 }
 
-void GUI_Button::SetBoxElem(SDL_Rect elem)
+void GUI_Button::SetLocalRect(SDL_Rect elem)
 {
 	box_elem = elem;
 	button_on.SetLocalRect(elem);
@@ -146,7 +154,7 @@ void GUI_Button::SetBoxElem(SDL_Rect elem)
 	button_hover.SetLocalRect(elem);
 }
 
-void GUI_Button::SetPosElem(iPoint position)
+void GUI_Button::SetLocalPos(iPoint position)
 {
 	box_elem.x = position.x;
 	box_elem.y = position.y;

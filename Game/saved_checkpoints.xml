@@ -17,7 +17,7 @@
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="480" Y="16.0035992" />
+			<Entity_Alive Type="player" X="480" Y="16.0063992" />
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>
