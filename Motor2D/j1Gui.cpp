@@ -7,6 +7,7 @@
 #include "j1Gui.h"
 #include "GUIElement.h"
 #include "GUI_Image.h"
+#include "GUI_Button.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -32,22 +33,32 @@ bool j1Gui::Awake(const pugi::xml_node& node)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
-
+	textures.add(atlas);
 	return true;
 }
 
 // Update all guis
 bool j1Gui::PreUpdate()
 {
+
 	return true;
 }
 
+bool j1Gui::Update(float dt)
+{
+	for (int i = 0; i < gui_scenes.count(); i++) {
+		gui_scenes[i]->Update(dt);
+	}
+
+	return true;
+}
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
 	for (int i = 0; i < gui_scenes.count(); i++) {
 		gui_scenes[i]->Draw(debug);
 	}
+
 	return true;
 }
 
@@ -74,7 +85,11 @@ GUIElement* j1Gui::GenerateElemGUI(TypeGUI type)
 	case IMAGE:
 		ret = new GUI_Image();
 		break;
+	case BUTTON:
+		ret = new GUI_Button();
+		break;
 	}
+
 	return ret;
 }
 
@@ -82,6 +97,39 @@ GUIElement* j1Gui::GenerateElemGUI(TypeGUI type)
 SDL_Texture* j1Gui::GetAtlas() const
 {
 	return atlas;
+}
+
+
+int j1Gui::GetTopLayer()
+{
+	return top_layer;
+}
+
+int j1Gui::CalculateLayer(const GUIElement* elem)
+{
+	top_layer = elem->GetLayer();
+	return CalculateTopLayer(elem, top_layer);
+}
+
+void j1Gui::SetDebug()
+{
+	debug = !debug;
+}
+
+int j1Gui::CalculateTopLayer(const GUIElement* element, int& layer)
+{
+	for (int i = 0; i < element->childs.count(); i++)
+	{
+		GUIElement* current_element = element->childs.At(i)->data;
+
+		CalculateTopLayer(current_element, layer);
+		if (current_element->GetLayer() > layer&& current_element->GetElemActive() && current_element->GetElemInteractive() && current_element->MouseIn())
+		{
+			layer = current_element->GetLayer();
+		}
+	}
+	
+	return top_layer = layer;
 }
 
 

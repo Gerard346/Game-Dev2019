@@ -10,6 +10,10 @@
 
 class j1App;
 struct Collider; 
+
+enum TypeInput;
+class GUIElement;
+
 class j1Module
 {
 public:
@@ -65,6 +69,10 @@ public:
 	}
 	virtual bool Load(const pugi::xml_node &node) {
 		return true;
+	}
+
+	virtual void HandleInput(GUIElement* input, TypeInput type_input)
+	{
 	}
 
 public:

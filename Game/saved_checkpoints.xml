@@ -6,7 +6,6 @@
 	<audio>
 		<audio volume_music="128" />
 	</audio>
-	<gui />
 	<fonts />
 	<animation />
 	<scene />
@@ -22,6 +21,7 @@
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>
+	<gui />
 	<fadetoblack />
 	<renderer />
 </saved_checkpoints>

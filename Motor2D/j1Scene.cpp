@@ -16,6 +16,9 @@
 #include "j1Gui.h"
 #include "GUIElement.h"
 #include "j1Fonts.h"
+#include "GUI_Button.h"
+#include "GUI_Image.h"
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -43,15 +46,14 @@ bool j1Scene::Start()
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
 	//App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
 	App->audio->PlayMusic(music_path.GetString());
-
 	p2SString title("Last Soldier");
 
 	App->win->SetTitle(title.GetString());
 
 	scene_gui = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
-	scene_gui->SetBoxElem({ 0,0,App->render->camera.w,App->render->camera.h });
+	scene_gui->SetBoxElem({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale()});
 
-	// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
+	/*// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
 	imgsa = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
 	imgsa->SetRectTexture({ 0, 0, 1500	, 1503 });
 	imgsa->SetBoxElem({ 0,0,0,0 });
@@ -61,7 +63,19 @@ bool j1Scene::Start()
 	_TTF_Font* font = App->font->Load("fonts/open_sans/OpenSans-Regular.ttf", 60);
 
 	SDL_Texture* font_img = App->font->Print("Hello World", App->gui->YELLOW, font);
+	*/
 
+	button = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
+	button->SetButtonOff({ 0,113,229,69 }, 0);
+	button->SetButtonOn({ 642,169,229,69 }, 0);
+	button->SetButtonHover({ 411,169,229,69 }, 0);
+	
+	button->SetBoxElem({0,0,229,69});
+
+	scene_gui->AddChild(button);
+	button->SetInputTarget(this);
+	button->SetElemActive(true);
+	button->SetElemInteractive(true);
 	App->gui->AddSceneGUI(scene_gui);
 
 	return true;
@@ -103,7 +117,9 @@ bool j1Scene::Update(float dt)
 			App->WantToLoad();
 		}
 	}
-
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+		App->gui->SetDebug();
+	}
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
 		App->colliders->debug = !App->colliders->debug;
 		App->path->debug = !App->path->debug;

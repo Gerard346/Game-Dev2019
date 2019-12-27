@@ -3,9 +3,11 @@
 
 #include "j1Module.h"
 #include "PugiXml/src/pugixml.hpp"
-#include "GUI_Image.h"
 
 struct SDL_Texture;
+
+struct GUI_Image;
+struct GUI_Button;
 class j1Scene : public j1Module
 {
 public:
@@ -45,6 +47,7 @@ private:
 
 	GUI_Image* imgsa = nullptr;
 	GUIElement* scene_gui = nullptr;
+	GUI_Button* button = nullptr;
 };
 
 #endif // __j1SCENE_H__

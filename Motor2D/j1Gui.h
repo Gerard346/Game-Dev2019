@@ -34,6 +34,7 @@ public:
 
 	bool PreUpdate();
 
+	bool Update(float dt);
 	bool PostUpdate();
 
 	bool CleanUp();
@@ -43,13 +44,21 @@ public:
 	void AddSceneGUI(GUIElement* elem);
 
 	SDL_Texture* GetAtlas() const;
+	int GetTopLayer();
+	int CalculateLayer(const GUIElement* elem);
 
+	void SetDebug();
 private:
 	p2List<GUIElement*> gui_scenes;
 	bool debug = false;
 
 	SDL_Texture* atlas;
 	p2SString atlas_file_name;
+
+	int top_layer = 0;
+	p2List<SDL_Texture*> textures;
+
+	int CalculateTopLayer(const GUIElement* element, int& layer);
 
 public:
 	SDL_Color LIGHT_GREEN = { 102, 255, 102, 75 };

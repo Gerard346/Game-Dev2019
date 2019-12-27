@@ -62,7 +62,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Player", Profiler::Color::Yellow);
-		CamFollowPlayer();
+	CamFollowPlayer();
 
 	return true;
 }

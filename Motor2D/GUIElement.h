@@ -25,6 +25,8 @@ public:
 	virtual bool Update(float dt);
 	bool UpdateChilds(float dt);
 
+	virtual void HandleInput();
+
 	virtual bool CleanUp();
 	bool CleanUpChilds();
 
@@ -42,12 +44,17 @@ public:
 
 	void SetElemActive(bool active);
 	bool GetElemActive() const;
+	bool GetElemInteractive()const;
+	void SetElemInteractive(bool);
+	void SetInputTarget(j1Module* module);
 
+	bool MouseIn();
 public:
 	p2List<GUIElement*> childs;
 
 protected:
 	TypeGUI type_gui = TypeGUI::UNDEFINED;
+	j1Module* input_target = nullptr;
 
 	bool active_elem = true;
 	bool interactive = true;

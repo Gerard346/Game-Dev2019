@@ -81,6 +81,7 @@
     <ClCompile Include="EnemyGroundEntity.cpp" />
     <ClCompile Include="EnemyRPGEntity.cpp" />
     <ClCompile Include="GUIElement.cpp" />
+    <ClCompile Include="GUI_Button.cpp" />
     <ClCompile Include="GUI_Image.cpp" />
     <ClCompile Include="j1Animation.cpp" />
     <ClCompile Include="BaseEntity.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="EnemyGroundEntity.h" />
     <ClInclude Include="EnemyRPGEntity.h" />
     <ClInclude Include="GUIElement.h" />
+    <ClInclude Include="GUI_Button.h" />
     <ClInclude Include="GUI_Image.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="BaseEntity.h" />
