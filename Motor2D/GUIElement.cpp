@@ -66,14 +66,16 @@ bool GUIElement::Draw(bool debug)
 
 void GUIElement::DebugDraw(SDL_Color color)
 {
+	SDL_Rect screen_rect = GetScreenRect();
+
 	if (interactive)
 	{
-		App->render->DrawQuad({ box_elem.x - App->render->camera.x / (int)App->win->GetScale() , box_elem.y - App->render->camera.y / (int)App->win->GetScale(), box_elem.w, box_elem.h }, color.r, color.g, color.b, color.a);
+		App->render->DrawQuad({ screen_rect.x - App->render->camera.x / (int)App->win->GetScale() , screen_rect.y - App->render->camera.y / (int)App->win->GetScale(), screen_rect.w, screen_rect.h }, color.r, color.g, color.b, color.a);
 
 	}
 	else
 	{
-		App->render->DrawQuad({ box_elem.x - App->render->camera.x / (int)App->win->GetScale() , box_elem.y - App->render->camera.y / (int)App->win->GetScale(), box_elem.w, box_elem.h }, 100, 100, 100, 100);
+		App->render->DrawQuad({ screen_rect.x - App->render->camera.x / (int)App->win->GetScale() , screen_rect.y - App->render->camera.y / (int)App->win->GetScale(), screen_rect.w, screen_rect.h }, 100, 100, 100, 100);
 
 	}
 
@@ -90,16 +92,39 @@ bool GUIElement::DrawChilds(bool debug)
 	return true;
 }
 
-void GUIElement::SetBoxElem(SDL_Rect elem)
+void GUIElement::SetLocalPos(iPoint target_point)
+{
+	box_elem.x = target_point.x;
+	box_elem.y = target_point.y;
+}
+
+void GUIElement::SetLocalRect(SDL_Rect elem)
 {
 	box_elem = elem;
 }
 
-void GUIElement::SetPosElem(iPoint position)
+SDL_Rect GUIElement::GetScreenRect()
 {
-	box_elem.x = position.x;
-	box_elem.y = position.y;
+	iPoint parent_screen_pos = parent != nullptr ? parent->GetScreenPos() : iPoint(0,0);
+	
+	return { parent_screen_pos.x + box_elem.x, parent_screen_pos.y + box_elem.y, box_elem.w, box_elem.h };
+}
 
+SDL_Rect GUIElement::GetLocalRect()
+{
+	return box_elem;
+}
+
+iPoint GUIElement::GetScreenPos()
+{
+	iPoint parent_screen_pos = parent != nullptr ? parent->GetScreenPos() : iPoint(0, 0);
+
+	return iPoint(box_elem.x + parent_screen_pos.x, box_elem.y + parent_screen_pos.y);
+}
+
+iPoint GUIElement::GetLocalPos()
+{
+	return iPoint(box_elem.x, box_elem.y);
 }
 
 void GUIElement::AddChild(GUIElement* elem, int child_layer)
@@ -109,6 +134,18 @@ void GUIElement::AddChild(GUIElement* elem, int child_layer)
 		elem->SetLayer(layer + 1);
 	}
 	childs.add(elem);
+	
+	elem->SetParent(this);
+}
+
+void GUIElement::SetParent(const GUIElement* elem)
+{
+	parent = (GUIElement*)elem;
+}
+
+GUIElement* GUIElement::GetParent() const
+{
+	return parent;
 }
 
 void GUIElement::SetLayer(int lay)
@@ -145,7 +182,9 @@ bool GUIElement::MouseIn()
 {
 	int x2, y2;
 	App->input->GetMousePosition(x2, y2);
-	return (box_elem.x  < x2 && (box_elem.x + box_elem.w) > x2 && (box_elem.y) < y2 && (box_elem.y + box_elem.h) > y2);
+
+	SDL_Rect screen_rect = GetScreenRect();
+	return (screen_rect.x  < x2 && (screen_rect.x + screen_rect.w) > x2 && (screen_rect.y) < y2 && (screen_rect.y + screen_rect.h) > y2);
 }
 
 void GUIElement::SetInputTarget(j1Module* module)

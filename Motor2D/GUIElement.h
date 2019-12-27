@@ -12,7 +12,8 @@ enum TypeGUI {
 	SLIDER_UI,
 	IMAGE,
 	TEXT,
-	TEXT_BOX
+	TEXT_BOX,
+	WINDOW
 };
 
 class GUIElement {
@@ -34,11 +35,18 @@ public:
 	void DebugDraw(SDL_Color color);
 	bool DrawChilds(bool debug);
 
-	virtual void SetBoxElem(SDL_Rect elem);
-	virtual void SetPosElem(iPoint position);
+	SDL_Rect GetScreenRect();
+	SDL_Rect GetLocalRect();
+	iPoint GetScreenPos();
+	iPoint GetLocalPos();
+
+	virtual void SetLocalPos(iPoint);
+	virtual void SetLocalRect(SDL_Rect elem);
 
 	void AddChild(GUIElement* elem, int child_layer = 0);
 
+	void SetParent(const GUIElement*);
+	GUIElement* GetParent() const;
 	void SetLayer(int lay);
 	int GetLayer()const;
 
@@ -51,7 +59,7 @@ public:
 	bool MouseIn();
 public:
 	p2List<GUIElement*> childs;
-
+	GUIElement* parent = nullptr;
 protected:
 	TypeGUI type_gui = TypeGUI::UNDEFINED;
 	j1Module* input_target = nullptr;

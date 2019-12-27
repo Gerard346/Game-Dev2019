@@ -18,6 +18,7 @@
 #include "j1Fonts.h"
 #include "GUI_Button.h"
 #include "GUI_Image.h"
+#include "GUI_Window.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -51,8 +52,7 @@ bool j1Scene::Start()
 	App->win->SetTitle(title.GetString());
 
 	scene_gui = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
-	scene_gui->SetBoxElem({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale()});
-
+	scene_gui->SetLocalRect({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale()});
 	/*// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
 	imgsa = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
 	imgsa->SetRectTexture({ 0, 0, 1500	, 1503 });
@@ -64,15 +64,17 @@ bool j1Scene::Start()
 
 	SDL_Texture* font_img = App->font->Print("Hello World", App->gui->YELLOW, font);
 	*/
+	window = (GUI_Window*)App->gui->GenerateElemGUI(TypeGUI::WINDOW);
+	window->SetLocalRect({ 100,100,300,300 });
+	scene_gui->AddChild(window);
 
 	button = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
 	button->SetButtonOff({ 0,113,229,69 }, 0);
 	button->SetButtonOn({ 642,169,229,69 }, 0);
 	button->SetButtonHover({ 411,169,229,69 }, 0);
-	
 	button->SetBoxElem({0,0,229,69});
+	window->AddChild(button);
 
-	scene_gui->AddChild(button);
 	button->SetInputTarget(this);
 	button->SetElemActive(true);
 	button->SetElemInteractive(true);

@@ -8,6 +8,9 @@
 
 GUI_Button::GUI_Button() :GUIElement(BUTTON)
 {
+	button_off.SetParent(this);
+	button_on.SetParent(this);
+	button_hover.SetParent(this);
 }
 
 GUI_Button::~GUI_Button()
@@ -138,18 +141,18 @@ void GUI_Button::SetBlocked()
 void GUI_Button::SetBoxElem(SDL_Rect elem)
 {
 	box_elem = elem;
-	button_on.SetBoxElem(elem);
-	button_off.SetBoxElem(elem);
-	button_hover.SetBoxElem(elem);
+	button_on.SetLocalRect(elem);
+	button_off.SetLocalRect(elem);
+	button_hover.SetLocalRect(elem);
 }
 
 void GUI_Button::SetPosElem(iPoint position)
 {
 	box_elem.x = position.x;
 	box_elem.y = position.y;
-	button_on.SetPosElem(position);
-	button_off.SetPosElem(position);
-	button_hover.SetPosElem(position);
+	button_on.SetLocalPos(position);
+	button_off.SetLocalPos(position);
+	button_hover.SetLocalPos(position);
 }
 
 void GUI_Button::SetDelayButton(float delay)

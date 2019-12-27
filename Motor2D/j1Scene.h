@@ -8,6 +8,8 @@ struct SDL_Texture;
 
 struct GUI_Image;
 struct GUI_Button;
+struct GUI_Window;
+
 class j1Scene : public j1Module
 {
 public:
@@ -48,6 +50,7 @@ private:
 	GUI_Image* imgsa = nullptr;
 	GUIElement* scene_gui = nullptr;
 	GUI_Button* button = nullptr;
+	GUI_Window* window = nullptr;
 };
 
 #endif // __j1SCENE_H__

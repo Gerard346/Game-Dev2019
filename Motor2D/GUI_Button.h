@@ -11,7 +11,6 @@ enum State_Button {
 
 class GUI_Button :public GUIElement
 {
-
 public:
 	GUI_Button();
 	~GUI_Button();

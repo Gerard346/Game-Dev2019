@@ -21,19 +21,15 @@ bool GUI_Image::Draw(bool debug)
 	}
 	else
 	{
-		if (id_texture == -1)
-			App->render->Blit(App->gui->GetAtlas(), box_elem.x - App->render->camera.x / App->win->GetScale(), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
+		SDL_Rect screen_rect = GetScreenRect();
 
+		if (id_texture == -1 || rect_texture.w == 0 || rect_texture.h == 0)
+		{
+			App->render->Blit(App->gui->GetAtlas(), screen_rect.x - App->render->camera.x / App->win->GetScale(), screen_rect.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
+		}
 		else
 		{
-			if (rect_texture.w == 0 || rect_texture.h == 0)
-			{
-				App->render->Blit(App->gui->GetAtlas(), ceil( box_elem.x - App->render->camera.x / App->win->GetScale()), box_elem.y - App->render->camera.y / App->win->GetScale());
-			}
-			else
-			{
-				App->render->Blit(App->gui->GetAtlas(), (box_elem.x - App->render->camera.x / App->win->GetScale()), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
-			}
+			App->render->Blit(App->gui->GetAtlas(), (screen_rect.x - App->render->camera.x / App->win->GetScale()), screen_rect.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
 		}
 	}
 
