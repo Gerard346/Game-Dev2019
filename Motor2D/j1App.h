@@ -23,7 +23,7 @@ class j1Animation;
 class EntityManager;
 class j1Pathfinding;
 class j1Gui;
-
+class j1Fonts;
 class j1App
 {
 public:
@@ -101,7 +101,7 @@ public:
 	EntityManager*		entity = nullptr;
 	j1Pathfinding*		path = nullptr;
 	j1Gui*				gui = nullptr;
-
+	j1Fonts*				font = nullptr;
 private:
 
 	bool want_to_save = false;

@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __GUI_IMAGE_H__
+#define __GUI_IMAGE_H__
 #include "GUIElement.h"
 
 class GUI_Image : public GUIElement
@@ -25,3 +25,4 @@ public:
 	int GetIdTexture()const;
 	void SetIdTexture(int new_id);
 };
+#endif

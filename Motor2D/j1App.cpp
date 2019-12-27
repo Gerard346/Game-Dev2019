@@ -15,7 +15,7 @@
 #include "j1Animation.h"
 #include "EntityManager.h"
 #include "j1Gui.h"
-
+#include "j1Fonts.h"
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -35,7 +35,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new j1FadeToBlack();
 	animation = new j1Animation();
 	gui = new j1Gui();
-
+	font = new j1Fonts();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -43,6 +43,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(gui);
+	AddModule(font);
 	AddModule(animation);
 	AddModule(scene);
 	AddModule(map);

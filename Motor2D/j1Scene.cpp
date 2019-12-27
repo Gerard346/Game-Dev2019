@@ -15,7 +15,7 @@
 #include "j1Pathfinding.h"
 #include "j1Gui.h"
 #include "GUIElement.h"
-
+#include "j1Fonts.h"
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -56,6 +56,11 @@ bool j1Scene::Start()
 	imgsa->SetRectTexture({ 0, 0, 1500	, 1503 });
 	imgsa->SetBoxElem({ 0,0,0,0 });
 	scene_gui->AddChild(imgsa);
+
+	SDL_Color color = { 255, 255, 255, 255 };
+	_TTF_Font* font = App->font->Load("fonts/open_sans/OpenSans-Regular.ttf", 60);
+
+	SDL_Texture* font_img = App->font->Print("Hello World", App->gui->YELLOW, font);
 
 	App->gui->AddSceneGUI(scene_gui);
 

@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __GUIELEMENT_H__
+#define __GUIELEMENT_H__
 #include "p2List.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
@@ -55,3 +55,4 @@ protected:
 	SDL_Rect box_elem = { 0,0,0,0 };
 	int layer = 0;
 };
+#endif

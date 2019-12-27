@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __j1GUI_H__
+#define __j1GUI_H__
 #include "j1Module.h"
 
 #define CURSOR_WIDTH 2
@@ -63,3 +63,4 @@ public:
 	SDL_Color UI_BROWN = { 255, 255, 255, 255 };
 };
 
+#endif
