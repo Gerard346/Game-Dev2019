@@ -33,6 +33,8 @@ bool GUI_Button::Start()
 
 bool GUI_Button::Draw(bool debug)
 {
+	if (active_elem == false)return true;
+
 	if (debug) {
 		DebugDraw(App->gui->BROWN);
 	}

@@ -27,6 +27,8 @@ public:
 	bool Load(const pugi::xml_node&);
 	bool Save(pugi::xml_node&);
 
+	void Activate();
+	void Desactivate();
 public:
 
 	//Handle Entities

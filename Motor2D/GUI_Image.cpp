@@ -15,9 +15,11 @@ GUI_Image::~GUI_Image()
 
 bool GUI_Image::Draw(bool debug)
 {
+	if (active_elem == false)return true;
+
 	if (debug)
 	{
-		DebugDraw(App->gui->LIGHT_GREEN);
+		DebugDraw(App->gui->RED);
 	}
 	else
 	{
@@ -32,11 +34,11 @@ bool GUI_Image::Draw(bool debug)
 
 		if (id_texture == -1 || rect_texture.w == 0 || rect_texture.h == 0)
 		{
-			App->render->Blit(App->gui->GetAtlas(), box_elem.x - App->render->camera.x / App->win->GetScale(), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
+			App->render->Blit(App->gui->GetTexture(id_texture), box_elem.x - App->render->camera.x / App->win->GetScale(), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
 		}
 		else
 		{
-			App->render->Blit(App->gui->GetAtlas(), (box_elem.x - App->render->camera.x / App->win->GetScale()), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
+			App->render->Blit(App->gui->GetTexture(id_texture), (box_elem.x - App->render->camera.x / App->win->GetScale()), box_elem.y - App->render->camera.y / App->win->GetScale(), &rect_texture);
 		}
 
 		SDL_RenderSetViewport(App->render->renderer, NULL);

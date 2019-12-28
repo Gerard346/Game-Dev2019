@@ -537,6 +537,18 @@ bool EntityManager::Save(pugi::xml_node& node)
 	return true;
 }
 
+void EntityManager::Activate()
+{
+	CleanUp();
+	active = true;
+}
+
+void EntityManager::Desactivate()
+{
+	CleanUp();
+	active = false;
+}
+
 BaseEntity* EntityManager::FindEntity(const Collider* col) const
 {
 	for (int i = 0; i < new_entities.count(); i++)

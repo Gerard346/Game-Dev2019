@@ -14,6 +14,7 @@
 #include "j1FadeToBlack.h"
 #include "j1Animation.h"
 #include "EntityManager.h"
+#include "MainMenu.h"
 #include "j1Gui.h"
 #include "j1Fonts.h"
 // Constructor
@@ -25,6 +26,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	win = new j1Window();
 	render = new j1Render();
 	tex = new j1Textures();
+	font = new j1Fonts();
+	main_menu = new MainMenu();
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
@@ -35,7 +38,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new j1FadeToBlack();
 	animation = new j1Animation();
 	gui = new j1Gui();
-	font = new j1Fonts();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -43,6 +45,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(font);
+	AddModule(main_menu);
 	AddModule(animation);
 	AddModule(scene);
 	AddModule(map);
@@ -164,6 +167,8 @@ bool j1App::Start()
 		item = item->next;
 	}
 	frame_time.Start();
+
+	ActivateMainMenu();
 	return ret;
 }
 
@@ -362,6 +367,17 @@ const char* j1App::GetArgv(int index) const
 void j1App::SetCappedFrames()
 {
 	is_fps_capped = !is_fps_capped;
+}
+
+void j1App::ActivateGame()
+{
+	App->scene->Activate();
+}
+
+void j1App::ActivateMainMenu()
+{
+	scene->Desactivate();
+	main_menu->Activate();
 }
 
 void j1App::Load()

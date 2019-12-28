@@ -12,6 +12,9 @@
 #include "j1FadeToBlack.h"
 #include "EntityManager.h"
 #include "j1Pathfinding.h"
+#include "j1Gui.h"
+#include "j1Audio.h"
+#include "MainMenu.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -39,8 +42,17 @@ bool j1Map::Awake(const pugi::xml_node& config)
 
 bool j1Map::Start()
 {
+	App->player->Activate();
+	App->map->Activate();
+	App->entity->Activate();
 	App->render->camera.x = 0;
 	
+	if (App->main_menu->active == false)
+	{
+		App->audio->PlayMusic(MusicType::GAME_MUSIC);
+		App->gui->SetSceneGUI(App->scene->GetSceneGUI());
+	}
+
 	if (want_to_load_map)
 	{
 		want_to_load_map = false;
@@ -329,6 +341,17 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	ret.y = y / map_info.tileheight;
 
 	return ret;
+}
+
+void j1Map::Activate()
+{
+	active = true;
+}
+
+void j1Map::Desactivate()
+{
+	CleanUp();
+	active = false;
 }
 
 bool j1Map::LoadMapInfo(const pugi::xml_node& node)

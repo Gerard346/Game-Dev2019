@@ -9,6 +9,7 @@
 #include "GUI_Image.h"
 #include "GUI_Button.h"
 #include "GUI_Window.h"
+
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -108,6 +109,29 @@ int j1Gui::CalculateLayer(const GUIElement* elem)
 {
 	top_layer = elem->GetLayer();
 	return CalculateTopLayer(elem, top_layer);
+}
+
+SDL_Texture* j1Gui::GetTexture(int id) const
+{
+	if (id >= textures.count())
+	{
+		LOG("Error texture Id out of range");
+		return nullptr;
+	}
+	return textures.At(id)->data;
+}
+
+
+int j1Gui::AddTexture(SDL_Texture* new_tex)
+{
+	if (new_tex == nullptr)
+	{
+		LOG("Error texture null in AddTexture");
+		return -1;
+	}
+
+	textures.add(new_tex);
+	return textures.count() - 1;
 }
 
 void j1Gui::SetDebug()

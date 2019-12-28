@@ -16,6 +16,8 @@ GUIElement::~GUIElement()
 
 bool GUIElement::Update(float dt)
 {
+	if (active_elem == false)return true;
+
 	HandleInput();
 
 	UpdateChilds(dt);
@@ -57,8 +59,10 @@ bool GUIElement::CleanUpChilds()
 
 bool GUIElement::Draw(bool debug)
 {
+	if (active_elem == false)return true;
+
 	if (debug)
-		DebugDraw(App->gui->YELLOW);
+		DebugDraw(App->gui->LIGHT_GREEN);
 		
 	DrawChilds(debug);
 	return true;

@@ -64,6 +64,8 @@ public:
 
 	void CamFollowPlayer();
 
+	void Activate() override;
+	void Desactivate() override;
 public:
 	Levels p_current_lvl = Lvl_1;
 

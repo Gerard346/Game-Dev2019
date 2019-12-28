@@ -40,10 +40,14 @@ public:
 
 	bool GetPause();
 
+	void Activate();
+	void Desactivate();
+
+	GUIElement* GetSceneGUI();
+	p2SString music_path;
 
 private:
 
-	p2SString music_path;
 	SDL_Texture* img = nullptr;
 	bool is_paused = false;
 

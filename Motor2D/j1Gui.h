@@ -1,6 +1,7 @@
 #ifndef __j1GUI_H__
 #define __j1GUI_H__
 #include "j1Module.h"
+#include "p2List.h"
 
 #define CURSOR_WIDTH 2
 
@@ -46,6 +47,9 @@ public:
 	SDL_Texture* GetAtlas() const;
 	int GetTopLayer();
 	int CalculateLayer(const GUIElement* elem);
+
+	SDL_Texture* GetTexture(int id)const;
+	int AddTexture(SDL_Texture* new_tex);
 
 	void SetDebug();
 private:

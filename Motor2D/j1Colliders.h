@@ -73,8 +73,8 @@ public:
 	
 	COLLIDER_TYPE TileIDToColliderTile(int tile_id) const;
 
-	void Desactivate();
-	void Activate();
+	void Desactivate()override;
+	void Activate()override;
 
 	void DebugMode();
 

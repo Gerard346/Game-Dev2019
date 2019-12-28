@@ -48,12 +48,18 @@ bool j1FadeToBlack::PostUpdate()
 	{
 	case fade_to_black:
 	{
+		LOG("%f", App->Getdt());
+
 		if (now >= total_time)
 		{
-			if (module_off != NULL)
+			if (module_off != NULL) {
 				module_off->CleanUp();
-			if (module_on != NULL)
+				module_off->Desactivate();
+			}
+			if (module_on != NULL) {
 				module_on->Start();
+				module_on->Activate();
+			}
 
 			total_time += total_time;
 			start_time = SDL_GetTicks();

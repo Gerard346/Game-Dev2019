@@ -21,6 +21,7 @@ class j1Player;
 class j1FadeToBlack;
 class j1Animation;
 class EntityManager;
+class MainMenu;
 class j1Pathfinding;
 class j1Gui;
 class j1Fonts;
@@ -61,6 +62,9 @@ public:
 
 	void SetCappedFrames();
 
+	void ActivateGame();
+	void ActivateMainMenu();
+
 private:
 
 	void Load();
@@ -99,6 +103,7 @@ public:
 	j1Player*			player = nullptr;
 	j1FadeToBlack*		fade = nullptr;
 	EntityManager*		entity = nullptr;
+	MainMenu*			main_menu = nullptr;
 	j1Pathfinding*		path = nullptr;
 	j1Gui*				gui = nullptr;
 	j1Fonts*				font = nullptr;

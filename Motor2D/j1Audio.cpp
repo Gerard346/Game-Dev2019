@@ -3,20 +3,22 @@
 #include "j1App.h"
 #include "j1FileSystem.h"
 #include "j1Audio.h"
-
+#include "j1FadeToBlack.h"
 #include "SDL/include/SDL.h"
 #include "SDL_mixer\include\SDL_mixer.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
 j1Audio::j1Audio() : j1Module()
 {
-	music = NULL;
+	main_menu_music = NULL;
+	game_music = NULL;
 	name.create("audio");
 }
 
 // Destructor
 j1Audio::~j1Audio()
 {}
+
 
 // Called before render is available
 bool j1Audio::Awake(const pugi::xml_node& node)
@@ -63,6 +65,20 @@ bool j1Audio::Awake(const pugi::xml_node& node)
 	return ret;
 }
 
+bool j1Audio::Start()
+{
+	main_menu_music = Mix_LoadMUS("audio/music/music2.ogg");
+	game_music = Mix_LoadMUS("audio/music/music.ogg");
+
+	return true;
+}
+
+bool j1Audio::Update(float dt)
+{
+
+	return true;
+}
+
 // Called before quitting
 bool j1Audio::CleanUp()
 {
@@ -71,9 +87,10 @@ bool j1Audio::CleanUp()
 
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
-	if(music != NULL)
+	if(main_menu_music != NULL || game_music != NULL)
 	{
-		Mix_FreeMusic(music);
+		Mix_FreeMusic(main_menu_music);
+		Mix_FreeMusic(game_music);
 	}
 
 	p2List_item<Mix_Chunk*>* item;
@@ -89,14 +106,27 @@ bool j1Audio::CleanUp()
 	return true;
 }
 
+bool j1Audio::PlayMusic(MusicType type, float fade_time)
+{
+	if (type == MAIN_MENU_MUSIC)
+	{
+		PlayMusic(main_menu_music, fade_time);
+	}
+	else
+	{
+		PlayMusic(game_music, fade_time);
+	}
+	return true;
+}
+
 // Play a music file
-bool j1Audio::PlayMusic(const char* path, float fade_time)
+bool j1Audio::PlayMusic(_Mix_Music* music, float fade_time)
 {
 	bool ret = true;
 	if(!active)
 		return false;
 
-	if(music != NULL)
+	if(current_music != NULL)
 	{
 		if(fade_time > 0.0f)
 		{
@@ -108,14 +138,13 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		}
 
 		// this call blocks until fade out is done
-		Mix_FreeMusic(music);
+		//Mix_FreeMusic(game_music);
 	}
 
-	music = Mix_LoadMUS(path);
+	current_music = music;
 
 	if(music == NULL)
 	{
-		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
 		ret = false;
 	}
 	else
@@ -124,7 +153,6 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		{
 			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0f)) < 0)
 			{
-				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
 			}
 		}
@@ -132,7 +160,6 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		{
 			if(Mix_PlayMusic(music, -1) < 0)
 			{
-				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
 			}
 		}

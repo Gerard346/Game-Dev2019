@@ -19,6 +19,7 @@
 #include "GUI_Button.h"
 #include "GUI_Image.h"
 #include "GUI_Window.h"
+#include "MainMenu.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -46,7 +47,6 @@ bool j1Scene::Start()
 {
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
 	//App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
-	App->audio->PlayMusic(music_path.GetString());
 	p2SString title("Last Soldier");
 
 	App->win->SetTitle(title.GetString());
@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	scene_gui->SetLocalRect({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale()});
 	/*// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
 	imgsa = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
-	imgsa->SetRectTexture({ 0, 0, 1500	, 1503 });
+	imgsa->SetRectTexture({ 0, 0, 1500, 1503 });
 	imgsa->SetBoxElem({ 0,0,0,0 });
 	scene_gui->AddChild(imgsa);
 
@@ -64,8 +64,9 @@ bool j1Scene::Start()
 
 	SDL_Texture* font_img = App->font->Print("Hello World", App->gui->YELLOW, font);
 	*/
+	
 	window = (GUI_Window*)App->gui->GenerateElemGUI(TypeGUI::WINDOW);
-	window->SetLocalRect({ 100,100,300,300 });
+	window->SetLocalRect({ 100,100,400,300 });
 	scene_gui->AddChild(window);
 
 
@@ -85,9 +86,8 @@ bool j1Scene::Start()
 	button2->SetLocalRect({ 0,30,229,69 });
 	button2->SetInputTarget(this);
 	window->AddChild(button2, button->GetLayer() + 1);
-
+	
 	App->gui->SetSceneGUI(scene_gui);
-
 	return true;
 }
 
@@ -181,4 +181,27 @@ bool j1Scene::CleanUp()
 bool j1Scene::GetPause()
 {
 	return is_paused;
+}
+
+void j1Scene::Activate()
+{
+	App->fade->FadeToBlack(App->main_menu, App->map, 2.0f);
+
+
+
+	active = true;
+}
+
+void j1Scene::Desactivate()
+{
+	App->player->Desactivate();
+	App->map->Desactivate();
+	App->entity->Desactivate();
+	scene_gui->SetElemActive(false);
+	active = false;
+}
+
+GUIElement* j1Scene::GetSceneGUI()
+{
+	return scene_gui;
 }

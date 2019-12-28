@@ -190,3 +190,13 @@ void j1Player::CamFollowPlayer()
 	//App->render->camera.y = window_h - max_height * App->win->GetScale();
 }
 
+void j1Player::Activate()
+{
+	active = true;
+}
+
+void j1Player::Desactivate()
+{
+	active = false;
+}
+

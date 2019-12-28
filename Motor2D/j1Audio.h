@@ -8,6 +8,10 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
+enum MusicType {
+	MAIN_MENU_MUSIC,
+	GAME_MUSIC
+};
 class j1Audio : public j1Module
 {
 public:
@@ -16,15 +20,19 @@ public:
 
 	// Destructor
 	virtual ~j1Audio();
-
 	// Called before render is available
 	bool Awake(const pugi::xml_node& node) override;
+
+	bool Start();
+
+	bool Update(float dt);
 
 	// Called before quitting
 	bool CleanUp();
 
 	// Play a music file
-	bool PlayMusic(const char* path, float fade_time = DEFAULT_MUSIC_FADE_TIME);
+	bool PlayMusic(MusicType type, float fade_time = DEFAULT_MUSIC_FADE_TIME);
+	bool PlayMusic(_Mix_Music* music, float fade_time = DEFAULT_MUSIC_FADE_TIME);
 
 	// Load a WAV in memory
 	unsigned int LoadFx(const char* path);
@@ -37,10 +45,19 @@ public:
 	bool Save(pugi::xml_node&);
 
 private:
+
 	int volume_music = 0;
 	int volume_fx= 0;
-	_Mix_Music*			music;
+	
+	_Mix_Music*			main_menu_music;
+	_Mix_Music*			game_music;
+	_Mix_Music*			current_music;
+
 	p2List<Mix_Chunk*>	fx;
+
+	char* pending_play_path = nullptr;
+	float pending_play_fade = 0.0f;
+	float pending_play_delay = 0.0f;
 };
 
 #endif // __j1AUDIO_H__

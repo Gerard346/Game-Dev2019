@@ -165,6 +165,8 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 
+	void Activate() override;
+	void Desactivate() override;
 private:
 
 	bool LoadMapInfo(const pugi::xml_node&);

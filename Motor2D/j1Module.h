@@ -78,7 +78,9 @@ public:
 public:
 	p2SString	name;
 	bool		active;
-
+	virtual void Activate();
+	virtual void Desactivate();
+	bool GetActive() const;
 };
 
 #endif // __j1MODULE_H__
