@@ -25,6 +25,8 @@ class MainMenu;
 class j1Pathfinding;
 class j1Gui;
 class j1Fonts;
+class j1Console;
+
 class j1App
 {
 public:
@@ -106,7 +108,8 @@ public:
 	MainMenu*			main_menu = nullptr;
 	j1Pathfinding*		path = nullptr;
 	j1Gui*				gui = nullptr;
-	j1Fonts*				font = nullptr;
+	j1Fonts*			font = nullptr;
+	j1Console*			console = nullptr;
 private:
 
 	bool want_to_save = false;
