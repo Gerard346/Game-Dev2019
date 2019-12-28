@@ -107,26 +107,26 @@ void GUIElement::SetLocalRect(SDL_Rect elem)
 	box_elem = elem;
 }
 
-SDL_Rect GUIElement::GetScreenRect()
+SDL_Rect GUIElement::GetScreenRect()const
 {
 	iPoint parent_screen_pos = parent != nullptr ? parent->GetScreenPos() : iPoint(0,0);
 	
 	return { parent_screen_pos.x + box_elem.x, parent_screen_pos.y + box_elem.y, box_elem.w, box_elem.h };
 }
 
-SDL_Rect GUIElement::GetLocalRect()
+SDL_Rect GUIElement::GetLocalRect()const
 {
 	return box_elem;
 }
 
-iPoint GUIElement::GetScreenPos()
+iPoint GUIElement::GetScreenPos()const
 {
 	iPoint parent_screen_pos = parent != nullptr ? parent->GetScreenPos() : iPoint(0, 0);
 
 	return iPoint(box_elem.x + parent_screen_pos.x, box_elem.y + parent_screen_pos.y);
 }
 
-iPoint GUIElement::GetLocalPos()
+iPoint GUIElement::GetLocalPos()const
 {
 	return iPoint(box_elem.x, box_elem.y);
 }
@@ -193,7 +193,51 @@ bool GUIElement::MouseIn()
 	return (screen_rect.x  < x2 && (screen_rect.x + screen_rect.w) > x2 && (screen_rect.y) < y2 && (screen_rect.y + screen_rect.h) > y2);
 }
 
+void GUIElement::AddPosition(int x, int y)
+{
+	box_elem.x += x;
+	box_elem.y += y;
+
+}
+
 void GUIElement::SetInputTarget(j1Module* module)
 {
 	input_target = module;
+}
+
+bool GUIElement::RectIsIn(const SDL_Rect& target, int x_vel, int y_vel, bool x_axis) const
+{
+	bool ret = false;
+
+	SDL_Rect screen_rect = GetScreenRect();
+
+	if (x_axis == false)
+	{
+
+		ret = (target.y <= screen_rect.y + y_vel && (target.y + target.h) >= (screen_rect.y + screen_rect.h + y_vel));
+
+	}
+	else
+	{
+		ret = (target.x <= screen_rect.x + x_vel && (target.x + target.w) >= (screen_rect.x + screen_rect.w + x_vel));
+	}
+	return ret;
+}
+
+bool GUIElement::RectCheck(const SDL_Rect& in_target, const SDL_Rect& out_target, bool x_axis) const
+{
+	bool ret = false;
+
+	if (x_axis == false)
+	{
+
+		ret = (in_target.y <= out_target.y && (in_target.y + in_target.h) >= (out_target.y + out_target.h));
+
+	}
+	else
+	{
+		ret = (in_target.x <= out_target.x && (in_target.x + in_target.w) >= (out_target.x + out_target.w));
+	}
+
+	return ret;
 }

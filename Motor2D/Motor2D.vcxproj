@@ -83,7 +83,7 @@
     <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="GUI_Button.cpp" />
     <ClCompile Include="GUI_Image.cpp" />
-    <ClCompile Include="GUI_Slider.cpp" />
+    <ClCompile Include="GUI_Scroll.cpp" />
     <ClCompile Include="GUI_String.cpp" />
     <ClCompile Include="GUI_Window.cpp" />
     <ClCompile Include="j1Animation.cpp" />
@@ -122,7 +122,7 @@
     <ClInclude Include="GUIElement.h" />
     <ClInclude Include="GUI_Button.h" />
     <ClInclude Include="GUI_Image.h" />
-    <ClInclude Include="GUI_Slider.h" />
+    <ClInclude Include="GUI_Scroll.h" />
     <ClInclude Include="GUI_String.h" />
     <ClInclude Include="GUI_Window.h" />
     <ClInclude Include="j1Animation.h" />

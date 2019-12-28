@@ -29,5 +29,6 @@ public:
 
 	void SetAsButtonImage();
 	bool IsButtonImage()const;
+	void FitBox();
 };
 #endif

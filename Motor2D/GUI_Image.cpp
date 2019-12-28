@@ -77,3 +77,19 @@ bool GUI_Image::IsButtonImage() const
 {
 	return is_button_image;
 }
+
+void GUI_Image::FitBox()
+{
+	box_elem.w = rect_texture.w;
+	box_elem.h = rect_texture.h;
+
+	if (box_elem.w == 0 || box_elem.h == 0)
+	{
+		int w, h;
+
+		SDL_QueryTexture(App->gui->GetTexture(id_texture), NULL, NULL, &w, &h);
+		box_elem.w = w;
+		box_elem.h = h;
+
+	}
+}

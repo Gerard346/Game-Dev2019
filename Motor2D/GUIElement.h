@@ -35,10 +35,10 @@ public:
 	void DebugDraw(SDL_Color color);
 	bool DrawChilds(bool debug);
 
-	SDL_Rect GetScreenRect();
-	SDL_Rect GetLocalRect();
-	iPoint GetScreenPos();
-	iPoint GetLocalPos();
+	SDL_Rect GetScreenRect()const;
+	SDL_Rect GetLocalRect()const;
+	iPoint GetScreenPos()const;
+	iPoint GetLocalPos()const;
 
 	virtual void SetLocalPos(iPoint);
 	virtual void SetLocalRect(SDL_Rect elem);
@@ -56,7 +56,12 @@ public:
 	void SetElemInteractive(bool);
 	void SetInputTarget(j1Module* module);
 
+	bool RectIsIn(const SDL_Rect& target, int x_vel, int y_vel, bool x_axis) const;
+	bool RectCheck(const SDL_Rect& in_target, const SDL_Rect& out_target, bool x_axis)const;
+
 	bool MouseIn();
+
+	virtual void AddPosition(int x, int y);
 public:
 	p2List<GUIElement*> childs;
 	GUIElement* parent = nullptr;

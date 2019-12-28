@@ -10,7 +10,7 @@
 #include "GUI_Button.h"
 #include "GUI_Window.h"
 #include "GUI_String.h"
-
+#include "GUI_Scroll.h"
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -91,6 +91,9 @@ GUIElement* j1Gui::GenerateElemGUI(TypeGUI type)
 		break;
 	case TEXT:
 		ret = new GUI_String();
+		break;
+	case SLIDER_UI:
+		ret = new GUI_Scroll();
 		break;
 	}
 

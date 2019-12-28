@@ -18,7 +18,8 @@ enum TypeInput {
 	MOUSE_RIGHT_UP,
 	MOUSE_RIGHT_REPEAT,
 	MOUSE_IN,
-	MOUSE_OUT
+	MOUSE_OUT,
+	SCROLL_MOVE
 };
 
 class j1Gui : public j1Module

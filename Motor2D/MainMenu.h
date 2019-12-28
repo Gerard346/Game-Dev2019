@@ -13,6 +13,7 @@ struct GUI_Button;
 struct GUI_Window;
 struct GUI_String;
 struct _TTF_Font;
+struct GUI_Scroll;
 
 class MainMenu : public j1Module {
 
@@ -60,6 +61,10 @@ private:
 	GUI_Button* bt_web = nullptr;
 	GUI_Button* bt_back = nullptr;
 	GUI_String* str_hi = nullptr;
+
+	GUI_Scroll* slider_vl = nullptr;
+	GUI_Scroll* slider_vert = nullptr;
+
 	//Settings
 	//Sliders FX & music
 	//credits

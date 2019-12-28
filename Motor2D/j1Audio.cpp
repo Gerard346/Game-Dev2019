@@ -195,9 +195,19 @@ unsigned int j1Audio::LoadFx(const char* path)
 
 void j1Audio::SetVolume(int volume)
 {
-	volume_music += volume;
+	LOG("%i", volume_music);
+
+	if (volume_music > 128 || volume_music < 0) {
+		return;
+	}
+	volume_music = volume;
 	Mix_VolumeMusic(volume_music);
 
+}
+
+int j1Audio::GetVolume() const
+{
+	return volume_music;
 }
 
 // Play WAV
