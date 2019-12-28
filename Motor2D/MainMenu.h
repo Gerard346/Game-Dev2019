@@ -11,6 +11,7 @@ struct SDL_Texture;
 struct GUI_Image;
 struct GUI_Button;
 struct GUI_Window;
+struct GUI_String;
 struct _TTF_Font;
 
 class MainMenu : public j1Module {
@@ -58,7 +59,7 @@ private:
 	GUI_Button* bt_exit = nullptr;
 	GUI_Button* bt_web = nullptr;
 	GUI_Button* bt_back = nullptr;
-
+	GUI_String* str_hi = nullptr;
 	//Settings
 	//Sliders FX & music
 	//credits

@@ -9,6 +9,7 @@
 #include "GUI_Image.h"
 #include "GUI_Button.h"
 #include "GUI_Window.h"
+#include "GUI_String.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -87,6 +88,9 @@ GUIElement* j1Gui::GenerateElemGUI(TypeGUI type)
 		break;
 	case WINDOW:
 		ret = new GUI_Window();
+		break;
+	case TEXT:
+		ret = new GUI_String();
 		break;
 	}
 

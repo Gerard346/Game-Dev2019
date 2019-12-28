@@ -14,6 +14,7 @@
 #include "GUI_Button.h"
 #include "GUI_Image.h"
 #include "GUI_Window.h"
+#include "GUI_String.h"
 
 MainMenu::MainMenu() : j1Module()
 {
@@ -94,7 +95,14 @@ bool MainMenu::Start()
 	window_menu->SetLocalRect({ 145,41,222,299 });
 	menu_scene->AddChild(window_menu);
 
+	str_hi = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	str_hi->SetColor(App->gui->White);
+	str_hi->SetText("HOLA");
+	str_hi->SetLocalPos({ 0, 0 });
+	menu_scene->AddChild(str_hi);
 	App->gui->SetSceneGUI(menu_scene);
+
+	
 	return true;
 }
 
