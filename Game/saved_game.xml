@@ -9,16 +9,18 @@
 	<fonts />
 	<main_menu />
 	<animation />
-	<scene />
+	<scene>
+		<scene current_time="10.5740004" />
+	</scene>
 	<map />
 	<pathfinding />
 	<colliders />
 	<player>
-		<player current_level="2" />
+		<player current_level="1" />
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="240.400085" Y="226.462402" />
+			<Entity_Alive Type="player" X="771.199463" Y="196.423615" />
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>

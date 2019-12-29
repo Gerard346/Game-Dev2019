@@ -257,6 +257,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		App->WantToSave();
 	}
+	current_time_load += App->Getdt();
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		if (App->IsLoading() == false)
@@ -398,6 +399,23 @@ void j1Scene::HandleInput(GUIElement* input, TypeInput type_input)
 			}
 		}
 	}
+}
+
+bool j1Scene::Load(const pugi::xml_node& node)
+{
+	float loaded_time = node.child("scene").attribute("current_time").as_float();
+
+	actual_timer.Start();
+	actual_timer.AddTime(loaded_time * 1000);
+
+	return true;
+}
+
+bool j1Scene::Save(pugi::xml_node& node)
+{
+	pugi::xml_node scene = node.append_child("scene");
+	scene.append_attribute("current_time").set_value(actual_timer.ReadSec());
+	return true;
 }
 
 void j1Scene::SetHeartsGUI()

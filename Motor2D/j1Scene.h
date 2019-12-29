@@ -50,7 +50,12 @@ public:
 
 	void HandleInput(GUIElement* input, TypeInput type_input);
 
+	bool Load(const pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
+
 private:
+
 	void SetHeartsGUI();
 
 	j1Timer actual_timer;

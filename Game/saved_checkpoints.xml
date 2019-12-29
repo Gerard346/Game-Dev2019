@@ -9,7 +9,9 @@
 	<fonts />
 	<main_menu />
 	<animation />
-	<scene />
+	<scene>
+		<scene current_time="0.647000015" />
+	</scene>
 	<map />
 	<pathfinding />
 	<colliders />
