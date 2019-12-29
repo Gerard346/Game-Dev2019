@@ -15,11 +15,24 @@ GUI_String::~GUI_String()
 
 bool GUI_String::Draw(bool debug)
 {
+	if (active_elem == false)return true;
+
 	if (debug)
 		DebugDraw(App->gui->RED);
 	else
 	{
+		SDL_Rect screen_rect = parent->GetScreenRect();
+
+		screen_rect.x *= (int)App->win->GetScale();
+		screen_rect.y *= (int)App->win->GetScale();
+		screen_rect.w *= (int)App->win->GetScale();
+		screen_rect.h *= (int)App->win->GetScale();
+
+		SDL_RenderSetViewport(App->render->renderer, &screen_rect);
+
 		App->render->Blit(texture_text, box_elem.x - App->render->camera.x / App->win->GetScale(), box_elem.y - App->render->camera.y / App->win->GetScale());
+
+		SDL_RenderSetViewport(App->render->renderer, NULL);
 	}
 
 	DrawChilds(debug);

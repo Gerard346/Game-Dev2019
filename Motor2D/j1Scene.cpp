@@ -138,8 +138,9 @@ bool j1Scene::Start()
 	str_volume_music_pause = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
 	str_volume_music_pause->SetColor(App->gui->WHITE);
 	str_volume_music_pause->SetText("Adjust Volume Music");
-	str_volume_music_pause->SetLocalPos({ 0, 0 });
+	str_volume_music_pause->SetLocalPos({ 50, 0 });
 	str_volume_music_pause->SetElemInteractive(false);
+	str_volume_music_pause->FitBox();
 
 	window_pause->AddChild(str_volume_music_pause);
 
