@@ -479,6 +479,9 @@ bool EntityManager::Load(const pugi::xml_node& node)
 
 		dead_entity = dead_entity.next_sibling();
 	}*/
+
+	load_pending = true;
+
 	return true;
 }
 

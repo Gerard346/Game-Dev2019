@@ -225,10 +225,15 @@ bool j1Scene::Update(float dt)
 		App->WantToSave();
 	}
 
+	current_time_load += dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		if (App->IsLoading() == false)
 		{
-			App->WantToLoad();
+			if (current_time_load > last_loaded) {
+				current_time_load = 0;
+				App->WantToLoad();
+			}
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
@@ -297,14 +302,13 @@ void j1Scene::Activate()
 {
 	App->fade->FadeToBlack(App->main_menu, App->map, 2.0f);
 	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
-
+	scene_gui->SetElemActive(true);
 	active = true;
 }
 
 void j1Scene::Desactivate()
 {
 	App->fade->FadeToBlack(App->map, App->main_menu, 2.0f);
-
 
 	scene_gui->SetElemActive(false);
 	active = false;

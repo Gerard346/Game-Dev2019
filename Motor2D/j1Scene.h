@@ -52,6 +52,8 @@ public:
 
 private:
 	int button_fx = 0;
+	float last_loaded = 1.0f;
+	float current_time_load = 0;
 
 	SDL_Texture* img = nullptr;
 	bool is_paused = false;

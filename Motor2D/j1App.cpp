@@ -174,7 +174,8 @@ bool j1App::Start()
 	}
 	frame_time.Start();
 
-	ActivateMainMenu();
+	ActivateGame();
+	//App->gui->SetSceneGUI(App->main_menu->GetSceneMainMenuGUI());
 	return ret;
 }
 
@@ -389,7 +390,6 @@ void j1App::ActivateMainMenu()
 {
 	scene->Desactivate();
 	App->main_menu->Activate();
-	
 }
 
 void j1App::Load()
