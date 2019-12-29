@@ -19,6 +19,7 @@ public:
 
 	bool Draw(bool debug);
 	void HandleInput() override;
+	void SetElemActive(bool active)override;
 
 private:
 
@@ -29,6 +30,7 @@ private:
 	GUI_Image		scroll_image;
 	GUI_Image		scroll_background;
 	bool			scroll_selected = false;
+	bool			scroll_on_drag = false;
 	iPoint			drag_delta = { 0,0 };
 
 public:
@@ -39,7 +41,6 @@ public:
 	void SetMaxValue(float value);
 	void SetScrollImage(SDL_Rect rect_image, int texture_scroll_image = -1);
 	void SetScrollBackground(SDL_Rect rect_background, int texture_scroll_background = -1);
-	void SetScrollSelected(bool selected);
 
 	GUI_Image GetScrollBackground()const;
 	GUI_Image GetScrollImage()const;

@@ -51,7 +51,7 @@ void GUI_Scroll::HandleInput()
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			scroll_selected = true;
-
+			scroll_on_drag = true;
 			int x, y;
 			App->input->GetMousePosition(x, y);
 
@@ -59,13 +59,60 @@ void GUI_Scroll::HandleInput()
 			drag_delta.y = scroll_image.GetScreenPos().y - y;
 		}
 	}
+	else
+	{
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			scroll_selected = false;
+			scroll_on_drag = false;
+		}
+	}
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 	{
-		scroll_selected = false;
+		scroll_on_drag = false;
 	}
 
-	if (scroll_selected)
+	
+	if (scroll_selected  == true && scroll_on_drag == false)
+	{
+		if (scroll_type == Scroll_TYPE::HORIZONTAL)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			{
+				drag_delta.x = 0;
+				int new_pos = scroll_image.GetScreenPos().x - (scroll_background.GetScreenRect().w * 0.01f);
+				MoveScroll(new_pos, scroll_image.GetScreenPos().y);
+				input_target->HandleInput(this, TypeInput::SCROLL_MOVE);
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			{
+				drag_delta.x = 0;
+				int new_pos = scroll_image.GetScreenPos().x + (scroll_background.GetScreenRect().w * 0.01f);
+				MoveScroll(new_pos, scroll_image.GetScreenPos().y);
+				input_target->HandleInput(this, TypeInput::SCROLL_MOVE);
+			}
+		}
+		else
+		{
+			if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+			{
+				drag_delta.y = 0;
+				int new_pos = scroll_image.GetScreenPos().y - (scroll_background.GetScreenRect().h * 0.01f);
+				MoveScroll(scroll_image.GetScreenPos().x, new_pos);
+				input_target->HandleInput(this, TypeInput::SCROLL_MOVE);
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+			{
+				drag_delta.y = 0;
+				int new_pos = scroll_image.GetScreenPos().y + (scroll_background.GetScreenRect().h * 0.01f);
+				MoveScroll(scroll_image.GetScreenPos().x, new_pos);
+				input_target->HandleInput(this, TypeInput::SCROLL_MOVE);
+			}
+		}
+	}
+
+	if (scroll_on_drag)
 	{
 		int x, y;
 		App->input->GetMousePosition(x, y);
@@ -74,12 +121,18 @@ void GUI_Scroll::HandleInput()
 	}
 }
 
+void GUI_Scroll::SetElemActive(bool active)
+{
+	active_elem = active;
+	if (active == false)
+	{
+		scroll_selected = false;
+		scroll_on_drag = false;
+	}
+}
+
 void GUI_Scroll::MoveScroll(int x_position, int y_position)
 {
-	if (scroll_image.MouseIn() || scroll_selected == true)
-	{
-		scroll_selected = true;
-	}
 	if (scroll_selected)
 	{
 		if (scroll_type == VERTICAL)
@@ -131,7 +184,6 @@ void GUI_Scroll::MoveScroll(int x_position, int y_position)
 			current_value = ((scroll_image.GetScreenRect().x - scroll_background.GetScreenRect().x) * max_value) / (float)(scroll_background.GetScreenRect().w - scroll_image.GetScreenRect().w);
 		}
 	}
-
 }
 
 void GUI_Scroll::SetTypeScroll(Scroll_TYPE type)
@@ -165,11 +217,6 @@ void GUI_Scroll::SetScrollBackground(SDL_Rect rect_background, int texture_scrol
 	scroll_background.SetIdTexture(texture_scroll_background);
 	scroll_background.SetRectTexture(rect_background);
 	scroll_background.FitBox();
-}
-
-void GUI_Scroll::SetScrollSelected(bool selected)
-{
-	scroll_selected = selected;
 }
 
 GUI_Image GUI_Scroll::GetScrollBackground() const

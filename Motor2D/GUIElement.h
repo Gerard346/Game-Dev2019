@@ -50,7 +50,7 @@ public:
 	virtual void SetLayer(int lay);
 	int GetLayer()const;
 
-	void SetElemActive(bool active);
+	virtual void SetElemActive(bool active);
 	bool GetElemActive() const;
 	bool GetElemInteractive()const;
 	void SetElemInteractive(bool);
