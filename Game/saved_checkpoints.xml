@@ -3,6 +3,7 @@
 	<input />
 	<window />
 	<textures />
+	<:anonymous />
 	<audio>
 		<audio volume_music="128" />
 	</audio>
@@ -10,7 +11,7 @@
 	<main_menu />
 	<animation />
 	<scene>
-		<scene current_time="0.142000005" />
+		<scene current_time="0.136000007" />
 	</scene>
 	<map />
 	<pathfinding />

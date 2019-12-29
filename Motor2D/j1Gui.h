@@ -47,17 +47,21 @@ public:
 
 	SDL_Texture* GetAtlas() const;
 	int GetTopLayer();
-	int CalculateLayer(const GUIElement* elem);
+	int CalculateLayer();
 
 	SDL_Texture* GetTexture(int id)const;
 	int AddTexture(SDL_Texture* new_tex);
 
 	void SetDebug();
+
+	void SetConsoleGUI(GUIElement* elem);
 private:
-	GUIElement* gui_scene;
+	GUIElement* gui_scene = nullptr;
+	GUIElement* gui_console = nullptr;
+
 	bool debug = false;
 
-	SDL_Texture* atlas;
+	SDL_Texture* atlas = nullptr;
 	p2SString atlas_file_name;
 
 	int top_layer = 0;

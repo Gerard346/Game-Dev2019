@@ -490,7 +490,6 @@ bool MainMenu::Start()
 	menu_credits->AddChild(scroll_credits);
 
 	//SetScene
-	//App->gui->SetSceneGUI(menu_scene);
 
 
 	return true;

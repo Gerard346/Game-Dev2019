@@ -90,7 +90,7 @@
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="j1Colliders.cpp" />
     <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="j1Consule.cpp" />
+    <ClCompile Include="j1Console.cpp" />
     <ClCompile Include="j1FadeToBlack.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />

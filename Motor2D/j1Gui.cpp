@@ -42,7 +42,7 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate()
 {
-	CalculateLayer(gui_scene);
+	CalculateLayer();
 	
 	return true;
 }
@@ -50,6 +50,7 @@ bool j1Gui::PreUpdate()
 bool j1Gui::Update(float dt)
 {
 	gui_scene->Update(dt);
+	gui_console->Update(dt);
 
 	return true;
 }
@@ -57,6 +58,7 @@ bool j1Gui::Update(float dt)
 bool j1Gui::PostUpdate()
 {
 	gui_scene->Draw(debug);
+	gui_console->Draw(debug);
 
 	return true;
 }
@@ -112,10 +114,13 @@ int j1Gui::GetTopLayer()
 	return top_layer;
 }
 
-int j1Gui::CalculateLayer(const GUIElement* elem)
+int j1Gui::CalculateLayer()
 {
-	top_layer = elem->GetLayer();
-	return CalculateTopLayer(elem, top_layer);
+	top_layer = 0;
+	CalculateTopLayer(gui_scene, top_layer);
+	CalculateTopLayer(gui_console, top_layer);
+
+	return top_layer;
 }
 
 SDL_Texture* j1Gui::GetTexture(int id) const
@@ -144,6 +149,11 @@ int j1Gui::AddTexture(SDL_Texture* new_tex)
 void j1Gui::SetDebug()
 {
 	debug = !debug;
+}
+
+void j1Gui::SetConsoleGUI(GUIElement* elem)
+{
+	gui_console = elem;
 }
 
 int j1Gui::CalculateTopLayer(const GUIElement* element, int& layer)

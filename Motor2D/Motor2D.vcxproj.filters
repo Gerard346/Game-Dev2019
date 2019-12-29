@@ -107,7 +107,7 @@
     <ClCompile Include="GUI_Scroll.cpp">
       <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
     </ClCompile>
-    <ClCompile Include="j1Consule.cpp">
+    <ClCompile Include="j1Console.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
   </ItemGroup>
