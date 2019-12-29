@@ -9,6 +9,7 @@
 #include "EnemyDrone.h"
 #include "Bullet.h"
 #include "Rocket.h"
+#include "Ammo.h"
 #include "j1Module.h"
 #include "j1Player.h"
 #include "j1Animation.h"
@@ -81,7 +82,13 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 				entity = new Bullet();
 
 			}
+			break;
 
+			case AMMO_TYPE:
+			{
+				entity = new Ammo();
+
+			}
 			break;
 
 			case ROCKET_TYPE:
@@ -275,7 +282,11 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_START) {
 		App->WantToSaveCheckpoints();
 	}
-
+	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_AMMO) {
+		Ammo* ammo_entity = (Ammo*)FindEntity(coll2);
+		App->entity->KillEntity(ammo_entity);
+		App->player->SetAmmo(10);
+	}
 	if (coll->type == COLLIDER_PLAYER && coll2->type == COLLIDER_DEAD) {
 
 		if (App->fade->isFading())return;
@@ -367,7 +378,6 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			App->entity->KillEntity(enemy_entity);
 		}
 	}
-
 	//Rocket && Bullet
 	if (coll->type == COLLIDER_BULLET)
 	{
@@ -638,6 +648,16 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 	}
 
 	break;
+
+	case AMMO_TYPE:
+	{
+		Ammo* ammo = new Ammo((const Ammo*)new_entity);
+		ammo->collider_type = COLLIDER_AMMO;
+		new_entity = ammo;
+	}
+
+	break;
+
 	}
 
 	new_entities.add(new_entity);
@@ -727,7 +747,7 @@ entityType EntityManager::StrToEntityType(const char* str) const
 	if (strcmp(str, "bullet") == 0) return entityType::BULLET_TYPE;
 	if (strcmp(str, "rocket") == 0) return entityType::ROCKET_TYPE;
 	if (strcmp(str, "drone") == 0) return entityType::DRONE_TYPE;
-
+	if (strcmp(str, "ammo") == 0) return entityType::AMMO_TYPE;
 
 	return entityType();
 }
@@ -757,6 +777,9 @@ char* EntityManager::EntityTypeToStr(entityType type) const
 	case DRONE_TYPE:
 		return("drone");
 		break;
+	case AMMO_TYPE:
+		return("ammo");
+		break;
 	default:
 		return nullptr;
 		break;
@@ -785,6 +808,8 @@ entityState EntityManager::StringToEntityState(const char* str) const
 entityType EntityManager::TileIdToEntityType(int i) const
 {
 	switch (i) {
+	case 13:
+		return entityType::AMMO_TYPE;
 	case 12:
 		return entityType::PLAYER_TYPE;
 	case 7:

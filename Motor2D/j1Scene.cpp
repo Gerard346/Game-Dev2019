@@ -52,7 +52,7 @@ bool j1Scene::Start()
 
 	App->win->SetTitle(title.GetString());
 
-	int id_tex_pause_atlas = App->gui->AddTexture(App->tex->Load("gui/menu_pause.png"));
+	int id_tex_pause_atlas = App->gui->AddTexture(App->tex->Load("Game/gui/menu_pause.png"));
 
 	//Creating Scene GUI
 	scene_gui = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
@@ -81,7 +81,7 @@ bool j1Scene::Start()
 
 	//Timer String
 	time_playing = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	time_playing->SetFont(App->font->Load("fonts/open_sans/OpenSans-Semibold.ttf", 20));
+	time_playing->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Semibold.ttf", 20));
 	time_playing->SetColor(App->gui->WHITE);
 	time_playing->SetText("");
 	time_playing->SetLocalPos({ 90, 20 });
@@ -114,6 +114,18 @@ bool j1Scene::Start()
 	heart_3->SetElemInteractive(false);
 
 	gui_game->AddChild(heart_3);
+
+	//Ammo
+
+	ammo_string = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	ammo_string->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Semibold.ttf", 20));
+	ammo_string->SetColor(App->gui->WHITE);
+	ammo_string->SetText("");
+	ammo_string->SetLocalPos({ 90, 20 });
+	ammo_string->FitBox();
+	ammo_string->SetElemInteractive(false);
+
+	gui_game->AddChild(ammo_string);
 
 	//Menu Pause 
 
@@ -211,7 +223,7 @@ bool j1Scene::Start()
 	window_pause->AddChild(go_back_to_main_menu);
 
 	//WIN 
-	int id_tex_win = App->gui->AddTexture(App->tex->Load("gui/you_win.png"));
+	int id_tex_win = App->gui->AddTexture(App->tex->Load("Game/gui/you_win.png"));
 
 	window_win = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
 	window_win->SetIdTexture(id_tex_win);
@@ -221,7 +233,7 @@ bool j1Scene::Start()
 	window_win->SetElemActive(false);
 	scene_gui->AddChild(window_win);
 
-	int id_tex_lose = App->gui->AddTexture(App->tex->Load("gui/you_lost.png"));
+	int id_tex_lose = App->gui->AddTexture(App->tex->Load("Game/gui/you_lost.png"));
 
 	window_lose = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
 	window_lose->SetIdTexture(id_tex_lose);
@@ -250,7 +262,7 @@ bool j1Scene::PreUpdate()
 	LOG("%f",actual_timer.ReadSec());
 	//Set Ammo
 	_itoa_s(App->player->GetAmmo(), actual_ammo, 3, 10);
-	//ammo_string->SetText(actual_ammo);
+	ammo_string->SetText(actual_ammo);
 
 	//Set lifes
 	SetHeartsGUI();
@@ -359,10 +371,12 @@ bool j1Scene::GetPause()
 
 void j1Scene::Activate()
 {
+	is_paused = false;
+
 	App->fade->FadeToBlack(App->main_menu, App->map, 2.0f);
 	scene_gui->SetElemActive(true);
-	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
-
+	button_fx = App->audio->LoadFx("Game/audio/fx/Click_Fx.wav");
+	App->player->SetActualAmmo(10);
 	actual_timer.Start();
 
 	active = true;
@@ -370,6 +384,7 @@ void j1Scene::Activate()
 
 void j1Scene::Desactivate()
 {
+	is_paused = false;
 	App->player->Desactivate();
 	App->map->Desactivate();
 	App->entity->Desactivate();
@@ -454,11 +469,14 @@ bool j1Scene::Save(pugi::xml_node& node)
 
 void j1Scene::SetActiveLoseImg()
 {
+	is_paused = true;
 	window_lose->SetElemActive(true);
 }
 
 void j1Scene::SetActiveWinImg()
 {
+	is_paused = false;
+
 	window_win->SetElemActive(true);
 }
 

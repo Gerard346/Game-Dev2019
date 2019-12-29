@@ -85,14 +85,26 @@
  <entity>
     <type>drone</type>
     <gravity g="0.0"/>
-<draw_dead d="true"/>
-     <max_speed x="40.0" y="40.0"/>
+    <draw_dead d="true"/>
+    <max_speed x="40.0" y="40.0"/>
     <acceleration a="5.0"/>
     <collider_type>enemy</collider_type>
     <collider_size x="20" y="20"/>
   </entity>
-  <fx_jump>audio/fx/jump.wav</fx_jump>
-  <fx_shoot>audio/fx/shoot.wav</fx_shoot>
+
+ <entity>
+    <type>ammo</type>
+    <gravity g="0.0"/>
+    <draw_dead d="true"/>
+    <max_speed x="0.0" y="0.0"/>
+    <acceleration a="0.0"/>
+    <collider_type>ammo</collider_type>
+    <collider_size x="32" y="16"/>
+  </entity>
+
+<fx_jump>audio/fx/jump.wav</fx_jump>
+<fx_shoot>audio/fx/shoot.wav</fx_shoot>
+<fx_ammo>audio/fx/collect_fx.wav</fx_ammo>
 
 </entityManager>
 

@@ -64,7 +64,7 @@ private:
 	char actual_time[10];
 
 	char actual_ammo[3];
-	GUI_String* ammo_string;
+	GUI_String* ammo_string = nullptr;
 
 	int button_fx = 0;
 	

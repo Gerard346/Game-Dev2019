@@ -93,7 +93,8 @@ bool j1Player::CleanUp()
 bool j1Player::Load(const pugi::xml_node& node)
 {
 	Levels loaded_lvl = (Levels)node.child("player").attribute("current_level").as_int();
-	
+	ammo = (int)node.child("player").attribute("current_ammo").as_int();
+
 	if (loaded_lvl == Lvl_1)
 	{
 		StartFromLvl1();
@@ -112,7 +113,7 @@ bool j1Player::Save(pugi::xml_node& node)
 {
 	pugi::xml_node player = node.append_child("player");
 	player.append_attribute("current_level").set_value(p_current_lvl);
-
+	player.append_attribute("current_ammo").set_value(ammo);
 	return true;
 }
 
@@ -236,6 +237,11 @@ int j1Player::GetAmmo() const
 void j1Player::SetAmmo(int new_ammo)
 {
 	ammo += new_ammo;
+}
+
+void j1Player::SetActualAmmo(int new_ammo)
+{
+	ammo = new_ammo;
 }
 
 void j1Player::SetEndGame(bool ret)

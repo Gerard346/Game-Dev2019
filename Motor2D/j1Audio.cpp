@@ -67,8 +67,8 @@ bool j1Audio::Awake(const pugi::xml_node& node)
 
 bool j1Audio::Start()
 {
-	main_menu_music = Mix_LoadMUS("audio/music/music2.ogg");
-	game_music = Mix_LoadMUS("audio/music/music.ogg");
+	main_menu_music = Mix_LoadMUS("Game/audio/music/music2.ogg");
+	game_music = Mix_LoadMUS("Game/audio/music/music.ogg");
 
 	return true;
 }

@@ -110,6 +110,9 @@
     <ClCompile Include="j1Console.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Ammo.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -243,6 +246,9 @@
     </ClInclude>
     <ClInclude Include="j1Console.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Ammo.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\EntityType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

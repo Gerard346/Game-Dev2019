@@ -72,6 +72,7 @@ private:
 	GUIElement* menu_settings = nullptr;
 	GUI_String* str_volume_music = nullptr;
 	GUI_String* str_volume_fx = nullptr;
+
 	GUI_Scroll* slider_vol_music = nullptr;
 	GUI_Scroll* slider_vol_fx = nullptr;
 	GUI_Button* back_to_menu = nullptr;

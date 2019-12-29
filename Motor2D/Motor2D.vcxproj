@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ammo.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyDrone.cpp" />
     <ClCompile Include="EnemyGroundEntity.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Rocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ammo.h" />
     <ClInclude Include="Brofiler\Brofiler.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="EnemyDrone.h" />

@@ -11,7 +11,7 @@
 	<main_menu />
 	<animation />
 	<scene>
-		<scene current_time="19.4489994" />
+		<scene current_time="4.74499989" />
 	</scene>
 	<map />
 	<pathfinding />
@@ -21,7 +21,12 @@
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="1727.40161" Y="162.462402" />
+			<Entity_Alive Type="player" X="77.1999969" Y="82.6136017" />
+			<Entity_Alive Type="drone" X="460.039978" Y="80" />
+			<Entity_Alive Type="ammo" X="2512" Y="176" />
+			<Entity_Alive Type="enemy" X="3136" Y="162" />
+			<Entity_Alive Type="ammo" X="768" Y="224" />
+			<Entity_Alive Type="enemy" X="880" Y="210" />
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>

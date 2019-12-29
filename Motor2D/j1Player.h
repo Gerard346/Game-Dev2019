@@ -72,7 +72,7 @@ public:
 
 	int GetAmmo() const;
 	void SetAmmo(int new_ammo);
-
+	void SetActualAmmo(int new_ammo);
 	void SetEndGame(bool ret);
 
 public:

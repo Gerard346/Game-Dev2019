@@ -177,6 +177,7 @@ PUGI__NS_BEGIN
 	// Get string length
 	PUGI__FN size_t strlength(const char_t* s)
 	{
+	//if (s == NULL)return 0;
 		assert(s);
 
 	#ifdef PUGIXML_WCHAR_MODE

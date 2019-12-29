@@ -274,5 +274,26 @@
 </dead_right>
 </entity_animation>
 
+<entity_animation>
+<info type="ammo" image_path="textures/ammo.png"/>
+
+<stand_right>
+    <sprite n="fire1_01.png" x="0" y="0" w="32" h="16"/>
+</stand_right>
+
+<stand_left>
+    <sprite n="fire1_01.png" x="0" y="0" w="32" h="16"/>
+</stand_left>
+
+<dead_left loop="false">
+    <sprite n="fire1_01.png" x="0" y="0" w="32" h="16"/>
+</dead_left>
+
+<dead_right loop="false">
+    <sprite n="fire1_01.png" x="0" y="0" w="0" h="0"/>
+</dead_right>
+
+</entity_animation>
+
 </animations>
 

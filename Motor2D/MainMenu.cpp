@@ -35,8 +35,8 @@ bool MainMenu::Start()
 {
 
 	//Loading Textures
-	int id_tex_bck = App->gui->AddTexture(App->tex->Load("gui/main_menu.png"));
-	int id_tex_atlas = App->gui->AddTexture(App->tex->Load("gui/menu_icons.png"));
+	int id_tex_bck = App->gui->AddTexture(App->tex->Load("Game/gui/main_menu.png"));
+	int id_tex_atlas = App->gui->AddTexture(App->tex->Load("Game/gui/menu_icons.png"));
 
 	//Creating Main Menu
 	menu_scene = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
@@ -179,8 +179,10 @@ bool MainMenu::Start()
 	slider_vol_music->SetMaxValue(128.0f);
 	slider_vol_music->SetElemInteractive(true);
 	slider_vol_music->SetInputTarget(this);
-
 	menu_settings->AddChild(slider_vol_music);
+
+	///
+
 
 	///Slider Volume FX
 	////Text Vol FX
@@ -261,7 +263,7 @@ bool MainMenu::Start()
 	///Text License
 
 	license_name = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	license_name->SetFont(App->font->Load("fonts/open_sans/OpenSans-Semibold.ttf", 15));
+	license_name->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Semibold.ttf", 15));
 	license_name->SetColor(App->gui->WHITE);
 	license_name->SetText("MIT License");
 	license_name->SetLocalPos({ 180, 0 });
@@ -274,7 +276,7 @@ bool MainMenu::Start()
 	//Copyright
 
 	copyright = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	copyright->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	copyright->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	copyright->SetColor(App->gui->WHITE);
 	copyright->SetText("https://bakudas.itch.io/generic-run-n-gun -> Sprites map & player");
 	copyright->SetLocalPos({ 0, 20 });
@@ -285,7 +287,7 @@ bool MainMenu::Start()
 	text_store->AddChild(copyright);
 
 	copyright2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	copyright2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	copyright2->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	copyright2->SetColor(App->gui->WHITE);
 	copyright2->SetText("Copyright (c) 2019 Gerard346");
 	copyright2->SetLocalPos({ 0, 40 });
@@ -297,7 +299,7 @@ bool MainMenu::Start()
 
 	//Paragraph 1
 	parag1_line1 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag1_line1->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line1->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag1_line1->SetColor(App->gui->WHITE);
 	parag1_line1->SetText("Permission is hereby granted, free of charge, to any person obtaining a copy");
 	parag1_line1->SetLocalPos({ 0, 80 });
@@ -308,7 +310,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag1_line1);
 
 	parag1_line2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag1_line2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line2->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag1_line2->SetColor(App->gui->WHITE);
 	parag1_line2->SetText("of this software and associated documentation files (the Software), to deal");
 	parag1_line2->SetLocalPos({ 0, 100 });
@@ -319,7 +321,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag1_line2);
 
 	parag1_line3 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag1_line3->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line3->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag1_line3->SetColor(App->gui->WHITE);
 	parag1_line3->SetText("in the Software without restriction, including without limitation the rights");
 	parag1_line3->SetLocalPos({ 0, 120 });
@@ -331,7 +333,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag1_line3);
 
 	parag1_line4 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag1_line4->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line4->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag1_line4->SetColor(App->gui->WHITE);
 	parag1_line4->SetText("to use, copy, modify, merge, publish, distribute, sublicense, and/or sell");
 	parag1_line4->SetLocalPos({ 0, 140 });
@@ -342,7 +344,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag1_line4);
 
 	parag1_line5 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag1_line5->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line5->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag1_line5->SetColor(App->gui->WHITE);
 	parag1_line5->SetText("copies of the Software, and to permit persons to whom the Software is");
 	parag1_line5->SetLocalPos({ 0, 160 });
@@ -353,7 +355,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag1_line5);
 
 	parag1_line6 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag1_line6->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line6->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag1_line6->SetColor(App->gui->WHITE);
 	parag1_line6->SetText("furnished to do so, subject to the following conditions:");
 	parag1_line6->SetLocalPos({ 0, 180 });
@@ -366,7 +368,7 @@ bool MainMenu::Start()
 
 	//Paragraph 2
 	parag2_line1 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag2_line1->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag2_line1->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag2_line1->SetColor(App->gui->WHITE);
 	parag2_line1->SetText("The above copyright notice and this permission notice shall be included in all");
 	parag2_line1->SetLocalPos({ 0, 220 });
@@ -377,7 +379,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag2_line1);
 
 	parag2_line2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag2_line2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag2_line2->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag2_line2->SetColor(App->gui->WHITE);
 	parag2_line2->SetText("copies or substantial portions of the Software.");
 	parag2_line2->SetLocalPos({ 0, 240 });
@@ -389,7 +391,7 @@ bool MainMenu::Start()
 
 	//Paragraph 3
 	parag3_line1 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line1->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line1->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line1->SetColor(App->gui->WHITE);
 	parag3_line1->SetText("THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
 	parag3_line1->SetLocalPos({ 0, 280 });
@@ -401,7 +403,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag3_line1);
 
 	parag3_line2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line2->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line2->SetColor(App->gui->WHITE);
 	parag3_line2->SetText("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, ");
 	parag3_line2->SetLocalPos({ 0, 300 });
@@ -412,7 +414,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag3_line2);
 
 	parag3_line3 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line3->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line3->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line3->SetColor(App->gui->WHITE);
 	parag3_line3->SetText("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE");
 	parag3_line3->SetLocalPos({ 0, 320 });
@@ -423,7 +425,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag3_line3);
 
 	parag3_line4 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line4->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line4->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line4->SetColor(App->gui->WHITE);
 	parag3_line4->SetText("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
 	parag3_line4->SetLocalPos({ 0, 340 });
@@ -434,7 +436,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag3_line4);
 
 	parag3_line5 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line5->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line5->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line5->SetColor(App->gui->WHITE);
 	parag3_line5->SetText("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
 	parag3_line5->SetLocalPos({ 0, 360 });
@@ -445,7 +447,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag3_line5);
 
 	parag3_line6 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line6->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line6->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line6->SetColor(App->gui->WHITE);
 	parag3_line6->SetText("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
 	parag3_line6->SetLocalPos({ 0, 380 });
@@ -456,7 +458,7 @@ bool MainMenu::Start()
 	text_store->AddChild(parag3_line6);
 
 	parag3_line7 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	parag3_line7->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line7->SetFont(App->font->Load("Game/fonts/open_sans/OpenSans-Light.ttf", 12));
 	parag3_line7->SetColor(App->gui->WHITE);
 	parag3_line7->SetText("SOFTWARE.");
 	parag3_line7->SetLocalPos({ 0, 400 });
@@ -505,9 +507,7 @@ bool MainMenu::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 		App->gui->SetDebug();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-		App->ActivateGame();
-	}
+
 	return true;
 }
 
@@ -523,7 +523,7 @@ bool MainMenu::CleanUp()
 
 void MainMenu::Activate()
 {
-	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
+	button_fx = App->audio->LoadFx("Game/audio/fx/Click_Fx.wav");
 	active = true;
 	App->audio->PlayMusic(MusicType::MAIN_MENU_MUSIC);
 	App->gui->SetSceneGUI(menu_scene);
@@ -628,12 +628,12 @@ void MainMenu::HandleInput(GUIElement* input, TypeInput type_input)
 				if (type_input == MOUSE_RIGHT_DOWN) {
 					App->audio->PlayFx(button_fx);
 
-					ShellExecuteA(NULL, "open", "http://google.es", NULL, NULL, SW_SHOWNORMAL);
+					ShellExecuteA(NULL, "open", "https://gerard346.github.io/Game-Dev2019/", NULL, NULL, SW_SHOWNORMAL);
 				}
 				if (type_input == MOUSE_LEFT_DOWN) {
 					App->audio->PlayFx(button_fx);
 
-					ShellExecuteA(NULL, "open", "http://google.es", NULL, NULL, SW_SHOWNORMAL);
+					ShellExecuteA(NULL, "open", "https://gerard346.github.io/Game-Dev2019/", NULL, NULL, SW_SHOWNORMAL);
 				}
 			}
 		}

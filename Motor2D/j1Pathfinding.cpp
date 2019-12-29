@@ -38,29 +38,6 @@ bool j1Pathfinding::Start()
 
 bool j1Pathfinding::PreUpdate()
 {
-	if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
-	{
-		if (prev_click_point.x == 0 && prev_click_point.y == 0)
-		{
-			App->input->GetMousePosition(prev_click_point.x, prev_click_point.y);
-			prev_click_point.x -= App->render->camera.x / App->win->GetScale();
-			prev_click_point.y -= App->render->camera.y / App->win->GetScale();
-		}
-		else
-		{
-			iPoint p;
-			App->input->GetMousePosition(p.x, p.y);
-			p.x -= App->render->camera.x / App->win->GetScale();
-			p.y -= App->render->camera.y / App->win->GetScale();
-
-			PropagateASTAR(prev_click_point, p);
-
-			prev_click_point.x = prev_click_point.y = 0;
-		}
-	}
-
-
-
 	return true;
 }
 

@@ -21,7 +21,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_WALL][COLLIDER_BULLET] = true;
 	matrix[COLLIDER_WALL][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_WALL][COLLIDER_START] = false;
-
+	matrix[COLLIDER_WALL][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
@@ -31,6 +31,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_PLAYER][COLLIDER_BULLET] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_STICKINESS] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_START] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_DEAD][COLLIDER_WALL] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_PLAYER] = true;
@@ -40,6 +41,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_DEAD][COLLIDER_BULLET] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_START] = false;
+	matrix[COLLIDER_DEAD][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_FINISH][COLLIDER_WALL] = false;
 	matrix[COLLIDER_FINISH][COLLIDER_PLAYER] = true;
@@ -49,6 +51,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_FINISH][COLLIDER_BULLET] = false;
 	matrix[COLLIDER_FINISH][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_FINISH][COLLIDER_START] = false;
+	matrix[COLLIDER_FINISH][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_ENEMY][COLLIDER_WALL] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
@@ -58,6 +61,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_ENEMY][COLLIDER_BULLET] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_START] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_BULLET][COLLIDER_WALL] = true;
 	matrix[COLLIDER_BULLET][COLLIDER_PLAYER] = true;
@@ -67,6 +71,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_BULLET][COLLIDER_BULLET] = true;
 	matrix[COLLIDER_BULLET][COLLIDER_STICKINESS] = true;
 	matrix[COLLIDER_BULLET][COLLIDER_START] = false;
+	matrix[COLLIDER_BULLET][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_STICKINESS][COLLIDER_WALL] = false;
 	matrix[COLLIDER_STICKINESS][COLLIDER_PLAYER] = true;
@@ -76,6 +81,7 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_STICKINESS][COLLIDER_BULLET] = true;
 	matrix[COLLIDER_STICKINESS][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_STICKINESS][COLLIDER_START] = false;
+	matrix[COLLIDER_STICKINESS][COLLIDER_AMMO] = false;
 
 	matrix[COLLIDER_START][COLLIDER_WALL] = false;
 	matrix[COLLIDER_START][COLLIDER_PLAYER] = true;
@@ -85,7 +91,17 @@ j1Colliders::j1Colliders()
 	matrix[COLLIDER_START][COLLIDER_BULLET] = false;
 	matrix[COLLIDER_START][COLLIDER_STICKINESS] = false;
 	matrix[COLLIDER_START][COLLIDER_START] = false;
+	matrix[COLLIDER_START][COLLIDER_AMMO] = false;
 
+	matrix[COLLIDER_AMMO][COLLIDER_WALL] = false;
+	matrix[COLLIDER_PLAYER][COLLIDER_AMMO] = true;
+	matrix[COLLIDER_AMMO][COLLIDER_FINISH] = false;
+	matrix[COLLIDER_AMMO][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_AMMO][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_AMMO][COLLIDER_BULLET] = false;
+	matrix[COLLIDER_AMMO][COLLIDER_STICKINESS] = false;
+	matrix[COLLIDER_AMMO][COLLIDER_START] = false;
+	matrix[COLLIDER_AMMO][COLLIDER_AMMO] = false;
 
 }
 
@@ -266,6 +282,7 @@ COLLIDER_TYPE j1Colliders::TileIDToColliderTile(int tile_id) const
 
 		return COLLIDER_PATROL;
 
+
 	}
 	
 
@@ -319,6 +336,9 @@ void j1Colliders::DebugMode()
 			break;
 
 		case COLLIDER_FINISH: // magenta
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
+			break;
+		case COLLIDER_AMMO: // magenta
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
 			break;
 		}
