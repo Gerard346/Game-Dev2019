@@ -11,6 +11,7 @@ GUI_Window::GUI_Window() : GUIElement(WINDOW)
 
 void GUI_Window::HandleInput()
 {
+	if (interactive == false) return;
 	if (window_state == WINDOW_IDLE)
 	{
 		if (layer != App->gui->GetTopLayer())return;

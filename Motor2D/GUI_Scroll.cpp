@@ -23,8 +23,8 @@ bool GUI_Scroll::Draw(bool debug)
 {
 	if (true)
 	{
-		scroll_background.DebugDraw(App->gui->UI_YELLOW);
-		scroll_image.DebugDraw(App->gui->UI_BROWN);
+		scroll_background.DebugDraw(App->gui->BLUE);
+		scroll_image.DebugDraw(App->gui->BLUE_LIGHT);
 	}
 	else
 	{
@@ -146,8 +146,8 @@ void GUI_Scroll::SetMaxValue(float value)
 
 void GUI_Scroll::SetScrollImage(SDL_Rect rect_image, int texture_scroll_image)
 {
-	scroll_image.SetRectTexture(rect_image);
 	scroll_image.SetIdTexture(texture_scroll_image);
+	scroll_image.SetRectTexture(rect_image);
 	scroll_image.FitBox();
 
 	if (scroll_type == HORIZONTAL)
@@ -162,8 +162,8 @@ void GUI_Scroll::SetScrollImage(SDL_Rect rect_image, int texture_scroll_image)
 
 void GUI_Scroll::SetScrollBackground(SDL_Rect rect_background, int texture_scroll_background)
 {
-	scroll_background.SetRectTexture(rect_background);
 	scroll_background.SetIdTexture(texture_scroll_background);
+	scroll_background.SetRectTexture(rect_background);
 	scroll_background.FitBox();
 }
 

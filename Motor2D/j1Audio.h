@@ -38,6 +38,9 @@ public:
 	unsigned int LoadFx(const char* path);
 	void SetVolume(int volume);
 	int GetVolume() const;
+
+	void SetVolumeFX(int volume);
+	int GetVolumeFX() const;
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 

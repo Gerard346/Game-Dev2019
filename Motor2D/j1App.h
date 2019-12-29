@@ -25,7 +25,6 @@ class MainMenu;
 class j1Pathfinding;
 class j1Gui;
 class j1Fonts;
-class j1Console;
 
 class j1App
 {
@@ -51,9 +50,13 @@ public:
 
 	// Add a new module to handle
 	void AddModule(j1Module* module);
+
 	void WantToSave();
 	void WantToSaveCheckpoints();
 	void WantToLoad();
+
+	void WantToQuit();
+
 	bool IsLoading();
 	void WantToLoadCheckpoints();
 	float Getdt() const;
@@ -109,7 +112,6 @@ public:
 	j1Pathfinding*		path = nullptr;
 	j1Gui*				gui = nullptr;
 	j1Fonts*			font = nullptr;
-	j1Console*			console = nullptr;
 private:
 
 	bool want_to_save = false;
@@ -117,6 +119,8 @@ private:
 
 	bool want_to_load = false;
 	bool want_to_load_checkpoints = false;
+
+	bool want_to_quit = false;
 
 	bool is_fps_capped = true;
 	

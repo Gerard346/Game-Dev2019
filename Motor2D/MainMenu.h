@@ -49,10 +49,15 @@ public:
 	void Desactivate()override;
 
 private:
+	int button_fx = 0;
+
 	GUIElement* menu_scene = nullptr;
-	GUI_Image* bck_menu = nullptr;
+
 	//Main Menu
+	GUIElement* menu_buttons = nullptr;
+	GUI_Image* bck_menu = nullptr;
 	GUI_Window* window_menu = nullptr;
+	GUI_Image* window_img = nullptr;
 	GUI_Button* bt_play = nullptr;
 	GUI_Button* bt_continue = nullptr;
 	GUI_Button* bt_settings = nullptr;
@@ -60,10 +65,19 @@ private:
 	GUI_Button* bt_exit = nullptr;
 	GUI_Button* bt_web = nullptr;
 	GUI_Button* bt_back = nullptr;
-	GUI_String* str_hi = nullptr;
+	GUI_String* website_str = nullptr;
+	//Settings
+	GUIElement* menu_settings = nullptr;
+	GUI_String* str_volume_music = nullptr;
+	GUI_String* str_volume_fx = nullptr;
+	GUI_Scroll* slider_vol_music = nullptr;
+	GUI_Scroll* slider_vol_fx = nullptr;
+	GUI_Button* back_to_menu = nullptr;
 
-	GUI_Scroll* slider_vl = nullptr;
-	GUI_Scroll* slider_vert = nullptr;
+	//Credit Menu
+	GUIElement* menu_credits = nullptr;
+	GUI_String* license = nullptr;
+	GUI_Button* back_to_menu_credits = nullptr;
 
 	//Settings
 	//Sliders FX & music

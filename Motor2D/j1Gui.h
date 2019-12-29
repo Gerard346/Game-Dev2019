@@ -71,10 +71,14 @@ public:
 	SDL_Color YELLOW = { 255,255,0,75 };
 	SDL_Color RED = { 255,0,0,75 };
 	SDL_Color MAGENTA = { 204,0,204,75 };
-	SDL_Color White = { 255,255,255,100 };
-	SDL_Color Black = { 0,0,0,100 };
+	SDL_Color WHITE = { 255,255,255,100 };
+	SDL_Color BLACK = { 0,0,0,100 };
 	SDL_Color UI_YELLOW = { 255,255,0,100 };
 	SDL_Color UI_BROWN = { 255, 255, 255, 255 };
+	SDL_Color BLUE = { 0, 51, 102, 255 };
+	SDL_Color BLUE_LIGHT = { 0, 102, 153, 255 };
+
+
 };
 
 #endif

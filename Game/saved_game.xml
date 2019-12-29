@@ -6,6 +6,8 @@
 	<audio>
 		<audio volume_music="128" />
 	</audio>
+	<fonts />
+	<main_menu />
 	<animation />
 	<scene />
 	<map />
@@ -16,10 +18,11 @@
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="1369.599" Y="61" />
+			<Entity_Alive Type="player" X="229.800079" Y="226" />
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>
+	<gui />
 	<fadetoblack />
 	<renderer />
 </save>

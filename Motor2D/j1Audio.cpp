@@ -210,6 +210,20 @@ int j1Audio::GetVolume() const
 	return volume_music;
 }
 
+void j1Audio::SetVolumeFX(int volume)
+{
+	if (volume_fx > 128 || volume_fx < 0) {
+		return;
+	}
+	volume_fx = volume;
+	Mix_Volume(1, volume_fx);
+}
+
+int j1Audio::GetVolumeFX() const
+{
+	return volume_fx;
+}
+
 // Play WAV
 bool j1Audio::PlayFx(unsigned int id, int repeat)
 {

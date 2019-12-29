@@ -17,7 +17,6 @@
 #include "MainMenu.h"
 #include "j1Gui.h"
 #include "j1Fonts.h"
-#include "j1Console.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -40,7 +39,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new j1FadeToBlack();
 	animation = new j1Animation();
 	gui = new j1Gui();
-	console = new j1Console();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -56,7 +54,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(colliders);
 	AddModule(player);
 	AddModule(entity);
-	AddModule(console);
 	AddModule(gui);
 
 	AddModule(fade);
@@ -95,9 +92,15 @@ void j1App::WantToSave()
 void j1App::WantToSaveCheckpoints() {
 	want_to_save_checkpoints = true;
 }
+
 void j1App::WantToLoad()
 {
 	want_to_load = true;
+}
+
+void j1App::WantToQuit()
+{
+	want_to_quit = true;
 }
 
 bool j1App::IsLoading()
@@ -195,6 +198,9 @@ bool j1App::Update()
 	if(ret == true)
 		ret = PostUpdate();
 
+	if (want_to_quit == true) {
+		ret = false;
+	}
 	FinishUpdate();
 	return ret;
 }
@@ -375,6 +381,7 @@ void j1App::SetCappedFrames()
 void j1App::ActivateGame()
 {
 	App->scene->Activate();
+
 }
 
 void j1App::ActivateMainMenu()
