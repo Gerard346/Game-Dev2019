@@ -47,7 +47,7 @@ public:
 
 	void SetParent(const GUIElement*);
 	GUIElement* GetParent() const;
-	void SetLayer(int lay);
+	virtual void SetLayer(int lay);
 	int GetLayer()const;
 
 	void SetElemActive(bool active);

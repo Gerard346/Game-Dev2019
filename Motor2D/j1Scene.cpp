@@ -70,6 +70,25 @@ bool j1Scene::Start()
 
 	scene_gui->AddChild(gui_game);
 
+	//Timer
+	clock_ui = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	clock_ui->SetIdTexture(id_tex_pause_atlas);
+	clock_ui->SetRectTexture({ 226,179,194, 70 });
+	clock_ui->SetLocalRect({ 0,(App->render->camera.h - 70 * 2) / (int)App->win->GetScale(),222,299 });
+	clock_ui->SetElemInteractive(false);
+
+	scene_gui->AddChild(clock_ui);
+
+	//Timer String
+	time_playing = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	time_playing->SetFont(App->font->Load("fonts/open_sans/OpenSans-Semibold.ttf", 20));
+	time_playing->SetColor(App->gui->WHITE);
+	time_playing->SetText("");
+	time_playing->SetLocalPos({ 0, 280 });
+	time_playing->FitBox();
+	time_playing->SetElemInteractive(false);
+
+	clock_ui->AddChild(time_playing);
 	///Hearts
 
 	heart_1 = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
@@ -192,12 +211,26 @@ bool j1Scene::Start()
 	window_pause->AddChild(go_back_to_main_menu);
 
 	App->gui->SetSceneGUI(scene_gui);
+
+	actual_timer.Start();
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	//Set time
+	_itoa_s((int)actual_timer.ReadSec(), actual_time, 10, 10);
+	time_playing->SetText(actual_time);
+
+	LOG("%f",actual_timer.ReadSec());
+	//Set Ammo
+	_itoa_s(App->player->GetAmmo(), actual_ammo, 3, 10);
+	//ammo_string->SetText(actual_ammo);
+
+	//Set lifes
+	SetHeartsGUI();
 
 	return true;
 }
@@ -365,4 +398,8 @@ void j1Scene::HandleInput(GUIElement* input, TypeInput type_input)
 			}
 		}
 	}
+}
+
+void j1Scene::SetHeartsGUI()
+{
 }

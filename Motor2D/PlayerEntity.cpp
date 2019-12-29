@@ -64,7 +64,9 @@ bool PlayerEntity::CleanUp()
 void PlayerEntity::HandleInput(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN) {
-		Shoot();
+		if (App->player->GetAmmo() > 0) {
+			Shoot();
+		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		entity_current_vel.x = entity_vel.x * -1 ;
@@ -189,6 +191,7 @@ void PlayerEntity::Shoot()
 		break;
 	}
 	App->audio->PlayFx(App->entity->shoot_fx);
+	App->player->SetAmmo(-1);
 }
 
 void PlayerEntity::Die(entitySide side)

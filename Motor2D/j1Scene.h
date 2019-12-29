@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "PugiXml/src/pugixml.hpp"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 
@@ -11,7 +12,6 @@ struct GUI_Button;
 struct GUI_Window;
 struct GUI_String;
 struct GUI_Scroll;
-
 class j1Scene : public j1Module
 {
 public:
@@ -21,7 +21,7 @@ public:
 	// Destructor
 	virtual ~j1Scene();
 
-	// Called before render is available
+	// Called before render is available"
 	bool Awake(const pugi::xml_node& node) override;
 
 	// Called before the first frame
@@ -51,7 +51,16 @@ public:
 	void HandleInput(GUIElement* input, TypeInput type_input);
 
 private:
+	void SetHeartsGUI();
+
+	j1Timer actual_timer;
+	char actual_time[10];
+
+	char actual_ammo[3];
+	GUI_String* ammo_string;
+
 	int button_fx = 0;
+	
 	float last_loaded = 1.0f;
 	float current_time_load = 0;
 
@@ -64,6 +73,8 @@ private:
 	GUI_Button* button2 = nullptr;
 
 	//GUI in-game
+	GUI_Image* clock_ui = nullptr;
+	GUI_String* time_playing = nullptr;
 
 	GUI_Image* gui_game = nullptr;
 	GUI_Image* heart_1 = nullptr;

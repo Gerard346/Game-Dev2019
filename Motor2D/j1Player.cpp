@@ -200,3 +200,23 @@ void j1Player::Desactivate()
 	active = false;
 }
 
+int j1Player::GetLife() const
+{
+	return lifes;
+}
+
+void j1Player::SetLife(int life)
+{
+	lifes = life;
+}
+
+int j1Player::GetAmmo() const
+{
+	return ammo;
+}
+
+void j1Player::SetAmmo(int new_ammo)
+{
+	ammo += new_ammo;
+}
+

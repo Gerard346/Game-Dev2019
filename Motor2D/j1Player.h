@@ -66,10 +66,21 @@ public:
 
 	void Activate() override;
 	void Desactivate() override;
+
+	int GetLife() const;
+	void SetLife(int life);
+
+	int GetAmmo() const;
+	void SetAmmo(int new_ammo);
+
 public:
+
 	Levels p_current_lvl = Lvl_1;
 
 private:
+	int lifes = 3;
+	int ammo = 10;
+
 	bool p_god = false;
 	bool p_floor = false;
 	bool double_jump = false;

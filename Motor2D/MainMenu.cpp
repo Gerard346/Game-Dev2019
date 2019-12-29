@@ -26,11 +26,6 @@ MainMenu::MainMenu() : j1Module()
 MainMenu::~MainMenu()
 {}
 
-
-
-
-
-
 bool MainMenu::Awake(const pugi::xml_node & node)
 {
 	return true;
@@ -136,7 +131,7 @@ bool MainMenu::Start()
 	website_str = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
 	website_str->SetColor(App->gui->WHITE);
 	website_str->SetText("<- Click To Go The Website");
-	website_str->SetLocalPos({ 195, 50 });
+	website_str->SetLocalPos({ 50, 8});
 	website_str->SetElemInteractive(false);
 
 	menu_buttons->AddChild(website_str);
@@ -169,7 +164,7 @@ bool MainMenu::Start()
 	str_volume_music = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
 	str_volume_music->SetColor(App->gui->WHITE);
 	str_volume_music->SetText("Adjust Volume Music");
-	str_volume_music->SetLocalPos({ 200, 110 });
+	str_volume_music->SetLocalPos({ 50, 80 });
 	str_volume_music->SetElemInteractive(false);
 
 	menu_settings->AddChild(str_volume_music);
@@ -193,7 +188,7 @@ bool MainMenu::Start()
 	str_volume_fx = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
 	str_volume_fx->SetColor(App->gui->WHITE);
 	str_volume_fx->SetText("Adjust Volume FX");
-	str_volume_fx->SetLocalPos({ 200, 180});
+	str_volume_fx->SetLocalPos({ 50, 150});
 	str_volume_fx->SetElemInteractive(false);
 
 	menu_settings->AddChild(str_volume_fx);
@@ -226,20 +221,250 @@ bool MainMenu::Start()
 	///parent
 
 	menu_credits = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
-	menu_credits->SetLocalRect({ 0,0,222,299 });
+	menu_credits->SetLocalRect({ -120,60,461,300 });
 	menu_credits->SetElemActive(false);
 	menu_credits->SetElemInteractive(false);
 	window_menu->AddChild(menu_credits);
 
 
+
+	///Window Credits
+
+	text_box = (GUI_Window*)App->gui->GenerateElemGUI(TypeGUI::WINDOW);
+	text_box->SetLocalRect({ 0,0,461,184 });
+	text_box->SetElemInteractive(false);
+
+	menu_credits->AddChild(text_box);
+
+	///Img Credits
+
+	img_credits = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	img_credits->SetIdTexture(id_tex_atlas);
+	img_credits->SetRectTexture({ 8,309,461,184 });
+	img_credits->SetLocalRect({ 0,0,461,184});
+	img_credits->SetElemInteractive(false);
+
+	text_box->AddChild(img_credits);
+
+	//Scroll Credits
+
+
+
+	//Text
+
+	text_store = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
+	text_store->SetLocalRect({ -0,0,461,184 });
+	text_store->SetElemActive(true);
+	text_store->SetElemInteractive(false);
+	menu_credits->AddChild(text_store);
+
 	///Text License
 
-	str_volume_music = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
-	str_volume_music->SetColor(App->gui->WHITE);
-	str_volume_music->SetLocalPos({ 200, 110 });
-	str_volume_music->SetElemInteractive(false);
+	license_name = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	license_name->SetFont(App->font->Load("fonts/open_sans/OpenSans-Semibold.ttf", 15));
+	license_name->SetColor(App->gui->WHITE);
+	license_name->SetText("MIT License");
+	license_name->SetLocalPos({ 180, 0 });
+	license_name->FitBox();
+	license_name->SetElemInteractive(false);
 
-	menu_credits->AddChild(str_volume_music);
+	credits_positions.add(license_name->GetLocalPos());
+	text_store->AddChild(license_name);
+
+	//Copyright
+
+	copyright = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	copyright->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	copyright->SetColor(App->gui->WHITE);
+	copyright->SetText("https://bakudas.itch.io/generic-run-n-gun -> Sprites map & player");
+	copyright->SetLocalPos({ 0, 20 });
+	copyright->FitBox();
+	copyright->SetElemInteractive(false);
+	credits_positions.add(copyright->GetLocalPos());
+
+	text_store->AddChild(copyright);
+
+	copyright2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	copyright2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	copyright2->SetColor(App->gui->WHITE);
+	copyright2->SetText("Copyright (c) 2019 Gerard346");
+	copyright2->SetLocalPos({ 0, 40 });
+	copyright2->FitBox();
+	copyright2->SetElemInteractive(false);
+	credits_positions.add(copyright2->GetLocalPos());
+
+	text_store->AddChild(copyright2);
+
+	//Paragraph 1
+	parag1_line1 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag1_line1->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line1->SetColor(App->gui->WHITE);
+	parag1_line1->SetText("Permission is hereby granted, free of charge, to any person obtaining a copy");
+	parag1_line1->SetLocalPos({ 0, 80 });
+	parag1_line1->FitBox();
+	parag1_line1->SetElemInteractive(false);
+	credits_positions.add(parag1_line1->GetLocalPos());
+
+	text_store->AddChild(parag1_line1);
+
+	parag1_line2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag1_line2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line2->SetColor(App->gui->WHITE);
+	parag1_line2->SetText("of this software and associated documentation files (the Software), to deal");
+	parag1_line2->SetLocalPos({ 0, 100 });
+	parag1_line2->FitBox();
+	parag1_line2->SetElemInteractive(false);
+	credits_positions.add(parag1_line2->GetLocalPos());
+
+	text_store->AddChild(parag1_line2);
+
+	parag1_line3 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag1_line3->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line3->SetColor(App->gui->WHITE);
+	parag1_line3->SetText("in the Software without restriction, including without limitation the rights");
+	parag1_line3->SetLocalPos({ 0, 120 });
+	parag1_line3->FitBox();
+	credits_positions.add(parag1_line3->GetLocalPos());
+
+	parag1_line3->SetElemInteractive(false);
+
+	text_store->AddChild(parag1_line3);
+
+	parag1_line4 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag1_line4->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line4->SetColor(App->gui->WHITE);
+	parag1_line4->SetText("to use, copy, modify, merge, publish, distribute, sublicense, and/or sell");
+	parag1_line4->SetLocalPos({ 0, 140 });
+	parag1_line4->FitBox();
+	parag1_line4->SetElemInteractive(false);
+	credits_positions.add(parag1_line4->GetLocalPos());
+
+	text_store->AddChild(parag1_line4);
+
+	parag1_line5 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag1_line5->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line5->SetColor(App->gui->WHITE);
+	parag1_line5->SetText("copies of the Software, and to permit persons to whom the Software is");
+	parag1_line5->SetLocalPos({ 0, 160 });
+	parag1_line5->FitBox();
+	parag1_line5->SetElemInteractive(false);
+	credits_positions.add(parag1_line5->GetLocalPos());
+
+	text_store->AddChild(parag1_line5);
+
+	parag1_line6 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag1_line6->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag1_line6->SetColor(App->gui->WHITE);
+	parag1_line6->SetText("furnished to do so, subject to the following conditions:");
+	parag1_line6->SetLocalPos({ 0, 180 });
+	parag1_line6->FitBox();
+	credits_positions.add(parag1_line6->GetLocalPos());
+
+	parag1_line6->SetElemInteractive(false);
+
+	text_store->AddChild(parag1_line6);
+
+	//Paragraph 2
+	parag2_line1 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag2_line1->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag2_line1->SetColor(App->gui->WHITE);
+	parag2_line1->SetText("The above copyright notice and this permission notice shall be included in all");
+	parag2_line1->SetLocalPos({ 0, 220 });
+	parag2_line1->FitBox();
+	parag2_line1->SetElemInteractive(false);
+	credits_positions.add(parag2_line1->GetLocalPos());
+
+	text_store->AddChild(parag2_line1);
+
+	parag2_line2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag2_line2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag2_line2->SetColor(App->gui->WHITE);
+	parag2_line2->SetText("copies or substantial portions of the Software.");
+	parag2_line2->SetLocalPos({ 0, 240 });
+	parag2_line2->FitBox();
+	parag2_line2->SetElemInteractive(false);
+	credits_positions.add(parag2_line2->GetLocalPos());
+
+	text_store->AddChild(parag2_line2);
+
+	//Paragraph 3
+	parag3_line1 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line1->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line1->SetColor(App->gui->WHITE);
+	parag3_line1->SetText("THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
+	parag3_line1->SetLocalPos({ 0, 280 });
+	parag3_line1->FitBox();
+	parag3_line1->SetElemInteractive(false);
+	credits_positions.add(parag3_line1->GetLocalPos());
+
+
+	text_store->AddChild(parag3_line1);
+
+	parag3_line2 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line2->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line2->SetColor(App->gui->WHITE);
+	parag3_line2->SetText("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, ");
+	parag3_line2->SetLocalPos({ 0, 300 });
+	parag3_line2->FitBox();
+	parag3_line2->SetElemInteractive(false);
+	credits_positions.add(parag3_line2->GetLocalPos());
+
+	text_store->AddChild(parag3_line2);
+
+	parag3_line3 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line3->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line3->SetColor(App->gui->WHITE);
+	parag3_line3->SetText("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE");
+	parag3_line3->SetLocalPos({ 0, 320 });
+	parag3_line3->FitBox();
+	parag3_line3->SetElemInteractive(false);
+	credits_positions.add(parag3_line3->GetLocalPos());
+
+	text_store->AddChild(parag3_line3);
+
+	parag3_line4 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line4->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line4->SetColor(App->gui->WHITE);
+	parag3_line4->SetText("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
+	parag3_line4->SetLocalPos({ 0, 340 });
+	parag3_line4->FitBox();
+	parag3_line4->SetElemInteractive(false);
+	credits_positions.add(parag3_line4->GetLocalPos());
+
+	text_store->AddChild(parag3_line4);
+
+	parag3_line5 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line5->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line5->SetColor(App->gui->WHITE);
+	parag3_line5->SetText("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
+	parag3_line5->SetLocalPos({ 0, 360 });
+	parag3_line5->FitBox();
+	parag3_line5->SetElemInteractive(false);
+	credits_positions.add(parag3_line5->GetLocalPos());
+
+	text_store->AddChild(parag3_line5);
+
+	parag3_line6 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line6->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line6->SetColor(App->gui->WHITE);
+	parag3_line6->SetText("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
+	parag3_line6->SetLocalPos({ 0, 380 });
+	parag3_line6->FitBox();
+	parag3_line6->SetElemInteractive(false);
+	credits_positions.add(parag3_line6->GetLocalPos());
+
+	text_store->AddChild(parag3_line6);
+
+	parag3_line7 = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	parag3_line7->SetFont(App->font->Load("fonts/open_sans/OpenSans-Light.ttf", 12));
+	parag3_line7->SetColor(App->gui->WHITE);
+	parag3_line7->SetText("SOFTWARE.");
+	parag3_line7->SetLocalPos({ 0, 400 });
+	parag3_line7->FitBox();
+	parag3_line7->SetElemInteractive(false);
+	credits_positions.add(parag3_line7->GetLocalPos());
+
+	text_store->AddChild(parag3_line7);
 
 	///Go Back To menu
 
@@ -247,9 +472,22 @@ bool MainMenu::Start()
 	back_to_menu_credits->SetButtonOff({ 224,223,140,39 }, id_tex_atlas);
 	back_to_menu_credits->SetButtonOn({ 366,223,140,39 }, id_tex_atlas);
 	back_to_menu_credits->SetButtonHover({ 508,223,140,39 }, id_tex_atlas);
-	back_to_menu_credits->SetLocalRect({ 42,0,140,39 });
+	back_to_menu_credits->SetLocalRect({ 170,200,140,39 });
 	back_to_menu_credits->SetInputTarget(this);
 	menu_credits->AddChild(back_to_menu_credits);
+
+	//Slider
+	scroll_credits = (GUI_Scroll*)App->gui->GenerateElemGUI(TypeGUI::SLIDER_UI);
+
+	scroll_credits->SetTypeScroll(VERTICAL);
+	scroll_credits->SetScrollBackground({ 228,275,16,165 }, id_tex_atlas);
+	scroll_credits->SetScrollImage({ 431, 264,32,32 }, id_tex_atlas);
+	scroll_credits->SetLocalPos({ 420, 10 });
+	scroll_credits->SetMaxValue(1.0f);
+	scroll_credits->SetElemInteractive(true);
+	scroll_credits->SetInputTarget(this);
+
+	menu_credits->AddChild(scroll_credits);
 
 	//SetScene
 	//App->gui->SetSceneGUI(menu_scene);
@@ -288,6 +526,7 @@ void MainMenu::Activate()
 {
 	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
 	active = true;
+	App->audio->PlayMusic(MusicType::MAIN_MENU_MUSIC);
 	App->gui->SetSceneGUI(menu_scene);
 	menu_buttons->SetElemsInteractiveForChilds(true);
 	slider_vol_music->SetCurrentValue(App->audio->GetVolume());
@@ -442,6 +681,14 @@ void MainMenu::HandleInput(GUIElement* input, TypeInput type_input)
 
 					menu_buttons->SetElemActive(true);
 					menu_credits->SetElemActive(false);
+				}
+			}
+			else if (input == scroll_credits)
+			{
+				int target_pos = (text_store->GetScreenRect().h - text_store->parent->GetScreenRect().h) * scroll_credits->GetCurrentValue() * App->win->GetScale();
+				for (int i = 0; i < text_store->childs.count(); i++)
+				{
+					text_store->childs.At(i)->data->SetLocalPos({ credits_positions.At(i)->data.x, credits_positions.At(i)->data.y + target_pos });
 				}
 			}
 		}

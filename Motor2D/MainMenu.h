@@ -5,6 +5,7 @@
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
 #include "j1Timer.h"
+#include "p2List.h"
 
 struct SDL_Texture;
 
@@ -75,9 +76,36 @@ private:
 	GUI_Button* back_to_menu = nullptr;
 
 	//Credit Menu
+	GUI_Scroll* scroll_credits = nullptr;
 	GUIElement* menu_credits = nullptr;
-	GUI_String* license = nullptr;
+	GUI_Image*  img_credits = nullptr;
+	GUI_Window* text_box = nullptr;
+	GUIElement* text_store = nullptr;
+	GUI_String* license_name = nullptr;
+
+	GUI_String* copyright = nullptr;
+	GUI_String* copyright2 = nullptr;
+
+	GUI_String* parag1_line1 = nullptr;
+	GUI_String* parag1_line2 = nullptr;
+	GUI_String* parag1_line3 = nullptr;
+	GUI_String* parag1_line4 = nullptr;
+	GUI_String* parag1_line5 = nullptr;
+	GUI_String* parag1_line6 = nullptr;
+
+	GUI_String* parag2_line1 = nullptr;
+	GUI_String* parag2_line2 = nullptr;
+
+	GUI_String* parag3_line1 = nullptr;
+	GUI_String* parag3_line2 = nullptr;
+	GUI_String* parag3_line3 = nullptr;
+	GUI_String* parag3_line4 = nullptr;
+	GUI_String* parag3_line5 = nullptr;
+	GUI_String* parag3_line6 = nullptr;
+	GUI_String* parag3_line7 = nullptr;
 	GUI_Button* back_to_menu_credits = nullptr;
+
+	p2List<iPoint> credits_positions;
 
 	//Settings
 	//Sliders FX & music

@@ -46,7 +46,7 @@ void GUI_Scroll::HandleInput()
 
 	bool mouse_in = scroll_image.MouseIn();
 
-	if (mouse_in && layer == App->gui->GetTopLayer())
+	if (mouse_in && layer >= App->gui->GetTopLayer())
 	{
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
