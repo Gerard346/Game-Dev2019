@@ -125,7 +125,8 @@ void j1Player::ChangeLvl()
 	}
 
 	else{
-		StartFromLvl1();
+		SetEndGame(true);
+		App->scene->SetActiveWinImg();
 	}
 }
 
@@ -235,5 +236,10 @@ int j1Player::GetAmmo() const
 void j1Player::SetAmmo(int new_ammo)
 {
 	ammo += new_ammo;
+}
+
+void j1Player::SetEndGame(bool ret)
+{
+	end_game = true;
 }
 

@@ -11,6 +11,8 @@
 #include "GUI_Window.h"
 #include "GUI_String.h"
 #include "GUI_Scroll.h"
+
+#include "Brofiler/Brofiler.h"
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
@@ -49,6 +51,8 @@ bool j1Gui::PreUpdate()
 
 bool j1Gui::Update(float dt)
 {
+	BROFILER_CATEGORY("GUI Update", Profiler::Color::AliceBlue);
+
 	gui_scene->Update(dt);
 	gui_console->Update(dt);
 
@@ -57,6 +61,8 @@ bool j1Gui::Update(float dt)
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	BROFILER_CATEGORY("GUI Update", Profiler::Color::AliceBlue);
+
 	gui_scene->Draw(debug);
 	gui_console->Draw(debug);
 

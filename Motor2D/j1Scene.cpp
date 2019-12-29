@@ -84,7 +84,7 @@ bool j1Scene::Start()
 	time_playing->SetFont(App->font->Load("fonts/open_sans/OpenSans-Semibold.ttf", 20));
 	time_playing->SetColor(App->gui->WHITE);
 	time_playing->SetText("");
-	time_playing->SetLocalPos({ 0, 280 });
+	time_playing->SetLocalPos({ 90, 20 });
 	time_playing->FitBox();
 	time_playing->SetElemInteractive(false);
 
@@ -157,7 +157,7 @@ bool j1Scene::Start()
 	str_volume_music_pause = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
 	str_volume_music_pause->SetColor(App->gui->WHITE);
 	str_volume_music_pause->SetText("Adjust Volume Music");
-	str_volume_music_pause->SetLocalPos({ 50, 0 });
+	str_volume_music_pause->SetLocalPos({ 50, 90 });
 	str_volume_music_pause->SetElemInteractive(false);
 	str_volume_music_pause->FitBox();
 
@@ -182,7 +182,7 @@ bool j1Scene::Start()
 	str_volume_fx_pause = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
 	str_volume_fx_pause->SetColor(App->gui->WHITE);
 	str_volume_fx_pause->SetText("Adjust Volume FX");
-	str_volume_fx_pause->SetLocalPos({ 200, 180 });
+	str_volume_fx_pause->SetLocalPos({ 60, 160 });
 	str_volume_fx_pause->SetElemInteractive(false);
 
 	window_pause->AddChild(str_volume_fx_pause);
@@ -214,8 +214,8 @@ bool j1Scene::Start()
 	int id_tex_win = App->gui->AddTexture(App->tex->Load("gui/you_win.png"));
 
 	window_win = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
-	window_win->SetIdTexture(id_tex_pause_atlas);
-	window_win->SetRectTexture({ 226,100,512, 384 });
+	window_win->SetIdTexture(id_tex_win);
+	window_win->SetRectTexture({ 0,0,512, 384 });
 	window_win->SetLocalRect({ 0,0,512,384 });
 	window_win->SetElemInteractive(false);
 	window_win->SetElemActive(false);
@@ -233,7 +233,9 @@ bool j1Scene::Start()
 
 	App->gui->SetSceneGUI(scene_gui);
 
-	actual_timer.Start();
+	window_pause->SetElemActive(false);
+	window_pause->SetElemsInteractiveForChilds(false);
+
 
 	return true;
 }
@@ -306,9 +308,6 @@ bool j1Scene::Update(float dt)
 		App->SetCappedFrames();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		is_paused = !is_paused;
-	}
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 		if (is_paused) {
 			window_pause->SetElemActive(false);
@@ -318,6 +317,9 @@ bool j1Scene::Update(float dt)
 		else {
 			window_pause->SetElemActive(true);
 			window_pause->SetElemsInteractiveForChilds(true);
+			slider_vol_music_pause->SetCurrentValue(App->audio->GetVolume());
+			slider_vol_fx_pause->SetCurrentValue(App->audio->GetVolumeFX());
+
 			is_paused = true;
 		}
 	}
@@ -361,6 +363,8 @@ void j1Scene::Activate()
 	scene_gui->SetElemActive(true);
 	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
 
+	actual_timer.Start();
+
 	active = true;
 }
 
@@ -371,6 +375,7 @@ void j1Scene::Desactivate()
 	App->entity->Desactivate();
 	scene_gui->SetElemActive(false);
 	window_lose->SetElemActive(false);
+	window_win->SetElemActive(false);
 	active = false;
 }
 
@@ -400,7 +405,15 @@ void j1Scene::HandleInput(GUIElement* input, TypeInput type_input)
 
 				}
 			}
+			else if (input == slider_vol_music_pause)
+			{
+				App->audio->SetVolume(slider_vol_music_pause->GetCurrentValue());
+			}
 
+			else if (input == slider_vol_fx_pause)
+			{
+				App->audio->SetVolumeFX(slider_vol_fx_pause->GetCurrentValue());
+			}
 			else if (input == go_back_to_main_menu) {
 				if (type_input == MOUSE_RIGHT_DOWN) {
 					App->audio->PlayFx(button_fx);
@@ -442,6 +455,11 @@ bool j1Scene::Save(pugi::xml_node& node)
 void j1Scene::SetActiveLoseImg()
 {
 	window_lose->SetElemActive(true);
+}
+
+void j1Scene::SetActiveWinImg()
+{
+	window_win->SetElemActive(true);
 }
 
 void j1Scene::SetHeartsGUI()

@@ -73,6 +73,8 @@ public:
 	int GetAmmo() const;
 	void SetAmmo(int new_ammo);
 
+	void SetEndGame(bool ret);
+
 public:
 
 	Levels p_current_lvl = Lvl_1;

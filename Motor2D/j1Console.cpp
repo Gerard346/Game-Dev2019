@@ -70,6 +70,7 @@ bool j1Console::Start()
 
 	App->gui->SetConsoleGUI(main_console);
 
+	main_console->SetElemActive(false);
 	return true;
 }
 

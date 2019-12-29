@@ -54,6 +54,7 @@ public:
 	bool Save(pugi::xml_node&);
 
 	void SetActiveLoseImg();
+	void SetActiveWinImg();
 
 private:
 

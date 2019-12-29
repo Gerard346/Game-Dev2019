@@ -3,6 +3,7 @@
 	<input />
 	<window />
 	<textures />
+	<:anonymous />
 	<audio>
 		<audio volume_music="128" />
 	</audio>
@@ -10,7 +11,7 @@
 	<main_menu />
 	<animation />
 	<scene>
-		<scene current_time="10.5740004" />
+		<scene current_time="16.4419994" />
 	</scene>
 	<map />
 	<pathfinding />
@@ -20,7 +21,7 @@
 	</player>
 	<entityManager>
 		<Alive_Entities>
-			<Entity_Alive Type="player" X="771.199463" Y="196.423615" />
+			<Entity_Alive Type="player" X="1100.599" Y="210" />
 		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>

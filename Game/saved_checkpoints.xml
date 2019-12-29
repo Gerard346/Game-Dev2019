@@ -11,7 +11,7 @@
 	<main_menu />
 	<animation />
 	<scene>
-		<scene current_time="0.184" />
+		<scene current_time="19.4489994" />
 	</scene>
 	<map />
 	<pathfinding />
@@ -20,7 +20,9 @@
 		<player current_level="1" />
 	</player>
 	<entityManager>
-		<Alive_Entities />
+		<Alive_Entities>
+			<Entity_Alive Type="player" X="1727.40161" Y="162.462402" />
+		</Alive_Entities>
 		<Dead_Entities />
 	</entityManager>
 	<gui />
