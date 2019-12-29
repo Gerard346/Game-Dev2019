@@ -350,6 +350,9 @@ void j1Map::Activate()
 
 void j1Map::Desactivate()
 {
+	App->player->Desactivate();
+	App->entity->Desactivate();
+
 	CleanUp();
 	active = false;
 }

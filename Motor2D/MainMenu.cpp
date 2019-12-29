@@ -30,6 +30,7 @@ MainMenu::~MainMenu()
 
 
 
+
 bool MainMenu::Awake(const pugi::xml_node & node)
 {
 	return true;
@@ -251,7 +252,7 @@ bool MainMenu::Start()
 	menu_credits->AddChild(back_to_menu_credits);
 
 	//SetScene
-	App->gui->SetSceneGUI(menu_scene);
+	//App->gui->SetSceneGUI(menu_scene);
 
 
 	return true;

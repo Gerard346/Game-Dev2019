@@ -20,6 +20,8 @@
 #include "GUI_Image.h"
 #include "GUI_Window.h"
 #include "MainMenu.h"
+#include "GUI_Scroll.h"
+#include "GUI_String.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -46,46 +48,147 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 bool j1Scene::Start()
 {
 	App->fade->FadeToColor(NULL,NULL, 1.5f);
-	//App->map->ChangeMap(App->map->GetPathFromLevel(lvl_1_map));
 	p2SString title("Last Soldier");
 
 	App->win->SetTitle(title.GetString());
 
+	int id_tex_pause_atlas = App->gui->AddTexture(App->tex->Load("gui/menu_pause.png"));
+
+	//Creating Scene GUI
 	scene_gui = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
 	scene_gui->SetLocalRect({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale()});
-	/*// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
-	imgsa = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
-	imgsa->SetRectTexture({ 0, 0, 1500, 1503 });
-	imgsa->SetBoxElem({ 0,0,0,0 });
-	scene_gui->AddChild(imgsa);
+	scene_gui->SetElemInteractive(false);
+	scene_gui->SetElemActive(true);
 
-	SDL_Color color = { 255, 255, 255, 255 };
-	_TTF_Font* font = App->font->Load("fonts/open_sans/OpenSans-Regular.ttf", 60);
+	//Game GUI
 
-	SDL_Texture* font_img = App->font->Print("Hello World", App->gui->YELLOW, font);
-	*/
-	
-	window = (GUI_Window*)App->gui->GenerateElemGUI(TypeGUI::WINDOW);
-	window->SetLocalRect({ 100,100,400,300 });
-	scene_gui->AddChild(window);
+	gui_game = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	gui_game->SetIdTexture(id_tex_pause_atlas);
+	gui_game->SetRectTexture({ 226,100,194, 70 });
+	gui_game->SetLocalRect({ (App->render->camera.w -194*2) / (int)App->win->GetScale(),(App->render->camera.h-70*2) / (int)App->win->GetScale(),222,299 });
+	gui_game->SetElemInteractive(false);
 
+	scene_gui->AddChild(gui_game);
 
+	///Hearts
 
-	button = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
-	button->SetButtonOff({ 0,113,229,69 }, 0);
-	button->SetButtonOn({ 642,169,229,69 }, 0);
-	button->SetButtonHover({ 411,169,229,69 }, 0);
-	button->SetLocalRect({-50,0,229,69});
-	button->SetInputTarget(this);
-	window->AddChild(button);
+	heart_1 = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	heart_1->SetIdTexture(id_tex_pause_atlas);
+	heart_1->SetRectTexture({ 426,100,16, 16 });
+	heart_1->SetLocalRect({ 119,27,16,16 });
+	heart_1->SetElemInteractive(false);
 
-	button2 = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
-	button2->SetButtonOff({ 0,113,229,69 }, 0);
-	button2->SetButtonOn({ 642,169,229,69 }, 0);
-	button2->SetButtonHover({ 411,169,229,69 }, 0);
-	button2->SetLocalRect({ 0,30,229,69 });
-	button2->SetInputTarget(this);
-	window->AddChild(button2, button->GetLayer() + 1);
+	gui_game->AddChild(heart_1);
+
+	heart_2 = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	heart_2->SetIdTexture(id_tex_pause_atlas);
+	heart_2->SetRectTexture({ 426,100,16, 16 });
+	heart_2->SetLocalRect({ 141,27,16,16 });
+	heart_2->SetElemInteractive(false);
+
+	gui_game->AddChild(heart_2);
+
+	heart_3 = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	heart_3->SetIdTexture(id_tex_pause_atlas);
+	heart_3->SetRectTexture({ 426,100,16, 16 });
+	heart_3->SetLocalRect({ 163,27,16,16 });
+	heart_3->SetElemInteractive(false);
+
+	gui_game->AddChild(heart_3);
+
+	//Menu Pause 
+
+	window_pause = (GUI_Window*)App->gui->GenerateElemGUI(TypeGUI::WINDOW);
+	window_pause->SetLocalRect({ 145,41,222,299 });
+	window_pause->SetElemInteractive(false);
+
+	scene_gui->AddChild(window_pause);
+
+	window_pause_image = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	window_pause_image->SetIdTexture(id_tex_pause_atlas);
+	window_pause_image->SetRectTexture({ 2,1,222,299 });
+	window_pause_image->SetLocalRect({ 0,0,222,299 });
+	window_pause_image->SetElemInteractive(false);
+
+	window_pause->AddChild(window_pause_image);
+
+	///Parent Buttons pause
+
+	menu_pause_buttons = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
+	menu_pause_buttons->SetLocalRect({ 0,0,222,299 });
+	menu_pause_buttons->SetElemInteractive(false);
+
+	window_pause->AddChild(menu_pause_buttons);
+
+	///Resume Button
+
+	bt_resume = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
+	bt_resume->SetButtonOff({ 224,1,140,39 }, id_tex_pause_atlas);
+	bt_resume->SetButtonOn({ 366,1,140,39 }, id_tex_pause_atlas);
+	bt_resume->SetButtonHover({ 508,1,140,39 }, id_tex_pause_atlas);
+	bt_resume->SetLocalRect({ 42,42,140,39 });
+	bt_resume->SetInputTarget(this);
+
+	window_pause->AddChild(bt_resume);
+
+	///Slider Volume Music
+
+	////Text Vol Music
+
+	str_volume_music_pause = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	str_volume_music_pause->SetColor(App->gui->WHITE);
+	str_volume_music_pause->SetText("Adjust Volume Music");
+	str_volume_music_pause->SetLocalPos({ 0, 0 });
+	str_volume_music_pause->SetElemInteractive(false);
+
+	window_pause->AddChild(str_volume_music_pause);
+
+	///
+	slider_vol_music_pause = (GUI_Scroll*)App->gui->GenerateElemGUI(TypeGUI::SLIDER_UI);
+
+	slider_vol_music_pause->SetTypeScroll(HORIZONTAL);
+	slider_vol_music_pause->SetScrollBackground({ 228,275,146,16 }, id_tex_pause_atlas);
+	slider_vol_music_pause->SetScrollImage({ 431, 264,11,27 }, id_tex_pause_atlas);
+	slider_vol_music_pause->SetLocalPos({ 38, 110 });
+	slider_vol_music_pause->SetMaxValue(128.0f);
+	slider_vol_music_pause->SetElemInteractive(true);
+	slider_vol_music_pause->SetInputTarget(this);
+
+	window_pause->AddChild(slider_vol_music_pause);
+
+	///Slider Volume FX
+	////Text Vol FX
+
+	str_volume_fx_pause = (GUI_String*)App->gui->GenerateElemGUI(TypeGUI::TEXT);
+	str_volume_fx_pause->SetColor(App->gui->WHITE);
+	str_volume_fx_pause->SetText("Adjust Volume FX");
+	str_volume_fx_pause->SetLocalPos({ 200, 180 });
+	str_volume_fx_pause->SetElemInteractive(false);
+
+	window_pause->AddChild(str_volume_fx_pause);
+
+	slider_vol_fx_pause = (GUI_Scroll*)App->gui->GenerateElemGUI(TypeGUI::SLIDER_UI);
+
+	slider_vol_fx_pause->SetTypeScroll(HORIZONTAL);
+	slider_vol_fx_pause->SetScrollBackground({ 228,275,146,16 }, id_tex_pause_atlas);
+	slider_vol_fx_pause->SetScrollImage({ 431, 264,11,27 }, id_tex_pause_atlas);
+	slider_vol_fx_pause->SetLocalPos({ 38, 180 });
+	slider_vol_fx_pause->SetMaxValue(128.0f);
+	slider_vol_fx_pause->SetElemInteractive(true);
+	slider_vol_fx_pause->SetInputTarget(this);
+
+	window_pause->AddChild(slider_vol_fx_pause);
+
+	///Go Back To menu
+
+	go_back_to_main_menu = (GUI_Button*)App->gui->GenerateElemGUI(TypeGUI::BUTTON);
+	go_back_to_main_menu->SetButtonOff({ 224,44,140,39 }, id_tex_pause_atlas);
+	go_back_to_main_menu->SetButtonOn({ 366,44,140,39 }, id_tex_pause_atlas);
+	go_back_to_main_menu->SetButtonHover({ 508,44,140,39 }, id_tex_pause_atlas);
+	go_back_to_main_menu->SetLocalRect({ 42,243,140,39 });
+	go_back_to_main_menu->SetInputTarget(this);
+
+	window_pause->AddChild(go_back_to_main_menu);
 	
 	App->gui->SetSceneGUI(scene_gui);
 	return true;
@@ -143,8 +246,17 @@ bool j1Scene::Update(float dt)
 		App->SetCappedFrames();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
-		is_paused = !is_paused;
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		if (is_paused) {
+			window_pause->SetElemActive(false);
+			window_pause->SetElemsInteractiveForChilds(false);
+			is_paused = false;
+		}
+		else {
+			window_pause->SetElemActive(true);
+			window_pause->SetElemsInteractiveForChilds(true);
+			is_paused = true;
+		}
 	}
 
 	App->map->Draw();
@@ -156,9 +268,6 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
-
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
 
 	return ret;
 }
@@ -186,17 +295,16 @@ bool j1Scene::GetPause()
 void j1Scene::Activate()
 {
 	App->fade->FadeToBlack(App->main_menu, App->map, 2.0f);
-
-
+	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
 
 	active = true;
 }
 
 void j1Scene::Desactivate()
 {
-	App->player->Desactivate();
-	App->map->Desactivate();
-	App->entity->Desactivate();
+	App->fade->FadeToBlack(App->map, App->main_menu, 2.0f);
+
+
 	scene_gui->SetElemActive(false);
 	active = false;
 }
@@ -204,4 +312,47 @@ void j1Scene::Desactivate()
 GUIElement* j1Scene::GetSceneGUI()
 {
 	return scene_gui;
+}
+
+void j1Scene::HandleInput(GUIElement* input, TypeInput type_input)
+{
+	if (App->fade->isFading() == false) {
+		//Main Menu Buttons
+		if (window_pause->GetElemActive()) {
+
+			if (input == bt_resume) {
+				if (type_input == MOUSE_RIGHT_DOWN) {
+					App->audio->PlayFx(button_fx);
+					bt_resume->SetElemInteractive(false);
+					window_pause->SetElemActive(false);
+					is_paused = false;
+				}
+				if (type_input == MOUSE_LEFT_DOWN) {
+					App->audio->PlayFx(button_fx);
+					bt_resume->SetElemInteractive(false);
+					window_pause->SetElemActive(false);
+					is_paused = false;
+
+				}
+			}
+
+			else if (input == go_back_to_main_menu) {
+				if (type_input == MOUSE_RIGHT_DOWN) {
+					App->audio->PlayFx(button_fx);
+					go_back_to_main_menu->SetElemInteractive(false);
+					window_pause->SetElemActive(false);
+					is_paused = false;
+					App->ActivateMainMenu();
+				}
+				if (type_input == MOUSE_LEFT_DOWN) {
+					App->audio->PlayFx(button_fx);
+					go_back_to_main_menu->SetElemInteractive(false);
+					window_pause->SetElemActive(false);
+					is_paused = false;
+					App->ActivateMainMenu();
+
+				}
+			}
+		}
+	}
 }

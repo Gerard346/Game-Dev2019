@@ -56,6 +56,8 @@ public:
 	void SetElemInteractive(bool);
 	void SetInputTarget(j1Module* module);
 
+	void SetElemsInteractiveForChilds(bool);
+
 	bool RectIsIn(const SDL_Rect& target, int x_vel, int y_vel, bool x_axis) const;
 	bool RectCheck(const SDL_Rect& in_target, const SDL_Rect& out_target, bool x_axis)const;
 

@@ -3,7 +3,7 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include "j1Textures.h"
-
+#include "j1Window.h"
 GUI_String::GUI_String() : GUIElement(TEXT)
 {
 
@@ -19,7 +19,7 @@ bool GUI_String::Draw(bool debug)
 		DebugDraw(App->gui->RED);
 	else
 	{
-		App->render->Blit(texture_text, box_elem.x - App->render->camera.x, box_elem.y - App->render->camera.y);
+		App->render->Blit(texture_text, box_elem.x - App->render->camera.x / App->win->GetScale(), box_elem.y - App->render->camera.y / App->win->GetScale());
 	}
 
 	DrawChilds(debug);

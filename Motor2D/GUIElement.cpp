@@ -205,6 +205,16 @@ void GUIElement::SetInputTarget(j1Module* module)
 	input_target = module;
 }
 
+void GUIElement::SetElemsInteractiveForChilds(bool ret)
+{
+	int get_childs = childs.count();
+	for (int i = 0; i < get_childs; i++) {
+		if (childs[i]->GetElemActive() == true) {
+			childs[i]->SetElemInteractive(ret);
+		}
+	}
+}
+
 bool GUIElement::RectIsIn(const SDL_Rect& target, int x_vel, int y_vel, bool x_axis) const
 {
 	bool ret = false;
