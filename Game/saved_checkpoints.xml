@@ -17,9 +17,7 @@
 		<player current_level="1" />
 	</player>
 	<entityManager>
-		<Alive_Entities>
-			<Entity_Alive Type="player" X="480" Y="16.0063992" />
-		</Alive_Entities>
+		<Alive_Entities />
 		<Dead_Entities />
 	</entityManager>
 	<gui />

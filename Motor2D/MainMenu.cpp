@@ -289,6 +289,7 @@ void MainMenu::Activate()
 	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
 	active = true;
 	App->gui->SetSceneGUI(menu_scene);
+	menu_buttons->SetElemsInteractiveForChilds(true);
 	slider_vol_music->SetCurrentValue(App->audio->GetVolume());
 }
 

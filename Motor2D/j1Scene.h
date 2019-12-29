@@ -71,7 +71,7 @@ private:
 	GUI_Image* heart_3 = nullptr;
 
 	//MenuPause
-	
+
 	GUI_Window* window_pause = nullptr;
 	GUI_Image* window_pause_image = nullptr;
 	GUIElement* menu_pause_buttons = nullptr;

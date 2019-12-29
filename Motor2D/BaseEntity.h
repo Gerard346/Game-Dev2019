@@ -51,7 +51,7 @@ enum entitySide {
 	RIGHT
 };
 
-struct EntityReference 
+struct EntityReference
 {
 	EntityReference() {}
 	EntityReference(entityType type_entity, float pos_x, float pos_y, bool is_dead) : type_entity(type_entity), pos_entity(pos_x, pos_y), is_dead(is_dead)
@@ -65,7 +65,7 @@ struct EntityReference
 };
 
 class BaseEntity {
-	
+
 	friend class EntityManager;
 
 public:
@@ -90,9 +90,9 @@ public:
 	fPoint entity_pos = { 0.0f,0.0f };
 	fPoint entity_vel = { 0.0f,0.0f };
 	fPoint entity_current_vel = { 0.0f, 0.0f };
-	
+
 	float gravity = 0.0f;
-	
+
 	Collider* entity_collider = nullptr;
 	COLLIDER_TYPE collider_type = COLLIDER_TYPE::COLLIDER_NONE;
 	iPoint collider_size = { 0,0 };

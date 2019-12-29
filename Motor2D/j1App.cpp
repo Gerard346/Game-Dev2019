@@ -174,8 +174,7 @@ bool j1App::Start()
 	}
 	frame_time.Start();
 
-	ActivateGame();
-	//App->gui->SetSceneGUI(App->main_menu->GetSceneMainMenuGUI());
+	ActivateMainMenu();
 	return ret;
 }
 
@@ -381,15 +380,14 @@ void j1App::SetCappedFrames()
 
 void j1App::ActivateGame()
 {
-	App->main_menu->Desactivate();
 	App->scene->Activate();
-
+	App->main_menu->Desactivate();
 }
 
 void j1App::ActivateMainMenu()
 {
 	scene->Desactivate();
-	App->main_menu->Activate();
+	main_menu->Activate();
 }
 
 void j1App::Load()

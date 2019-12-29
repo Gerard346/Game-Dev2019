@@ -31,12 +31,12 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 {
 	BROFILER_CATEGORY("AwakeEntityManager", Profiler::Color::LightGoldenRodYellow);
 
-	if (node != nullptr) 
+	if (node != nullptr)
 	{
 		pugi::xml_node entity_node = node.first_child();
 
 
-		while (entity_node != NULL) 
+		while (entity_node != NULL)
 		{
 			BaseEntity* entity = nullptr;
 			entityType type = StrToEntityType(entity_node.child("type").child_value());
@@ -48,7 +48,7 @@ bool EntityManager::Awake(const pugi::xml_node& node)
 				entity = new PlayerEntity();
 				entity->gravity = entity_node.child("gravity").attribute("g").as_float();
 			}
-				break;
+			break;
 
 			case ENEMY_GROUND_TYPE:
 			{
@@ -129,8 +129,8 @@ bool EntityManager::Start()
 bool EntityManager::PreUpdate()
 {
 	BROFILER_CATEGORY("PreUpdatEntityManager", Profiler::Color::LightGoldenRodYellow);
-	
-	while (new_entities.count() > 0) 
+
+	while (new_entities.count() > 0)
 	{
 		for (int i = 0; i < new_entities.count(); i++) {
 			BaseEntity* new_entity = new_entities.At(i)->data;
@@ -167,7 +167,7 @@ bool EntityManager::CleanUp()
 	for (int i = 0; i < entities_list.count(); i++) {
 		entities_list.At(i)->data->CleanUp();
 		App->colliders->EraseCollider(entities_list.At(i)->data->entity_collider);
-		RELEASE(entities_list.At(i)->data);	
+		RELEASE(entities_list.At(i)->data);
 	}
 	for (int i = 0; i < dead_entities_not_visible.count(); i++) {
 		dead_entities_not_visible.At(i)->data->CleanUp();
@@ -367,7 +367,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			App->entity->KillEntity(enemy_entity);
 		}
 	}
-	
+
 	//Rocket && Bullet
 	if (coll->type == COLLIDER_BULLET)
 	{
@@ -377,7 +377,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 			return;
 		}
 
-		if (coll2->type == COLLIDER_WALL) 
+		if (coll2->type == COLLIDER_WALL)
 		{
 			App->entity->KillEntity(bullet);
 		}
@@ -388,7 +388,7 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 
 		if (bullet->player_bullet == true)
 		{
-			if (coll2->type == COLLIDER_ENEMY) 
+			if (coll2->type == COLLIDER_ENEMY)
 			{
 				BaseEntity* enemy = FindEntity(coll2);
 				if (enemy == nullptr)
@@ -413,13 +413,13 @@ void EntityManager::OnCollision(Collider* coll, Collider* coll2)
 				{
 					return;
 				}
-				
+
 				App->entity->KillEntity(bullet);
 				App->entity->KillEntity(player);
 			}
 		}
 
-		if (coll2->type == COLLIDER_BULLET) 
+		if (coll2->type == COLLIDER_BULLET)
 		{
 			Bullet* bullet2 = (Bullet*)FindEntity(coll2);
 			if (bullet2 == nullptr)
@@ -447,17 +447,6 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		entity = entity.next_sibling();
 	}
 
-	/*while (entity != NULL)
-	{
-		entityType entity_type = StrToEntityType((char*)entity.attribute("Type").as_string());
-		BaseEntity* new_entity = CreateEntity(entity_type);
-
-		new_entity->entity_pos.x = entity.attribute("X").as_float();
-		new_entity->entity_pos.y = entity.attribute("Y").as_float();
-
-		entity = entity.next_sibling();
-	}*/
-
 	pugi::xml_node dead_entity = node.child("Dead_Entities").first_child();
 
 	while (dead_entity != NULL)
@@ -467,18 +456,6 @@ bool EntityManager::Load(const pugi::xml_node& node)
 		entity = entity.next_sibling();
 	}
 
-	/*while (dead_entity != NULL)
-	{
-		entityType entity_type = StrToEntityType((char*)dead_entity.attribute("Type").as_string());
-		BaseEntity* new_entity = CreateEntity(entity_type);
-
-		new_entity->entity_pos.x = dead_entity.attribute("X").as_float();
-		new_entity->entity_pos.y = dead_entity.attribute("Y").as_float();
-
-		App->entity->KillEntity(new_entity);
-
-		dead_entity = dead_entity.next_sibling();
-	}*/
 
 	load_pending = true;
 
@@ -524,7 +501,7 @@ bool EntityManager::Save(pugi::xml_node& node)
 				entities_node.append_attribute("Vel_Y") = entities_list[i]->entity_current_vel.y;
 			}
 		}
-		
+
 	}
 	for (int i = 0; i < dead_entities.count(); i++)
 	{
@@ -562,9 +539,9 @@ BaseEntity* EntityManager::FindEntity(const Collider* col) const
 		}
 	}
 
-	for (int i = 0; i < entities_list.count(); i++) 
+	for (int i = 0; i < entities_list.count(); i++)
 	{
-		if (entities_list.At(i)->data->entity_collider == col) 
+		if (entities_list.At(i)->data->entity_collider == col)
 		{
 			return entities_list.At(i)->data;
 		}
@@ -595,9 +572,9 @@ BaseEntity* EntityManager::FindDeadEntity(const Collider* col) const
 BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 {
 	BROFILER_CATEGORY("CreateEntity", Profiler::Color::LightGoldenRodYellow);
-	
+
 	BaseEntity* new_entity = nullptr;
-	
+
 	for (int i = 0; i < values_entities.Count(); i++)
 	{
 		if (values_entities[i]->entity_type == entity_type)
@@ -619,7 +596,7 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 		new_player->collider_type = COLLIDER_PLAYER;
 		new_entity = new_player;
 	}
-		break;
+	break;
 
 	case ENEMY_GROUND_TYPE:
 	{
@@ -634,7 +611,7 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 		new_enemy_drone->collider_type = COLLIDER_ENEMY;
 		new_entity = new_enemy_drone;
 	}
-		break;
+	break;
 	case ENEMY_RPG_TYPE:
 	{
 		EnemyRPGEntity* new_enemy_rpg = new EnemyRPGEntity((const EnemyRPGEntity*)new_entity);
@@ -662,11 +639,11 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 
 	break;
 	}
-	
+
 	new_entities.add(new_entity);
 
 	new_entity->entity_collider = App->colliders->AddCollider({ 0,0,new_entity->collider_size.x, new_entity->collider_size.y }, new_entity->collider_type, this);
-	
+
 
 
 	return new_entity;
@@ -675,9 +652,9 @@ BaseEntity* EntityManager::CreateEntity(entityType entity_type)
 bool EntityManager::KillEntity(BaseEntity* entity)
 {
 	bool ret = false;
-	for (int i = 0; i < entities_list.count(); i++) 
+	for (int i = 0; i < entities_list.count(); i++)
 	{
-		if (entities_list.At(i)->data == entity) 
+		if (entities_list.At(i)->data == entity)
 		{
 			entities_list.del(entities_list.At(i));
 			ret = true;
@@ -868,10 +845,10 @@ bool EntityManager::DeleteAllEntities()
 
 
 PlayerEntity* EntityManager::GetPlayer() const
-{ 
-	for (int i = 0; i < entities_list.count(); i++) 
+{
+	for (int i = 0; i < entities_list.count(); i++)
 	{
-		if (entities_list.At(i)->data->entity_type == PLAYER_TYPE) 
+		if (entities_list.At(i)->data->entity_type == PLAYER_TYPE)
 		{
 			return (PlayerEntity*)entities_list.At(i)->data;
 		}

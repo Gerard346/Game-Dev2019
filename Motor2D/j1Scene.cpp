@@ -47,7 +47,7 @@ bool j1Scene::Awake(const pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->fade->FadeToColor(NULL,NULL, 1.5f);
+	App->fade->FadeToColor(NULL, NULL, 1.5f);
 	p2SString title("Last Soldier");
 
 	App->win->SetTitle(title.GetString());
@@ -56,7 +56,7 @@ bool j1Scene::Start()
 
 	//Creating Scene GUI
 	scene_gui = App->gui->GenerateElemGUI(TypeGUI::UNDEFINED);
-	scene_gui->SetLocalRect({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale()});
+	scene_gui->SetLocalRect({ 0,0,App->render->camera.w / (int)App->win->GetScale(),App->render->camera.h / (int)App->win->GetScale() });
 	scene_gui->SetElemInteractive(false);
 	scene_gui->SetElemActive(true);
 
@@ -65,7 +65,7 @@ bool j1Scene::Start()
 	gui_game = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
 	gui_game->SetIdTexture(id_tex_pause_atlas);
 	gui_game->SetRectTexture({ 226,100,194, 70 });
-	gui_game->SetLocalRect({ (App->render->camera.w -194*2) / (int)App->win->GetScale(),(App->render->camera.h-70*2) / (int)App->win->GetScale(),222,299 });
+	gui_game->SetLocalRect({ (App->render->camera.w - 194 * 2) / (int)App->win->GetScale(),(App->render->camera.h - 70 * 2) / (int)App->win->GetScale(),222,299 });
 	gui_game->SetElemInteractive(false);
 
 	scene_gui->AddChild(gui_game);
@@ -190,7 +190,7 @@ bool j1Scene::Start()
 	go_back_to_main_menu->SetInputTarget(this);
 
 	window_pause->AddChild(go_back_to_main_menu);
-	
+
 	App->gui->SetSceneGUI(scene_gui);
 	return true;
 }
@@ -225,8 +225,6 @@ bool j1Scene::Update(float dt)
 		App->WantToSave();
 	}
 
-	current_time_load += dt;
-
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		if (App->IsLoading() == false)
 		{
@@ -236,6 +234,7 @@ bool j1Scene::Update(float dt)
 			}
 		}
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 		App->gui->SetDebug();
 	}
@@ -252,6 +251,9 @@ bool j1Scene::Update(float dt)
 		App->SetCappedFrames();
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		is_paused = !is_paused;
+	}
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 		if (is_paused) {
 			window_pause->SetElemActive(false);
@@ -264,7 +266,6 @@ bool j1Scene::Update(float dt)
 			is_paused = true;
 		}
 	}
-
 	App->map->Draw();
 
 	return true;
@@ -274,6 +275,7 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+
 
 	return ret;
 }
@@ -301,16 +303,19 @@ bool j1Scene::GetPause()
 void j1Scene::Activate()
 {
 	App->fade->FadeToBlack(App->main_menu, App->map, 2.0f);
-	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
 	scene_gui->SetElemActive(true);
+	button_fx = App->audio->LoadFx("audio/fx/Click_Fx.wav");
+
 	active = true;
 }
 
 void j1Scene::Desactivate()
 {
-	App->fade->FadeToBlack(App->map, App->main_menu, 2.0f);
-
+	App->player->Desactivate();
+	App->map->Desactivate();
+	App->entity->Desactivate();
 	scene_gui->SetElemActive(false);
+
 	active = false;
 }
 
