@@ -64,6 +64,16 @@ bool j1Player::Update(float dt)
 	BROFILER_CATEGORY("Update Player", Profiler::Color::Yellow);
 	CamFollowPlayer();
 
+	if (end_game)
+	{
+		end_game_timer += App->Getdt();
+		if (end_game_timer >= end_game_delay)
+		{
+			end_game = false;
+			end_game_timer = 0.0f;
+			App->ActivateMainMenu();
+		}
+	}
 	return true;
 }
 
@@ -160,12 +170,19 @@ void j1Player::PlayerDies()
 {
 	if (p_dead == false)
 	{
+		SetLife(-1);
 		LOG("DEAD");
 		p_dead = true;
 		App->audio->PlayFx(g_is_over_fx);
+		if (lifes < 0) {
+			LOG("LOSE");
+			end_game = true;
+			App->scene->SetActiveLoseImg();
+			return;
+		}
 		App->WantToLoadCheckpoints();
 	}
-}
+}	
 
 void j1Player::CamFollowPlayer()
 {
@@ -207,7 +224,7 @@ int j1Player::GetLife() const
 
 void j1Player::SetLife(int life)
 {
-	lifes = life;
+	lifes += life;
 }
 
 int j1Player::GetAmmo() const

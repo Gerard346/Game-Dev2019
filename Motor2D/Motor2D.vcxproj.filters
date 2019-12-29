@@ -107,6 +107,9 @@
     <ClCompile Include="GUI_Scroll.cpp">
       <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
     </ClCompile>
+    <ClCompile Include="j1Consule.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -237,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="GUI_Scroll.h">
       <Filter>Desenvolupament  ========\Modules\GUIType</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Console.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

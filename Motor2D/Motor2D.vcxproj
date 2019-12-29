@@ -90,6 +90,7 @@
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="j1Colliders.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="j1Consule.cpp" />
     <ClCompile Include="j1FadeToBlack.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="j1Colliders.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="j1Console.h" />
     <ClInclude Include="j1FadeToBlack.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />

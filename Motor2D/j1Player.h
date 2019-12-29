@@ -92,5 +92,10 @@ private:
 	char* next_lvl_fx_path = nullptr;
 
 	bool start_from_current_lvl = false;
+
+	bool end_game = false;
+	float end_game_delay = 3.0f;
+	float end_game_timer = 0.0f;
+
 };
 #endif

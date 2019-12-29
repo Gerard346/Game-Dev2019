@@ -53,6 +53,7 @@ public:
 	bool Load(const pugi::xml_node&);
 	bool Save(pugi::xml_node&);
 
+	void SetActiveLoseImg();
 
 private:
 
@@ -78,6 +79,7 @@ private:
 	GUI_Button* button2 = nullptr;
 
 	//GUI in-game
+
 	GUI_Image* clock_ui = nullptr;
 	GUI_String* time_playing = nullptr;
 
@@ -97,6 +99,12 @@ private:
 	GUI_String* str_volume_fx_pause = nullptr;
 	GUI_Scroll* slider_vol_fx_pause = nullptr;
 	GUI_Button* go_back_to_main_menu = nullptr;
+
+	//Image Win & Lose
+
+	GUI_Image* window_win = nullptr;
+	GUI_Image* window_lose = nullptr;
+
 
 };
 

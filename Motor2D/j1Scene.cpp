@@ -210,6 +210,27 @@ bool j1Scene::Start()
 
 	window_pause->AddChild(go_back_to_main_menu);
 
+	//WIN 
+	int id_tex_win = App->gui->AddTexture(App->tex->Load("gui/you_win.png"));
+
+	window_win = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	window_win->SetIdTexture(id_tex_pause_atlas);
+	window_win->SetRectTexture({ 226,100,512, 384 });
+	window_win->SetLocalRect({ 0,0,512,384 });
+	window_win->SetElemInteractive(false);
+	window_win->SetElemActive(false);
+	scene_gui->AddChild(window_win);
+
+	int id_tex_lose = App->gui->AddTexture(App->tex->Load("gui/you_lost.png"));
+
+	window_lose = (GUI_Image*)App->gui->GenerateElemGUI(TypeGUI::IMAGE);
+	window_lose->SetIdTexture(id_tex_lose);
+	window_lose->SetRectTexture({ 0,0,512, 384 });
+	window_lose->SetLocalRect({ 0,0,512,384 });
+	window_lose->SetElemInteractive(false);
+	window_lose->SetElemActive(false);
+	scene_gui->AddChild(window_lose);
+
 	App->gui->SetSceneGUI(scene_gui);
 
 	actual_timer.Start();
@@ -349,7 +370,7 @@ void j1Scene::Desactivate()
 	App->map->Desactivate();
 	App->entity->Desactivate();
 	scene_gui->SetElemActive(false);
-
+	window_lose->SetElemActive(false);
 	active = false;
 }
 
@@ -418,6 +439,31 @@ bool j1Scene::Save(pugi::xml_node& node)
 	return true;
 }
 
+void j1Scene::SetActiveLoseImg()
+{
+	window_lose->SetElemActive(true);
+}
+
 void j1Scene::SetHeartsGUI()
 {
+	if (App->player->GetLife() > 2) {
+		heart_1->SetElemActive(true);
+		heart_2->SetElemActive(true);
+		heart_3->SetElemActive(true);
+	}
+	else if (App->player->GetLife() > 1) {
+		heart_1->SetElemActive(true);
+		heart_2->SetElemActive(true);
+		heart_3->SetElemActive(false);
+	}
+	else if (App->player->GetLife() > 0) {
+		heart_1->SetElemActive(true);
+		heart_2->SetElemActive(false);
+		heart_3->SetElemActive(false);
+	}
+	else if (App->player->GetLife() > -1) {
+		heart_1->SetElemActive(false);
+		heart_2->SetElemActive(false);
+		heart_3->SetElemActive(false);
+	}
 }
