@@ -196,7 +196,8 @@ void GUI_Scroll::SetCurrentValue(float value)
 {
 	if (scroll_type == VERTICAL)
 	{
-
+		int y = (value / max_value) * (scroll_background.GetLocalRect().h + scroll_background.GetLocalPos().y - scroll_image.GetLocalRect().h);
+		scroll_image.SetLocalPos({ scroll_image.GetLocalPos().x, y });
 	}
 	else
 	{

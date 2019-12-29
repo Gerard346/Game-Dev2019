@@ -60,6 +60,7 @@ bool j1Textures::CleanUp()
 
 	textures.clear();
 	IMG_Quit();
+	active = false;
 	return true;
 }
 

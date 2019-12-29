@@ -18,6 +18,8 @@ public:
 
 	virtual ~j1Console();
 
+	void HandleInput(GUIElement* input, TypeInput type_input);
+
 private:
 
 	bool Awake(const pugi::xml_node& node) override;

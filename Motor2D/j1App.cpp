@@ -347,6 +347,8 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	App->console->Desactivate();
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;

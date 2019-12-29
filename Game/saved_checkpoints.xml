@@ -11,7 +11,7 @@
 	<main_menu />
 	<animation />
 	<scene>
-		<scene current_time="0.136000007" />
+		<scene current_time="0.145999998" />
 	</scene>
 	<map />
 	<pathfinding />

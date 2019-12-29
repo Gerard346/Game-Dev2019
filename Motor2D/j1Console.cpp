@@ -12,6 +12,7 @@
 #include "j1Render.h"
 #include "j1Window.h"
 #include "j1Gui.h"
+#include "j1Textures.h"
 
 j1Console::j1Console() : j1Module()
 {
@@ -19,6 +20,22 @@ j1Console::j1Console() : j1Module()
 
 j1Console::~j1Console()
 {
+}
+
+void j1Console::HandleInput(GUIElement* input, TypeInput type_input)
+{
+	if (input == scroll_console) 
+	{
+		int total_height = container_text->childs.count() * 20 - container_text->GetScreenRect().h;
+
+		for (int i = 0; i < container_text->childs.count(); i++)
+		{
+			iPoint target_pos = logs_positions.At(i)->data;
+			target_pos.y -= total_height * scroll_console->GetCurrentValue();
+
+			container_text->childs.At(i)->data->SetLocalPos(target_pos);
+		}
+	}
 }
 
 bool j1Console::Awake(const pugi::xml_node& node)
@@ -50,7 +67,6 @@ bool j1Console::Start()
 	scroll_console->SetInputTarget(this);
 
 	main_console->AddChild(scroll_console);
-
 
 	App->gui->SetConsoleGUI(main_console);
 
@@ -104,4 +120,10 @@ void j1Console::AddLog(char* string)
 	logs_positions.add(new_string->GetLocalPos());
 
 	container_text->AddChild(new_string);
+	
+	if (scroll_console != nullptr)
+	{
+		scroll_console->SetCurrentValue(1.0f);
+		HandleInput(scroll_console, TypeInput::SCROLL_MOVE);
+	}
 }
